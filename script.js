@@ -52,7 +52,7 @@ async function startAnimation() {
     
     // Wait a moment, then type the intro with following cursor
     await new Promise(resolve => setTimeout(resolve, 1000));
-    await typeWriterWithCursor(introElement, 'I\'m Kiran | 💡</>🚀.', 80);
+    await typeWriterWithCursor(introElement, "I'm Kiran | 💡</>🚀.", 80);
     
     // Wait a moment, then type the email with following cursor
     await new Promise(resolve => setTimeout(resolve, 800));
