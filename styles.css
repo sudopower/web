@@ -141,6 +141,31 @@ body {
     text-decoration-color: #ffffff;
 }
 
+.quote-refresh {
+    color: #00ff00;
+    cursor: pointer;
+    font-weight: 400;
+    margin-left: 10px;
+    padding: 4px;
+    border: 1px solid #00ff00;
+    border-radius: 3px;
+    background-color: rgba(0, 255, 0, 0.1);
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 24px;
+}
+
+.quote-refresh:hover {
+    background-color: rgba(0, 255, 0, 0.2);
+    color: #ffffff;
+    border-color: #ffffff;
+    transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
     .terminal-content {
         padding: 20px;
