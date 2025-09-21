@@ -1,0 +1,56 @@
+.void-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #00ff00;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 18px;
+    text-align: center;
+    z-index: 999;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px 30px;
+    border-radius: 8px;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+.void-message .void-cursor {
+    animation: blink 1s infinite;
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.terminal-symbol {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #000000;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+}
+
+.terminal-symbol:hover {
+    background-color: #1a1a1a;
+    border-color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 255, 0, 0.5);
+}
+
+.terminal-symbol::before {
+    content: '$';
+    color: #00ff00;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Source Code Pro', monospace;
+}

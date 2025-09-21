@@ -1,0 +1,44 @@
+.terminal-tabs {
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #00ff00;
+    display: flex;
+    padding: 0;
+}
+
+.tab {
+    background-color: #2a2a2a;
+    border-right: 1px solid #00ff00;
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    color: #666;
+    text-decoration: none;
+}
+
+.tab:last-child {
+    border-right: none;
+}
+
+.tab:hover {
+    background-color: #3a3a3a;
+    color: #00ff00;
+}
+
+.tab.active {
+    background-color: #000000;
+    color: #00ff00;
+    border-bottom: 2px solid #00ff00;
+}
+
+.tab-symbol {
+    color: #00ff00;
+    font-weight: 600;
+}
+
+.tab-name {
+    font-weight: 400;
+}

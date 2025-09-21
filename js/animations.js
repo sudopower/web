@@ -157,6 +157,3 @@ async function startAnimation() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     terminalElement.classList.add('glow-active');
 }
-
-// Start the animation when the page loads
-document.addEventListener('DOMContentLoaded', startAnimation);
