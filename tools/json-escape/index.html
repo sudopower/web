@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8C6RK0FZDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8C6RK0FZDR');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Escape/Unescape - Kiran</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/terminal.css">
+    <link rel="stylesheet" href="../../css/window-controls.css">
+    <link rel="stylesheet" href="../../css/navigation.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="stylesheet" href="../../css/pages.css">
+    <link rel="stylesheet" href="../../css/minimize-effects.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .tool-container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .back-link {
+            color: #00ff00;
+            text-decoration: none;
+            font-family: 'Source Code Pro', monospace;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #ffffff;
+        }
+        
+        .tool-description {
+            background-color: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #00ff00;
+            font-family: 'Source Code Pro', monospace;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: flex-start;
+        }
+        
+        .input-section, .output-section {
+            flex: 1;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .output-section {
+            align-items: stretch;
+        }
+        
+        .input-label {
+            color: #00ff00;
+            font-family: 'Source Code Pro', monospace;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .input-textarea {
+            width: 100%;
+            min-height: 400px;
+            height: 400px;
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            color: #00ff00;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            padding: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: auto;
+            white-space: pre;
+        }
+        
+        .input-textarea:focus {
+            outline: none;
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .input-textarea::placeholder {
+            color: rgba(0, 255, 0, 0.5);
+        }
+        
+        .copy-button {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 16px;
+            border-radius: 3px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+        
+        .copy-button:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .tool-button {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 3px;
+            color: #00ff00;
+            cursor: pointer;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-button:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #ffffff;
+            border-color: #ffffff;
+            transform: translateY(-2px);
+        }
+        
+        .tool-button:active {
+            transform: translateY(0);
+        }
+        
+        .message-area {
+            margin-top: 20px;
+            min-height: 20px;
+        }
+        
+        .error-message {
+            background-color: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 3px;
+            color: #ff0000;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            padding: 10px;
+        }
+        
+        .success-message {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 3px;
+            color: #00ff00;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            padding: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-container {
+                padding: 15px;
+            }
+            
+            .main-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .input-section, .output-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .input-textarea {
+                width: 100%;
+                min-height: 250px;
+                height: 250px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tool-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="close"></span>
+                <span class="minimize"></span>
+                <span class="maximize"></span>
+            </div>
+            <a class="terminal-title" href="https://github.com/sudopower" target="_blank">sudopower@github:~</a>
+        </div>
+        <div class="terminal-tabs">
+            <a href="../../index.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">root</span>
+            </a>
+            <a href="../../contact.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">contact</span>
+            </a>
+            <a href="../../tools.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">tools</span>
+            </a>
+            <a href="index.html" class="tab active">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">json-escape</span>
+            </a>
+        </div>
+        <div class="terminal-content">
+            <div class="tool-container">
+                <a href="../../tools.html" class="back-link">← Back to Tools</a>
+                <div class="tool-description">
+                    <strong>JSON Escape/Unescape Tool</strong><br>
+                    Escape special characters in JSON strings or unescape escaped JSON strings. Useful for handling JSON data in code, APIs, and data processing.
+                </div>
+                
+                <div class="main-content">
+                    <div class="input-section">
+                        <label class="input-label" for="inputData">Input:</label>
+                        <textarea id="inputData" class="input-textarea" placeholder="Enter JSON string to escape or escaped JSON to unescape..."></textarea>
+                    </div>
+                    <div class="output-section">
+                        <label class="input-label" for="outputData">Output:</label>
+                        <textarea id="outputData" class="input-textarea" placeholder="Escaped/Unescaped output will appear here..." readonly></textarea>
+                        <button class="copy-button" onclick="copyOutput()">Copy to Clipboard</button>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="tool-button" onclick="escapeJson()">Escape JSON</button>
+                    <button class="tool-button" onclick="unescapeJson()">Unescape JSON</button>
+                    <button class="tool-button" onclick="clearAll()">Clear All</button>
+                    <button class="tool-button" onclick="loadExample()">Load Example</button>
+                </div>
+                
+                <div id="messageArea"></div>
+            </div>
+        </div>
+    </div>
+    <div class="terminal-symbol" id="terminal-symbol"></div>
+    <div class="void-message" id="void-message">
+        $ ps aux | grep life<span class="void-cursor">|</span>
+    </div>
+    <script src="../../js/animations.js"></script>
+    <script src="../../js/navigation.js"></script>
+    <script src="../../js/window-controls.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

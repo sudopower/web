@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8C6RK0FZDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8C6RK0FZDR');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter - Developer Tools</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/terminal.css">
+    <link rel="stylesheet" href="../../css/window-controls.css">
+    <link rel="stylesheet" href="../../css/navigation.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="stylesheet" href="../../css/pages.css">
+    <link rel="stylesheet" href="../../css/minimize-effects.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .tool-container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: flex-start;
+        }
+        
+        .input-section, .output-section {
+            flex: 1;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .output-section {
+            align-items: stretch;
+        }
+        
+        .copy-button {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 16px;
+            border-radius: 3px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+        
+        .input-textarea {
+            width: 100%;
+            min-height: 300px;
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            color: #00ff00;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            padding: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: auto;
+            white-space: pre;
+        }
+        
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .tool-description {
+            background-color: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .input-label {
+            display: block;
+            color: #00ff00;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .input-textarea:focus {
+            outline: none;
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tool-button {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .tool-button:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        
+        .tool-button:active {
+            transform: translateY(1px);
+        }
+        
+        .copy-button:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #ffffff;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            background-color: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .success-message {
+            color: #51cf66;
+            background-color: rgba(81, 207, 102, 0.1);
+            border: 1px solid #51cf66;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #ffffff;
+        }
+        
+        .options-section {
+            background-color: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .option-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .option-label {
+            color: #00ff00;
+            font-size: 14px;
+            min-width: 120px;
+        }
+        
+        .option-input {
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            border-radius: 3px;
+            color: #00ff00;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+        
+        .option-checkbox {
+            accent-color: #00ff00;
+        }
+        
+        .validation-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .status-valid {
+            color: #51cf66;
+        }
+        
+        .status-invalid {
+            color: #ff6b6b;
+        }
+        
+        .status-icon {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-container {
+                padding: 15px;
+            }
+            
+            .main-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .input-section, .output-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .input-textarea {
+                width: 100%;
+                min-height: 250px;
+                height: 250px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tool-button {
+                width: 100%;
+                max-width: 300px;
+                flex: none;
+            }
+            
+            .option-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="close"></span>
+                <span class="minimize"></span>
+                <span class="maximize"></span>
+            </div>
+            <a class="terminal-title" href="https://github.com/sudopower" target="_blank">sudopower@github:~</a>
+        </div>
+        <div class="terminal-tabs">
+            <a href="../../index.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">root</span>
+            </a>
+            <a href="../../contact.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">contact</span>
+            </a>
+            <a href="../../tools.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">tools</span>
+            </a>
+            <a href="index.html" class="tab active">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">jsonfmt</span>
+            </a>
+        </div>
+        <div class="terminal-content">
+            <div class="tool-container">
+                <a href="../../tools.html" class="back-link">← Back to Tools</a>
+                
+                <div class="tool-description">
+                    <strong>JSON Formatter</strong><br>
+                    Format & Validate JSON data.                    
+                </div>
+                
+                <div class="main-content">
+                    <div class="input-section">
+                        <label class="input-label" for="inputJson">JSON Input:</label>
+                        <textarea 
+                            id="inputJson" 
+                            class="input-textarea" 
+                            placeholder='Enter your JSON here...&#10;&#10;Example:&#10;{"name":"John Doe","age":30,"email":"john@example.com","address":{"street":"123 Main St","city":"New York"}}'
+                        ></textarea>
+                        <div id="validationStatus" class="validation-status" style="display: none;">
+                            <span id="statusIcon" class="status-icon"></span>
+                            <span id="statusText"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="output-section">
+                        <label class="input-label" for="outputJson">Formatted JSON Output:</label>
+                        <textarea 
+                            id="outputJson" 
+                            class="input-textarea" 
+                            placeholder="Formatted JSON will appear here..."
+                            readonly
+                        ></textarea>
+                        <button class="copy-button" onclick="copyOutput()">Copy to Clipboard</button>
+                    </div>
+                </div>
+                
+                <div class="controls-section">
+                    <div class="options-section">
+                        <div class="option-group">
+                            <label class="option-label">Indentation:</label>
+                            <select id="indentation" class="option-input">
+                                <option value="2">2 spaces</option>
+                                <option value="4" selected>4 spaces</option>
+                                <option value="tab">Tab</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label class="option-label">Minify:</label>
+                            <input type="checkbox" id="minify" class="option-checkbox">
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="tool-button" onclick="formatJson()">Format JSON</button>
+                        <button class="tool-button" onclick="clearAll()">Clear All</button>
+                        <button class="tool-button" onclick="loadExample()">Load Example</button>
+                    </div>
+                </div>
+                
+                <div id="messageArea"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../js/animations.js"></script>
+    <script src="../../js/navigation.js"></script>
+    <script src="../../js/window-controls.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

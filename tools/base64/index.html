@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8C6RK0FZDR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8C6RK0FZDR');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encode/Decode - Developer Tools</title>
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="../../css/terminal.css">
+    <link rel="stylesheet" href="../../css/window-controls.css">
+    <link rel="stylesheet" href="../../css/navigation.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="stylesheet" href="../../css/pages.css">
+    <link rel="stylesheet" href="../../css/minimize-effects.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .tool-container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .tool-description {
+            background-color: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-label {
+            display: block;
+            color: #00ff00;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .input-textarea {
+            width: 100%;
+            min-height: 120px;
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            color: #00ff00;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            padding: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        
+        .input-textarea:focus {
+            outline: none;
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tool-button {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .tool-button:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        
+        .tool-button:active {
+            transform: translateY(1px);
+        }
+        
+        .output-section {
+            margin-top: 30px;
+        }
+        
+        .copy-button {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 16px;
+            border-radius: 3px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .copy-button:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #ffffff;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            background-color: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .success-message {
+            color: #51cf66;
+            background-color: rgba(81, 207, 102, 0.1);
+            border: 1px solid #51cf66;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #00ff00;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #ffffff;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-container {
+                padding: 15px;
+            }
+            
+            .main-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .input-section, .output-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .input-textarea {
+                width: 100%;
+                min-height: 250px;
+                height: 250px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tool-button {
+                width: 100%;
+                max-width: 300px;
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="close"></span>
+                <span class="minimize"></span>
+                <span class="maximize"></span>
+            </div>
+            <a class="terminal-title" href="https://github.com/sudopower" target="_blank">sudopower@github:~</a>
+        </div>
+        <div class="terminal-tabs">
+            <a href="../../index.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">root</span>
+            </a>
+            <a href="../../contact.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">contact</span>
+            </a>
+            <a href="../../tools.html" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">tools</span>
+            </a>
+            <a href="index.html" class="tab active">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">base64</span>
+            </a>
+        </div>
+        <div class="terminal-content">
+            <div class="tool-container">
+                <a href="../../tools.html" class="back-link">← Back to Tools</a>
+                
+                <div class="tool-description">
+                    <strong>Base64 Encode/Decode Tool</strong><br>
+                    This tool allows you to encode text to Base64 format or decode Base64 strings back to readable text.                     
+                </div>
+                
+                <div class="input-section">
+                    <label class="input-label" for="inputText">Input Text:</label>
+                    <textarea 
+                        id="inputText" 
+                        class="input-textarea" 
+                        placeholder="Enter text to encode or Base64 string to decode..."
+                    ></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button class="tool-button" onclick="encodeBase64()">Encode to Base64</button>
+                    <button class="tool-button" onclick="decodeBase64()">Decode from Base64</button>
+                    <button class="tool-button" onclick="clearAll()">Clear All</button>
+                </div>
+                
+                <div class="output-section">
+                    <label class="input-label" for="outputText">Output:</label>
+                    <textarea 
+                        id="outputText" 
+                        class="input-textarea" 
+                        placeholder="Result will appear here..."
+                        readonly
+                    ></textarea>
+                    <button class="copy-button" onclick="copyOutput()">Copy to Clipboard</button>
+                </div>
+                
+                <div id="messageArea"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../js/animations.js"></script>
+    <script src="../../js/navigation.js"></script>
+    <script src="../../js/window-controls.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

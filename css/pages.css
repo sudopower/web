@@ -45,9 +45,11 @@
 
 .tools-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .loader {
@@ -72,4 +74,84 @@
     border-radius: 5px;
     background-color: rgba(255, 170, 0, 0.05);
     max-width: 400px;
+}
+
+/* Tool-specific styles */
+.tool-item {
+    background-color: rgba(0, 255, 0, 0.05);
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    width: 300px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.tool-item:hover {
+    background-color: rgba(0, 255, 0, 0.1);
+    border-color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.tool-ascii {
+    font-family: 'Courier New', monospace;
+    font-size: 8px;
+    color: #00ff00;
+    margin-bottom: 15px;
+    line-height: 1.0;
+    white-space: pre;
+    letter-spacing: 0;
+    word-spacing: 0;
+}
+
+.tool-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #00ff00;
+    margin-bottom: 10px;
+}
+
+.tool-description {
+    color: #cccccc;
+    font-size: 12px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    flex-grow: 1;
+}
+
+.tool-launch {
+    background-color: rgba(0, 255, 0, 0.1);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.tool-launch:hover {
+    background-color: rgba(0, 255, 0, 0.2);
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .tools-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tool-item {
+        width: 280px;
+    }
+    
+    .tool-ascii {
+        font-size: 7px;
+    }
 }
