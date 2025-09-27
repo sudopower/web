@@ -42,3 +42,23 @@
 .tab-name {
     font-weight: 400;
 }
+
+/* Mobile styles for scrollable tabs */
+@media (max-width: 768px) {
+    .terminal-tabs {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+    
+    .terminal-tabs::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .tab {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+}
