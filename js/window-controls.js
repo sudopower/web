@@ -52,6 +52,18 @@ function setupMinimizeButton() {
                 terminal.classList.add('minimized');
                 terminalSymbol.style.display = 'flex';
                 voidMessage.style.display = 'block';
+                voidMessage.style.top = '50%';
+                voidMessage.style.bottom = 'auto';
+                voidMessage.style.left = '50%';
+                voidMessage.style.transform = 'translate(-50%, -50%)';
+                
+                // Start SUDOPOWER animation immediately when minimized
+                if (typeof animateSudopower === 'function') {
+                    animateSudopower();
+                } else if (typeof showSudopower === 'function') {
+                    // If animation is already completed, just show it
+                    showSudopower();
+                }
             }
         });
         

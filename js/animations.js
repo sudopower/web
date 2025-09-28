@@ -123,6 +123,57 @@ async function refreshQuote() {
     quoteElement.innerHTML += ' <span class="quote-refresh" onclick="refreshQuote()">↻</span>';
 }
 
+// SUDOPOWER ASCII art text
+const sudopowerAscii = `     ███████╗██╗   ██╗██████╗  ██████╗     
+     ██╔════╝██║   ██║██╔══██╗██╔═══██╗    
+     ███████╗██║   ██║██║  ██║██║   ██║    
+     ╚════██║██║   ██║██║  ██║██║   ██║    
+     ███████║╚██████╔╝██████╔╝╚██████╔╝    
+     ╚══════╝ ╚═════╝ ╚═════╝  ╚═════╝     
+                                      
+██████╗  ██████╗ ██╗    ██╗███████╗██████╗ 
+██╔══██╗██╔═══██╗██║    ██║██╔════╝██╔══██╗
+██████╔╝██║   ██║██║ █╗ ██║█████╗  ██████╔╝
+██╔═══╝ ██║   ██║██║███╗██║██╔══╝  ██╔══██╗
+██║     ╚██████╔╝╚███╔███╔╝███████╗██║  ██║
+╚═╝      ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝`;
+
+// Track if SUDOPOWER animation has been completed
+let sudopowerAnimationCompleted = false;
+let sudopowerAnimationInProgress = false;
+
+// Function to animate SUDOPOWER ASCII art
+async function animateSudopower() {
+    const sudopowerElement = document.getElementById('sudopower-ascii');
+    
+    if (sudopowerElement && !sudopowerAnimationCompleted && !sudopowerAnimationInProgress) {
+        // Mark animation as in progress to prevent interruptions
+        sudopowerAnimationInProgress = true;
+        
+        // Clear any existing content
+        sudopowerElement.innerHTML = '';
+        
+        // Start typing animation immediately
+        await typeWriter(sudopowerElement, sudopowerAscii, 20);
+        
+        // Mark animation as completed
+        sudopowerAnimationCompleted = true;
+        sudopowerAnimationInProgress = false;
+    } else if (sudopowerElement && sudopowerAnimationCompleted) {
+        // If animation is already completed, just show the full ASCII art
+        sudopowerElement.innerHTML = sudopowerAscii;
+    }
+}
+
+// Function to show SUDOPOWER (for when void-message is displayed)
+function showSudopower() {
+    const sudopowerElement = document.getElementById('sudopower-ascii');
+    if (sudopowerElement && sudopowerAnimationCompleted) {
+        // If animation is completed, show the full ASCII art
+        sudopowerElement.innerHTML = sudopowerAscii;
+    }
+}
+
 // Main animation sequence
 async function startAnimation() {
     const quoteElement = document.getElementById('quote');
@@ -153,7 +204,6 @@ async function startAnimation() {
     // Add the final blinking cursor at the end
     emailElement.innerHTML += '<span class="cursor">|</span>';
     
-    // Wait a moment after all text is typed, then start the glow animation
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Start the glow animation immediately
     terminalElement.classList.add('glow-active');
 }
