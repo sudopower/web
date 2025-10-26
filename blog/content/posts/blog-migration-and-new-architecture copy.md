@@ -4,7 +4,7 @@ draft = false
 title = 'Blog Migration'
 description = 'Migrating from WordPress to a static site generator.'
 tags = []
-image = '/images/blog-migration-hero.png'
+image = 'images/blog-migration-hero.png'
 excerpt = 'I decided to migrate my wordpress site from AWS Lightsail to HUGO+Github Pages. I wanted to explain this with a post.'
 +++
 

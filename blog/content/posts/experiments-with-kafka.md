@@ -5,7 +5,7 @@ title = 'Experiments With Kafka'
 description = 'Experiments with Kafka and Go to find the principle limits of processing and configurations required to achieve them.'
 excerpt = 'Experiments with Kafka and Go to find the principle limits of processing and configurations required to achieve them.'
 tags = []
-image = '/images/kafka-logo.png'
+image = 'images/kafka-logo.png'
 +++
 
 # Why ?
