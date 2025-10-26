@@ -53,6 +53,7 @@ jobs:
         run: |
           # Move blog output to /blog/ directory in the main site
           # Keep the source files and just move the built files
+          mkdir -p blog-deploy
           cp -r blog/public/* blog-deploy/
           # Remove only the public directory, keep source files
           rm -rf blog/public/
