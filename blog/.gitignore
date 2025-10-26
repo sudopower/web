@@ -1,0 +1,41 @@
+# Hugo build output
+public/
+resources/
+
+# Hugo cache
+.hugo_build.lock
+hugo_stats.json
+
+# Hugo modules
+.hugo_modules/
+
+# Hugo data files
+hugo.json
+
+# Node.js dependencies (if any)
+node_modules/
+package-lock.json
+npm-shrinkwrap.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp

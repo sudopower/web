@@ -1,0 +1,50 @@
+baseURL = 'https://sudopower.com/blog/'
+languageCode = 'en-us'
+title = 'SUDOPOWER Blog'
+theme = 'terminal'
+
+[params]
+  description = "Technical articles about code, algorithms, system design, and problem solving in tech."
+  author = "Kiran Nambiar"
+  keywords = "kiran nambiar, sudopower, software, tech, blog, programming, algorithms, system design"
+  terminalTitle = "sudopower@github:~"
+  ogImage = "https://sudopower.com/assets/logo.png"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "monokai"
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = false
+    codeFences = true
+    guessSyntax = true
+    tabWidth = 2
+    anchorLineNos = true
+    lineAnchors = "line"
+    wrap = true
+
+[build]
+  writeStats = true
+
+ignoreLogs = ['warning-goldmark-raw-html']
+
+[imaging]
+  resampleFilter = "Lanczos"
+  quality = 75
+  anchor = "Smart"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 10
+  [[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 20

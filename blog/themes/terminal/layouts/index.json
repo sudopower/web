@@ -1,0 +1,16 @@
+{
+  "title": "{{ .Site.Title }}",
+  "description": "{{ .Site.Params.description }}",
+  "url": "{{ .Permalink }}",
+  "posts": [
+    {{ range $index, $post := .Site.RegularPages }}
+      {{ if $index }},{{ end }}
+      {
+        "title": "{{ $post.Title }}",
+        "url": "{{ $post.Permalink }}",
+        "date": "{{ $post.Date.Format "2006-01-02" }}",
+        "description": "{{ $post.Description }}"
+      }
+    {{ end }}
+  ]
+}

@@ -1,0 +1,80 @@
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-buttons span {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.close {
+    background-color: #ff5f56;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    background-color: #ff3b30;
+    transform: scale(1.1);
+}
+
+.close:hover::after {
+    content: '×';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.minimize {
+    background-color: #ffbd2e;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.minimize:hover {
+    background-color: #e6a826;
+    transform: scale(1.1);
+}
+
+.minimize:hover::after {
+    content: '−';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.maximize {
+    background-color: #27ca3f;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.maximize:hover {
+    background-color: #1ea832;
+    transform: scale(1.1);
+}
+
+.maximize:hover::after {
+    content: '□';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+}

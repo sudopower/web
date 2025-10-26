@@ -1,0 +1,35 @@
+{{ define "main" }}
+  <div class="blog-posts-grid">
+    {{ range site.RegularPages }}
+      <article class="blog-post-card">
+        <a href="{{ .RelPermalink }}" class="post-card-link">
+          <div class="post-image">
+            {{ if .Params.image }}
+              <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+            {{ else }}
+              <div class="post-image-placeholder">
+                <span class="placeholder-icon">📝</span>
+              </div>
+            {{ end }}
+          </div>
+          <div class="post-card-content">
+            <div class="post-meta">
+              <time class="post-date" datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+                {{ .Date.Format "January 2, 2006" }}
+              </time>
+            </div>
+            <h2 class="post-title">{{ .Title }}</h2>
+            {{ if .Params.excerpt }}
+              <div class="post-summary">{{ .Params.excerpt }}</div>
+            {{ else if .Summary }}
+              <div class="post-summary">{{ .Summary }}</div>
+            {{ end }}
+            <div class="post-read-more">
+              <span class="read-more-text">Read More →</span>
+            </div>
+          </div>
+        </a>
+      </article>
+    {{ end }}
+  </div>
+{{ end }}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="blog-body">
+  <header class="blog-header">
+    <div class="blog-container">
+      <div class="blog-nav">
+        <div class="blog-home-link">
+          <span class="blog-logo">SUDOPOWER</span>          
+        </div>
+        <nav class="blog-nav-links">
+          <a href="https://sudopower.com/" class="blog-nav-link">/root</a>
+          <a href="/" class="blog-nav-link">/blog</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+  
+  <main class="blog-main">
+    <div class="blog-container">
+      {{ block "main" . }}{{ end }}
+    </div>
+  </main>
+  
+  <footer class="blog-footer">
+    <div class="blog-container">
+      <p>&copy; {{ now.Format "2006" }} SUDOPOWER.</p>
+    </div>
+  </footer>
+</body>
+</html>

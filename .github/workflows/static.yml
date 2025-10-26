@@ -1,5 +1,5 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Deploy SUDOPOWER website and blog to GitHub Pages
+name: Deploy SUDOPOWER Site and Blog
 
 on:
   # Runs on pushes targeting the default branch
@@ -22,8 +22,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
+  # Build and deploy job
+  build-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -31,13 +31,42 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Install Hugo (for blog)
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      - name: Build Hugo Blog
+        run: |
+          cd blog
+          hugo --gc --minify --baseURL "https://sudopower.com/blog/"
+
+      - name: Prepare deployment
+        run: |
+          # Move blog output to /blog/ directory in the main site
+          # Keep the source files and just move the built files
+          cp -r blog/public/* blog-deploy/
+          # Remove only the public directory, keep source files
+          rm -rf blog/public/
+          # Move built files to /blog/ at root level
+          mv blog-deploy blog/
+          # Clean up non-essential files
+          rm -rf .github/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
+          # Upload the entire repository (main site + built blog)
           path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Source Code Pro', monospace;
+    background-color: #1a1a1a;
+    color: #00ff00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .terminal-content {
+        padding: 20px;
+    }
+    
+    .quote {
+        font-size: 20px;
+    }
+    
+    .intro {
+        font-size: 16px;
+    }
+    
+    .email {
+        font-size: 14px;
+    }
+}
