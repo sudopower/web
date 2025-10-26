@@ -55,8 +55,8 @@ jobs:
           # Keep the source files and just move the built files
           mkdir -p blog-deploy
           cp -r blog/public/* blog-deploy/
-          # Remove only the public directory, keep source files
-          rm -rf blog/public/
+          # Remove the entire blog directory and replace with built files
+          rm -rf blog/
           # Move built files to /blog/ at root level
           mv blog-deploy blog/
           # Clean up non-essential files
