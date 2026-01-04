@@ -29,6 +29,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Notify Watchly CLI deployment start
+        run: |
+          curl -L https://github.com/getwatchly/watchly-cli/releases/download/v0.0.5/watchly-cli_0.0.5_linux_386.tar.gz > watchly-cli.tar.gz
+          tar -xzf watchly-cli.tar.gz
+          cp watchly-cli /usr/local/bin
+          watchly-cli deployment start -k baf78a07caab52b85a06c46327820ddb
+        
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -71,3 +78,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Notify Watchly CLI deployment finish
+        run: |
+          curl -L https://github.com/getwatchly/watchly-cli/releases/download/v0.0.5/watchly-cli_0.0.5_linux_386.tar.gz > watchly-cli.tar.gz
+          tar -xzf watchly-cli.tar.gz
+          cp watchly-cli /usr/local/bin
+          watchly-cli deployment finish -k baf78a07caab52b85a06c46327820ddb -s successful
+        
