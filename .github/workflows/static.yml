@@ -29,12 +29,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Notify Watchly CLI deployment start
+      - name: Install Watchly CLI and notify of deployment start
         run: |
-          curl -L https://github.com/getwatchly/watchly-cli/releases/download/v0.0.5/watchly-cli_0.0.5_linux_386.tar.gz > watchly-cli.tar.gz
-          tar -xzf watchly-cli.tar.gz
-          cp watchly-cli /usr/local/bin
-          watchly-cli deployment start -k baf78a07caab52b85a06c46327820ddb
+          curl https://www.watchly.dev/cli | WATCHLY_CLI_VERSION=0.0.17 sh
+          watchly-cli deployment start
+        env:
+          WATCHLY_API_KEY: ${{ secrets.WATCHLY_API_KEY }}
         
       - name: Checkout
         uses: actions/checkout@v4
@@ -79,10 +79,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Notify Watchly CLI deployment finish
-        run: |
-          curl -L https://github.com/getwatchly/watchly-cli/releases/download/v0.0.5/watchly-cli_0.0.5_linux_386.tar.gz > watchly-cli.tar.gz
-          tar -xzf watchly-cli.tar.gz
-          cp watchly-cli /usr/local/bin
-          watchly-cli deployment finish -k baf78a07caab52b85a06c46327820ddb -s successful
+      - name: Notify Watchly of deployment completion
+        run: watchly-cli deployment finish --status=successful
+        env:
+          WATCHLY_API_KEY: ${{ secrets.WATCHLY_API_KEY }}
         
