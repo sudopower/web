@@ -16,7 +16,7 @@ When you're processing batches of data and sending them to ClickHouse, it's not 
 
 With OpenTelemetry tracing, I can see the full flow. Each operation gets a span, and I can see how long each step takes. The trace shows the entire journey from when a batch arrives to when it's fully processed and acknowledged.
 
-![OTEL Trace in Tempo and Grafana](images/OTEL tempo trace.png)
+![OTEL Trace in Tempo and Grafana](../../assets/images/OTEL%20tempo%20trace.png)
 
 The trace above shows a batch processing operation. You can see the parent span for the entire batch, then child spans for ClickHouse operations, schema mapping, and NATS acknowledgment. This makes it immediately obvious where bottlenecks are.
 
@@ -26,13 +26,13 @@ Tracing is great for understanding request flow, but for deeper performance anal
 
 I set up periodic CPU profiling that captures 30-second samples. The flame graph shows where CPU time is actually being spent:
 
-![Flame Graph from pprof](images/flame graph.png)
+![Flame Graph from pprof](../../assets/images/flame%20graph.png)
 
 The flame graph makes it easy to spot hot paths. Wide bars mean more CPU time. You can quickly see if there's a function that's taking up too much time.
 
 The CPU flow view gives another perspective - showing the call stack and how functions relate to each other:
 
-![CPU Flow from pprof](images/sink cpu flow.jpg)
+![CPU Flow from pprof](../../assets/images/sink%20cpu%20flow.jpg)
 
 ## Setup
 
