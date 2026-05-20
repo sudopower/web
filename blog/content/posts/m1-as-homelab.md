@@ -5,7 +5,7 @@ title = 'M1 as a Homelab'
 description = 'Folding my unused MacBook Air under my work MacBook Pro and turning it into a small homelab running kind.'
 excerpt = "Most devs barely touch their personal laptop. Mine is now a tiny homelab I never look at — kind cluster today, maybe Photos and Ollama later."
 tags = []
-image = '/images/m1-homelab-hero.jpg'
+image = 'images/m1-homelab-hero.jpg'
 +++
 
 # Why ?
@@ -20,7 +20,7 @@ Two Macs on a vertical stand, lids closed. The Pro is the one I actually use (ex
 
 I never touch the M1 physically. Screen Sharing if I want the GUI, SSH for everything else. The keyboard might as well not exist. There's something pleasing about a computer that just sits there and works.
 
-![setup](/images/m1-homelab-setup.jpg)
+![setup](../../images/m1-homelab-setup.jpg)
 
 Quick sanity check that both are actually on the network:
 
