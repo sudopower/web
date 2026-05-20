@@ -29,13 +29,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Install Watchly CLI and notify of deployment start
-        run: |
-          curl https://www.watchly.dev/cli | WATCHLY_CLI_VERSION=0.0.17 sh
-          watchly-cli deployment start
-        env:
-          WATCHLY_API_KEY: ${{ secrets.WATCHLY_API_KEY }}
-        
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -79,8 +72,3 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Notify Watchly of deployment completion
-        run: watchly-cli deployment finish --status=successful
-        env:
-          WATCHLY_API_KEY: ${{ secrets.WATCHLY_API_KEY }}
-        
