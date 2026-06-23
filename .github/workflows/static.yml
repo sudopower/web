@@ -47,26 +47,23 @@ jobs:
       - name: Build Hugo Blog
         run: |
           cd blog
-          hugo --gc --minify --baseURL "https://sudopower.com/blog/"
+          hugo --gc --minify --baseURL "https://sudopower.com/"
 
       - name: Prepare deployment
         run: |
-          # Move blog output to /blog/ directory in the main site
-          # Keep the source files and just move the built files
-          mkdir -p blog-deploy
-          cp -r blog/public/* blog-deploy/
-          # Remove the entire blog directory and replace with built files
-          rm -rf blog/
-          # Move built files to /blog/ at root level
-          mv blog-deploy blog/
-          # Clean up non-essential files
+          mkdir -p _deploy
+          # Copy static site files (about, contact, tools, css, js, assets, tools dir, CNAME)
+          cp -r about css js assets tools _deploy/
+          cp contact.html tools.html CNAME _deploy/
+          # Overlay Hugo output at root (provides index.html, posts, etc.)
+          cp -r blog/public/* _deploy/
+          # Clean up
           rm -rf .github/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the entire repository (main site + built blog)
-          path: '.'
+          path: '_deploy'
 
       - name: Deploy to GitHub Pages
         id: deployment

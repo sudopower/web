@@ -13,13 +13,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSON Formatter - Developer Tools</title>
-    <link rel="stylesheet" href="../../css/base.css">
-    <link rel="stylesheet" href="../../css/terminal.css">
-    <link rel="stylesheet" href="../../css/window-controls.css">
-    <link rel="stylesheet" href="../../css/navigation.css">
-    <link rel="stylesheet" href="../../css/animations.css">
-    <link rel="stylesheet" href="../../css/pages.css">
-    <link rel="stylesheet" href="../../css/minimize-effects.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/terminal.css">
+    <link rel="stylesheet" href="/css/window-controls.css">
+    <link rel="stylesheet" href="/css/navigation.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/pages.css">
+    <link rel="stylesheet" href="/css/minimize-effects.css">
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <style>
         .tool-container {
@@ -291,19 +291,19 @@
             <a class="terminal-title" href="https://github.com/sudopower" target="_blank">sudopower@github:~</a>
         </div>
         <div class="terminal-tabs">
-            <a href="../../index.html" class="tab">
-                <span class="tab-symbol">$</span>
-                <span class="tab-name">root</span>
-            </a>
-            <a href="http://localhost:1313/" class="tab" id="blog-link">
+            <a href="/" class="tab">
                 <span class="tab-symbol">$</span>
                 <span class="tab-name">blog</span>
             </a>
-            <a href="../../contact.html" class="tab">
+            <a href="/about/" class="tab">
+                <span class="tab-symbol">$</span>
+                <span class="tab-name">about</span>
+            </a>
+            <a href="/contact.html" class="tab">
                 <span class="tab-symbol">$</span>
                 <span class="tab-name">contact</span>
             </a>
-            <a href="../../tools.html" class="tab">
+            <a href="/tools.html" class="tab">
                 <span class="tab-symbol">$</span>
                 <span class="tab-name">tools</span>
             </a>
@@ -314,7 +314,7 @@
         </div>
         <div class="terminal-content">
             <div class="tool-container">
-                <a href="../../tools.html" class="back-link">← Back to Tools</a>
+                <a href="/tools.html" class="back-link">← Back to Tools</a>
                 
                 <div class="tool-description">
                     <strong>JSON Formatter</strong><br>
@@ -378,25 +378,10 @@
     <div class="void-message" id="void-message">
         <div class="sudopower-ascii" id="sudopower-ascii"></div>
     </div>
-    <script src="../../js/animations.js"></script>
-    <script src="../../js/navigation.js"></script>
-    <script src="../../js/window-controls.js"></script>
-    <script src="../../js/main.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/window-controls.js"></script>
+    <script src="/js/main.js"></script>
     <script src="script.js"></script>
-    <script>
-        // Handle blog link based on environment
-        document.addEventListener('DOMContentLoaded', function() {
-            const blogLink = document.getElementById('blog-link');
-            if (blogLink) {
-                // Check if we're in production (sudopower.com domain)
-                if (window.location.hostname === 'sudopower.com') {
-                    blogLink.href = 'https://sudopower.com/blog/';
-                } else {
-                    // Local development - try Hugo server first, fallback to blog/
-                    blogLink.href = 'http://localhost:1313/';
-                }
-            }
-        });
-    </script>
 </body>
 </html>

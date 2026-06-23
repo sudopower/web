@@ -36,10 +36,14 @@ theme = 'terminal'
 
 [menu]
   [[menu.main]]
-    name = "Home"
-    url = "/"
+    name = "About"
+    url = "/about/"
     weight = 10
   [[menu.main]]
-    name = "Blog"
-    url = "/blog/"
+    name = "Contact"
+    url = "/contact.html"
     weight = 20
+  [[menu.main]]
+    name = "Tools"
+    url = "/tools.html"
+    weight = 30

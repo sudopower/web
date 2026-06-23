@@ -1,4 +1,4 @@
-baseURL = 'https://sudopower.com/blog/'
+baseURL = 'https://sudopower.com/'
 languageCode = 'en-us'
 title = 'SUDOPOWER Blog'
 theme = 'terminal'
@@ -41,10 +41,14 @@ ignoreLogs = ['warning-goldmark-raw-html']
 
 [menu]
   [[menu.main]]
-    name = "Home"
-    url = "/"
+    name = "About"
+    url = "/about/"
     weight = 10
   [[menu.main]]
-    name = "Blog"
-    url = "/blog/"
+    name = "Contact"
+    url = "/contact.html"
     weight = 20
+  [[menu.main]]
+    name = "Tools"
+    url = "/tools.html"
+    weight = 30
