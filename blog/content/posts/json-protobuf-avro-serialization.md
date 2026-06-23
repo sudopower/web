@@ -22,8 +22,8 @@ through a resource-capped Kafka consumer.
 Spoiler: dropping the keys is real and it matters — but roughly *half* the speedup
 has nothing to do with keys at all.
 
-> 📦 All the code — codecs, microbenchmarks, and the Kafka pipeline harness — is on
-> GitHub: [**sudopower/playground → serde-pipeline-bench**](https://github.com/sudopower/playground/tree/master/serde-pipeline-bench).
+> 📦 **Code:** [`sudopower/playground/serde-pipeline-bench`](https://github.com/sudopower/playground/tree/master/serde-pipeline-bench)
+> — codecs, microbenchmarks, and the Kafka pipeline harness.
 
 # What each format puts on the wire
 
@@ -231,5 +231,5 @@ A couple of caveats I'd rather state than have a sharp reader catch:
   system rarely reaches.
 
 The full harness — codecs, microbenchmarks, and the constant-lag Kafka pipeline —
-is on GitHub: [**sudopower/playground → serde-pipeline-bench**](https://github.com/sudopower/playground/tree/master/serde-pipeline-bench).
-Clone it and `go test ./bench -bench .` to reproduce.
+is on GitHub at [`sudopower/playground/serde-pipeline-bench`](https://github.com/sudopower/playground/tree/master/serde-pipeline-bench).
+Clone it and run `go test ./bench -bench .` to reproduce.
