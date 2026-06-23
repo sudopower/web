@@ -11,8 +11,9 @@
           <span class="blog-logo">SUDOPOWER</span>          
         </div>
         <nav class="blog-nav-links">
-          <a href="https://sudopower.com/" class="blog-nav-link">/root</a>
-          <a href="/" class="blog-nav-link">/blog</a>
+          {{ range site.Menus.main }}
+          <a href="{{ .URL }}" class="blog-nav-link">/{{ .Name | lower }}</a>
+          {{ end }}
         </nav>
       </div>
     </div>
