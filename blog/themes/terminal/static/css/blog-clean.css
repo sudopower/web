@@ -530,3 +530,87 @@ body.blog-body {
     padding-right: 8px;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Content data tables (exclude code line-number .lntable)            */
+/* ------------------------------------------------------------------ */
+.post-content table:not(.lntable) {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95em;
+  display: block;          /* allow horizontal scroll on narrow screens */
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.post-content table:not(.lntable) th,
+.post-content table:not(.lntable) td {
+  border: 1px solid #3a3d40;
+  padding: 8px 16px;
+  white-space: nowrap;     /* keep numeric columns from wrapping */
+  max-width: none;         /* override the generic truncate rule above */
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.post-content table:not(.lntable) thead th {
+  background: #2d2f31;
+  color: #a6e22e;
+  font-weight: 600;
+  border-bottom: 2px solid #a6e22e;
+  text-align: left;
+}
+
+.post-content table:not(.lntable) tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.post-content table:not(.lntable) tbody tr:hover {
+  background: rgba(166, 226, 46, 0.08);
+}
+
+/* ------------------------------------------------------------------ */
+/* Readable modern type for the article body                          */
+/* Prose -> Inter (sans), code -> JetBrains Mono. Terminal chrome      */
+/* (title bar, nav) keeps its monospace look untouched.               */
+/* ------------------------------------------------------------------ */
+.post-content,
+.post-content p,
+.post-content li,
+.post-content blockquote,
+.post-content h1, .post-content h2, .post-content h3,
+.post-content h4, .post-content h5, .post-content h6,
+.post-content table:not(.lntable) th,
+.post-content table:not(.lntable) td {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.post-content {
+  font-size: 17px;
+  line-height: 1.75;
+  letter-spacing: 0.1px;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3 {
+  letter-spacing: -0.02em;   /* tighter headings read as more modern */
+  line-height: 1.25;
+}
+
+/* Code stays monospace and crisp */
+.post-content code,
+.post-content pre,
+.post-content pre *,
+.post-content .lntable,
+.post-content .lntable * {
+  font-family: 'JetBrains Mono', 'Source Code Pro', ui-monospace, monospace !important;
+}
+
+/* Inline code: a subtle chip so it pops against the sans prose */
+.post-content :not(pre) > code {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
