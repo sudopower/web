@@ -1,7 +1,7 @@
 +++
 date = '2026-06-23T12:00:00+01:00'
 draft = false
-title = "It's Not Just the Keys: JSON vs Protobuf vs Avro in a Kafka Pipeline"
+title = "JSON vs Protobuf vs Avro"
 description = 'Benchmarking why binary, schema-based serialization decodes far faster than JSON — and what survives end-to-end in a resource-capped Kafka consumer.'
 excerpt = 'Protobuf and Avro decode ~20x faster than JSON in a microbenchmark and ~7x faster in a real pipeline. The popular explanation — "no keys in the payload" — is only half the story.'
 tags = ["go", "kafka", "serialization", "performance", "protobuf", "avro"]
