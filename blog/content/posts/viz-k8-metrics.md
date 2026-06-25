@@ -4,7 +4,7 @@ draft = true
 title = 'Visualizing K8 Metrics'
 description = 'Visualizing K8 metrics with Grafana and Prometheus.'
 excerpt = 'Visualizing CPU, memory, network, disk usage, resource requests, limits, restarts, failures, and other metrics.'
-tags = []
+tags = ['kubernetes', 'observability', 'grafana', 'prometheus']
 image = ''
 +++
 

@@ -4,7 +4,7 @@ draft = false
 title = 'M1 as a Homelab'
 description = 'Folding my unused MacBook Air under my work MacBook Pro and turning it into a small homelab running kind.'
 excerpt = "Most devs barely touch their personal laptop. Mine is now a tiny homelab I never look at — kind cluster today, maybe Photos and Ollama later."
-tags = []
+tags = ['homelab', 'kubernetes', 'infrastructure']
 image = 'images/m1-homelab-hero.jpg'
 +++
 

@@ -4,7 +4,7 @@ draft = false
 title = 'Experiments With Kafka'
 description = 'Experiments with Kafka and Go '
 excerpt = 'Experiments with Kafka and Go to check performance and required configurations'
-tags = []
+tags = ['kafka', 'go', 'performance']
 image = 'images/kafka-logo.png'
 +++
 

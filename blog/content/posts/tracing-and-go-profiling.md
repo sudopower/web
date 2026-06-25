@@ -4,7 +4,7 @@ draft = false
 title = 'Traces and code profile'
 description = 'Experimenting with OpenTelemetry tracing and Go pprof profiling for debugging and performance testing'
 excerpt = 'Added tracing to the sink component and experimented with Go profiling to understand performance bottlenecks'
-tags = []
+tags = ['go', 'observability', 'performance', 'tracing']
 image = 'images/OTEL tempo trace banner.png'
 +++
 

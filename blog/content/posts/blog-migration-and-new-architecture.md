@@ -3,7 +3,7 @@ date = '2025-01-23T14:23:50+02:00'
 draft = false
 title = 'Blog Migration'
 description = 'Migrating from WordPress to a static site generator.'
-tags = []
+tags = ['blog', 'hugo', 'migration']
 image = 'images/blog-migration-hero.png'
 excerpt = 'I decided to migrate my wordpress site from AWS Lightsail to HUGO+Github Pages. I wanted to explain this with a post.'
 +++

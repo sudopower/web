@@ -4,7 +4,7 @@ draft = true
 title = 'Differences in Map, Hash, Hashmap, Encode and Encrypt'
 description = 'Summary of the differences between Map, Hash, Hashmap, Encode and Encrypt.'
 excerpt = 'Summary of the differences between Map, Hash, Hashmap, Encode and Encrypt.'
-tags = []
+tags = ['algorithms', 'fundamentals', 'go']
 image = ''
 +++
 
