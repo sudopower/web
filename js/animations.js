@@ -199,7 +199,7 @@ async function startAnimation() {
     await typeWriterWithCursor(emailElement, 'You can find me: ', 80);
     
     // Add the email link after typing
-    emailElement.innerHTML += '<a href="mailto:nkirandroid@gmail.com">here</a>';
+    emailElement.innerHTML += '<a href="https://www.linkedin.com/in/kiran-nambiar" target="_blank">here</a>';
     
     // Add the final blinking cursor at the end
     emailElement.innerHTML += '<span class="cursor">|</span>';
