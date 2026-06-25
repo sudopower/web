@@ -585,9 +585,13 @@ a { color: inherit; }
     text-align: left;
   }
 
-  .post-content pre {
+  .post-content pre,
+  .post-content pre code,
+  .post-content .highlight pre,
+  .post-content .highlight .chroma {
+    font-size: 11px;
     padding: 14px;
-    font-size: 12px;
+    line-height: 1.55;
   }
 
   .post-content td:not(.lntd) {
