@@ -51,6 +51,12 @@ body.blog-body {
   font-size: 24px;
   font-weight: 600;
   color: #00ff00;
+  text-decoration: none;
+}
+
+.blog-logo:hover {
+  color: #00ff00;
+  opacity: 0.8;
 }
 
 .blog-subtitle {
