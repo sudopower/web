@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0d1117"/>
+  <!-- grid lines -->
+  <line x1="0" y1="0" x2="1200" y2="0" stroke="#161b22" stroke-width="1"/>
+  <line x1="0" y1="630" x2="1200" y2="630" stroke="#161b22" stroke-width="1"/>
+
+  <!-- terminal window chrome -->
+  <rect x="80" y="60" width="1040" height="510" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <rect x="80" y="60" width="1040" height="38" rx="8" fill="#21262d"/>
+  <rect x="80" y="86" width="1040" height="12" fill="#21262d"/>
+  <!-- dots -->
+  <circle cx="108" cy="79" r="6" fill="#ff5f57"/>
+  <circle cx="130" cy="79" r="6" fill="#febc2e"/>
+  <circle cx="152" cy="79" r="6" fill="#28c840"/>
+  <!-- title -->
+  <text x="600" y="84" font-family="monospace" font-size="13" fill="#8b949e" text-anchor="middle">bash — wait-probe image size</text>
+
+  <!-- prompt line -->
+  <text x="112" y="138" font-family="monospace" font-size="14" fill="#3fb950">$</text>
+  <text x="128" y="138" font-family="monospace" font-size="14" fill="#c9d1d9">docker images ghcr.io/glassflow/wait-probe --format "{{.Tag}}\t{{.Size}}"</text>
+
+  <!-- table header -->
+  <text x="112" y="168" font-family="monospace" font-size="13" fill="#8b949e">TAG       SIZE</text>
+  <line x1="112" y1="174" x2="500" y2="174" stroke="#30363d" stroke-width="1"/>
+
+  <!-- row 1.0.0 -->
+  <text x="112" y="194" font-family="monospace" font-size="13" fill="#e06c75">1.0.0</text>
+  <text x="260" y="194" font-family="monospace" font-size="13" fill="#e06c75">25.7 MB</text>
+
+  <!-- bar 1.0.0 -->
+  <rect x="112" y="202" width="514" height="24" rx="3" fill="#e06c7520"/>
+  <rect x="112" y="202" width="514" height="24" rx="3" fill="#e06c75" opacity="0.7"/>
+  <text x="636" y="219" font-family="monospace" font-size="12" fill="#e06c75">25.7 MB  (curlimages/curl)</text>
+
+  <!-- row 1.1.1 -->
+  <text x="112" y="258" font-family="monospace" font-size="13" fill="#3fb950">1.1.1</text>
+  <text x="260" y="258" font-family="monospace" font-size="13" fill="#3fb950">9.05 MB</text>
+
+  <!-- bar 1.1.1 -->
+  <rect x="112" y="266" width="181" height="24" rx="3" fill="#3fb95020"/>
+  <rect x="112" y="266" width="181" height="24" rx="3" fill="#3fb950" opacity="0.7"/>
+  <text x="303" y="283" font-family="monospace" font-size="12" fill="#3fb950">9.05 MB  (alpine + netcat-openbsd)</text>
+
+  <!-- divider -->
+  <line x1="112" y1="316" x2="900" y2="316" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- savings callout -->
+  <text x="112" y="346" font-family="monospace" font-size="13" fill="#8b949e">reduction:</text>
+  <text x="260" y="346" font-family="monospace" font-size="22" fill="#58a6ff" font-weight="bold">65% smaller</text>
+
+  <!-- nc -z command showcase -->
+  <text x="112" y="400" font-family="monospace" font-size="14" fill="#3fb950">$</text>
+  <text x="128" y="400" font-family="monospace" font-size="14" fill="#c9d1d9">nc -z postgres-host 5432 <tspan fill="#8b949e">&amp;&amp; echo "ready"</tspan></text>
+  <text x="112" y="424" font-family="monospace" font-size="14" fill="#3fb950">ready</text>
+
+  <!-- bottom label -->
+  <text x="600" y="530" font-family="monospace" font-size="12" fill="#484f58" text-anchor="middle">ghcr.io/glassflow/wait-probe  ·  from curlimages/curl to alpine + netcat-openbsd</text>
+
+  <!-- cursor blink -->
+  <rect x="112" y="452" width="9" height="16" fill="#3fb950" opacity="0.9"/>
+</svg>
