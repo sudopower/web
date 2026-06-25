@@ -1,35 +1,51 @@
 {{ define "main" }}
-  <div class="blog-posts-grid">
-    {{ range site.RegularPages }}
-      <article class="blog-post-card">
-        <a href="{{ .RelPermalink }}" class="post-card-link">
-          <div class="post-image">
-            {{ if .Params.image }}
-              <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
-            {{ else }}
-              <div class="post-image-placeholder">
-                <span class="placeholder-icon">📝</span>
-              </div>
-            {{ end }}
-          </div>
-          <div class="post-card-content">
-            <div class="post-meta">
-              <time class="post-date" datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
-                {{ .Date.Format "January 2, 2006" }}
-              </time>
-            </div>
-            <h2 class="post-title">{{ .Title }}</h2>
-            {{ if .Params.excerpt }}
-              <div class="post-summary">{{ .Params.excerpt }}</div>
-            {{ else if .Summary }}
-              <div class="post-summary">{{ .Summary }}</div>
-            {{ end }}
-            <div class="post-read-more">
-              <span class="read-more-text">Read More →</span>
-            </div>
-          </div>
-        </a>
-      </article>
+
+{{/* Tag → color category mapping */}}
+{{- $infraTags  := slice "kubernetes" "k8s" "homelab" "docker" "devops" "infra" "infrastructure" "red" "migration" -}}
+{{- $perfTags   := slice "performance" "observability" "tracing" "profiling" "monitoring" "metrics" -}}
+{{- $sysTags    := slice "go" "golang" "serialization" "algorithms" "systems" "ai" "opencode" "ollama" "blog" -}}
+
+<div class="blog-descriptor">
+  <span class="descriptor-label">sudopower · posts</span>
+  <span class="descriptor-text">{{ site.Params.description }}</span>
+</div>
+
+<div class="posts-grid">
+  {{ range $index, $page := site.RegularPages }}
+  {{- $featured := eq $index 0 -}}
+  <a href="{{ $page.RelPermalink }}" class="post-card{{ if $featured }} featured{{ end }}">
+
+    {{ if $page.Params.tags }}
+    <div class="card-tags">
+      {{ range $page.Params.tags }}
+      {{- $tag := . -}}
+      {{- $cls := "tag-default" -}}
+      {{- if in $infraTags $tag }}{{- $cls = "tag-infra" -}}{{ end -}}
+      {{- if in $perfTags  $tag }}{{- $cls = "tag-perf"  -}}{{ end -}}
+      {{- if in $sysTags   $tag }}{{- $cls = "tag-sys"   -}}{{ end -}}
+      <span class="tag {{ $cls }}">{{ $tag }}</span>
+      {{ end }}
+    </div>
     {{ end }}
-  </div>
+
+    <div class="card-title">{{ $page.Title }}</div>
+
+    {{ if $page.Params.excerpt }}
+      <div class="card-excerpt">{{ $page.Params.excerpt }}</div>
+    {{ else if $page.Description }}
+      <div class="card-excerpt">{{ $page.Description }}</div>
+    {{ else if $page.Summary }}
+      <div class="card-excerpt">{{ $page.Summary }}</div>
+    {{ end }}
+
+    <div class="card-meta">
+      <span>{{ $page.Date.Format "2006.01.02" }}</span>
+      <span class="meta-sep">·</span>
+      <span>{{ $page.ReadingTime }} min</span>
+    </div>
+
+  </a>
+  {{ end }}
+</div>
+
 {{ end }}

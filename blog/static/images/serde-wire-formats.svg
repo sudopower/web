@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace">
+  <rect width="1200" height="630" fill="#1d1f21"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#a6e22e"/>
+
+  <!-- title -->
+  <text x="60" y="86" fill="#f8f8f2" font-size="44" font-weight="700">JSON vs Protobuf vs Avro</text>
+  <text x="60" y="126" fill="#75715e" font-size="24">how one field — <tspan fill="#e6db74">temperature: 23.5</tspan> — travels on the wire</text>
+
+  <!-- column guide -->
+  <text x="60" y="190" fill="#75715e" font-size="18">FORMAT</text>
+  <text x="300" y="190" fill="#75715e" font-size="18">BYTES ON THE WIRE</text>
+  <text x="980" y="190" fill="#75715e" font-size="18">SIZE</text>
+
+  <!-- JSON row -->
+  <text x="60" y="252" fill="#66d9ef" font-size="26" font-weight="700">json</text>
+  <text x="60" y="280" fill="#75715e" font-size="15">text · full names</text>
+  <rect x="300" y="222" width="560" height="44" rx="6" fill="#2d2f31" stroke="#f92672" stroke-width="1.5"/>
+  <text x="318" y="251" fill="#f8f8f2" font-size="22"><tspan fill="#f92672">"temperature"</tspan><tspan fill="#75715e">:</tspan><tspan fill="#ae81ff">23.5</tspan></text>
+  <rect x="980" y="226" width="160" height="36" rx="4" fill="#f92672"/>
+  <text x="1060" y="251" fill="#1d1f21" font-size="20" font-weight="700" text-anchor="middle">100%</text>
+
+  <!-- Protobuf row -->
+  <text x="60" y="352" fill="#fd971f" font-size="26" font-weight="700">protobuf</text>
+  <text x="60" y="380" fill="#75715e" font-size="15">binary · numeric tag</text>
+  <rect x="300" y="322" width="190" height="44" rx="6" fill="#2d2f31" stroke="#fd971f" stroke-width="1.5"/>
+  <text x="318" y="351" fill="#f8f8f2" font-size="22"><tspan fill="#fd971f">[tag 3]</tspan> <tspan fill="#ae81ff">23.5</tspan></text>
+  <rect x="980" y="326" width="54" height="36" rx="4" fill="#fd971f"/>
+  <text x="1007" y="351" fill="#1d1f21" font-size="20" font-weight="700" text-anchor="middle">34%</text>
+
+  <!-- Avro row -->
+  <text x="60" y="452" fill="#a6e22e" font-size="26" font-weight="700">avro</text>
+  <text x="60" y="480" fill="#75715e" font-size="15">binary · positional</text>
+  <rect x="300" y="422" width="120" height="44" rx="6" fill="#2d2f31" stroke="#a6e22e" stroke-width="1.5"/>
+  <text x="318" y="451" fill="#ae81ff" font-size="22">23.5</text>
+  <rect x="980" y="426" width="48" height="36" rx="4" fill="#a6e22e"/>
+  <text x="1004" y="451" fill="#1d1f21" font-size="20" font-weight="700" text-anchor="middle">30%</text>
+
+  <!-- footer takeaway -->
+  <line x1="60" y1="528" x2="1140" y2="528" stroke="#3a3d40" stroke-width="1"/>
+  <text x="60" y="572" fill="#f8f8f2" font-size="24">full names <tspan fill="#75715e">→</tspan> numeric tags <tspan fill="#75715e">→</tspan> nothing</text>
+  <text x="60" y="602" fill="#75715e" font-size="19">~20× faster to decode — and it isn't <tspan fill="#e6db74">only</tspan> about dropping the keys</text>
+</svg>

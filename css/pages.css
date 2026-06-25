@@ -141,6 +141,12 @@
     color: #ffffff;
 }
 
+.linkedin-badge-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
 @media (max-width: 768px) {
     .tools-container {
         flex-direction: column;
