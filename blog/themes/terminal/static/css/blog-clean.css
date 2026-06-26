@@ -392,10 +392,22 @@ a { color: inherit; }
 
 .post-content .lntd pre {
   margin: 0;
-  padding: 0;
   border: none;
   background: none;
   box-shadow: none;
+  padding: 0;
+}
+
+/* line-number gutter — right padding creates the gap to the code column */
+.post-content .lntd:first-child {
+  padding-right: 16px;
+  color: var(--dim);
+  user-select: none;
+}
+
+/* code column — no extra indent needed */
+.post-content .lntd:last-child {
+  width: 100%;
 }
 
 /* remove underlines from line-number anchors */
