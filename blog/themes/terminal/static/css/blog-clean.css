@@ -140,7 +140,7 @@ a { color: inherit; }
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: 14px;
   text-decoration: none;
   color: inherit;
   position: relative;
@@ -168,13 +168,40 @@ a { color: inherit; }
   opacity: 1;
 }
 
-/* most-recent post always shows the stripe */
-.post-card.featured::before {
-  opacity: 1;
+/* featured post — full width, horizontal layout, always-on stripe */
+.post-card.featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 32px;
+  border-color: var(--border);
+  background: var(--surface);
+  padding: 24px 28px;
 }
 
-.post-card.featured {
-  border-color: #1E3A5A;
+.post-card.featured::before {
+  opacity: 1;
+  width: 3px;
+}
+
+.post-card.featured .card-tags {
+  flex-shrink: 0;
+}
+
+.post-card.featured .card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.post-card.featured .card-title {
+  font-size: 17px;
+}
+
+.post-card.featured .card-excerpt {
+  -webkit-line-clamp: 2;
 }
 
 /* ── tags ── */
@@ -193,12 +220,20 @@ a { color: inherit; }
   letter-spacing: 0.04em;
 }
 
-.tag-infra   { color: var(--green);  background: rgba(47,216,154,.10); border: 1px solid rgba(47,216,154,.25); }
-.tag-perf    { color: var(--amber);  background: rgba(245,166,35,.10);  border: 1px solid rgba(245,166,35,.25); }
-.tag-sys     { color: var(--accent); background: rgba(0,200,255,.10);   border: 1px solid rgba(0,200,255,.22); }
-.tag-default { color: var(--muted);  background: rgba(106,136,168,.10); border: 1px solid rgba(106,136,168,.22); }
+.tag-infra            { color: var(--green); background: rgba(47,216,154,.10); border: 1px solid rgba(47,216,154,.25); }
+.tag-perf             { color: var(--amber); background: rgba(245,166,35,.10);  border: 1px solid rgba(245,166,35,.25); }
+.tag-sys,
+.tag-default          { color: var(--muted); background: rgba(106,136,168,.10); border: 1px solid rgba(106,136,168,.20); }
 
 /* ── card body ── */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  flex: 1;
+  min-width: 0;
+}
+
 .card-title {
   font-size: 15px;
   font-weight: 600;
@@ -600,6 +635,12 @@ a { color: inherit; }
 
   .posts-grid {
     grid-template-columns: 1fr;
+  }
+
+  .post-card.featured {
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
   }
 
   .blog-post {

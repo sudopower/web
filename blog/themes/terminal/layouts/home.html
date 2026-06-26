@@ -28,20 +28,22 @@
     </div>
     {{ end }}
 
-    <div class="card-title">{{ $page.Title }}</div>
+    <div class="card-body">
+      <div class="card-title">{{ $page.Title }}</div>
 
-    {{ if $page.Params.excerpt }}
-      <div class="card-excerpt">{{ $page.Params.excerpt }}</div>
-    {{ else if $page.Description }}
-      <div class="card-excerpt">{{ $page.Description }}</div>
-    {{ else if $page.Summary }}
-      <div class="card-excerpt">{{ $page.Summary }}</div>
-    {{ end }}
+      {{ if $page.Params.excerpt }}
+        <div class="card-excerpt">{{ $page.Params.excerpt }}</div>
+      {{ else if $page.Description }}
+        <div class="card-excerpt">{{ $page.Description }}</div>
+      {{ else if $page.Summary }}
+        <div class="card-excerpt">{{ $page.Summary }}</div>
+      {{ end }}
 
-    <div class="card-meta">
-      <span>{{ $page.Date.Format "2006.01.02" }}</span>
-      <span class="meta-sep">·</span>
-      <span>{{ $page.ReadingTime }} min</span>
+      <div class="card-meta">
+        <span>{{ $page.Date.Format "2006.01.02" }}</span>
+        <span class="meta-sep">·</span>
+        <span>{{ $page.ReadingTime }} min</span>
+      </div>
     </div>
 
   </a>
