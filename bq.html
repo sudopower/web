@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Basqo Migration — 10-min Deck</title>
+<meta name="description" content="Founding-engineer migration case presentation deck.">
+<style>
+  :root{
+    --ground:#0C0E1F; --surface:#15182E; --surface2:#1C2038; --hair:#2A2E4A;
+    --text:#E6E8F4; --muted:#9CA0C0; --faint:#6E7299;
+    --violet:#8B7CF6; --coral:#F4738E; --good:#56D6A0; --warn:#F2B45B; --gap:#F06A7E;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--ground);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;overflow:hidden;
+    background-image:radial-gradient(1100px 600px at 82% -8%,rgba(139,124,246,.12),transparent 60%),
+      radial-gradient(800px 500px at -8% 8%,rgba(244,115,142,.07),transparent 55%);}
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+    padding:6vh 7vw 12vh;max-width:1100px;margin:0 auto}
+  .slide.on{display:flex}
+  @media (prefers-reduced-motion:no-preference){
+    .slide.on{animation:fade .45s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  }
+  .num{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--violet);margin-bottom:22px;font-weight:600}
+  .num.coral{color:var(--coral)}
+  h1{font-size:clamp(34px,5.6vw,62px);font-weight:800;letter-spacing:-.03em;line-height:1.04;margin:0;text-wrap:balance}
+  h1 .g{background:linear-gradient(92deg,var(--violet),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:clamp(26px,3.8vw,42px);font-weight:760;letter-spacing:-.02em;line-height:1.1;margin:0 0 28px;text-wrap:balance}
+  .sub{font-size:clamp(17px,2.2vw,23px);color:var(--muted);margin-top:24px;max-width:30ch;line-height:1.5}
+  .thesis{margin-top:30px;border-left:3px solid var(--coral);padding:10px 0 10px 20px;
+    font-size:clamp(18px,2.4vw,26px);font-weight:600;letter-spacing:-.01em;max-width:24ch}
+  .thesis em{color:var(--coral);font-style:normal}
+  ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+  li{font-size:clamp(16px,2vw,22px);line-height:1.4;display:flex;gap:14px;align-items:flex-start}
+  li::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--violet);margin-top:.5em;flex-shrink:0;transform:rotate(45deg)}
+  li b{color:var(--text);font-weight:680}
+  li span{color:var(--muted)}
+  .small{font-size:clamp(14px,1.5vw,17px)}
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:6px}
+  .node{flex:1;min-width:160px;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:16px 18px}
+  .node.db{border-color:rgba(139,124,246,.5);background:linear-gradient(180deg,rgba(139,124,246,.12),transparent)}
+  .node.fe{border-color:rgba(244,115,142,.45)}
+  .node .h{font-weight:720;font-size:clamp(15px,1.7vw,19px)}
+  .node .t{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+  .node p{margin:9px 0 0;font-size:clamp(12px,1.3vw,14px);color:var(--muted);line-height:1.45}
+  .ar{align-self:center;color:var(--faint);font-size:22px}
+  .no{margin-top:20px;font-size:clamp(13px,1.5vw,16px);color:var(--muted)}
+  .no s{color:var(--gap);opacity:.8}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:6px}
+  .colcard{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px 20px}
+  .colcard .ct{font-weight:700;font-size:clamp(15px,1.7vw,19px);margin-bottom:6px}
+  .colcard .for{color:var(--good);font-size:clamp(13px,1.4vw,15px);margin-top:8px}
+  .colcard .ag{color:var(--muted);font-size:clamp(13px,1.4vw,15px);margin-top:6px}
+  .colcard .lab{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+  .colcard .for .lab{color:var(--good)} .colcard .ag .lab{color:var(--warn)}
+  .rec{border-color:rgba(139,124,246,.5);background:linear-gradient(180deg,rgba(139,124,246,.09),transparent)}
+  .phases{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+  .ph{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline}
+  .ph .k{font-family:var(--mono);font-size:13px;color:var(--violet);font-weight:600;white-space:nowrap}
+  .ph .v{font-size:clamp(15px,1.8vw,20px)}
+  .ph .v b{color:var(--text)} .ph .v span{color:var(--muted)}
+  .p2{border-top:1px solid var(--hair);padding-top:14px;margin-top:4px}
+  .p2 .k{color:var(--coral)}
+  .dates{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  .d{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px}
+  .d .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .d .big{font-size:clamp(18px,2.2vw,24px);font-weight:740;color:var(--violet);margin-top:8px}
+  .d p{margin:8px 0 0;font-size:clamp(12px,1.3vw,14px);color:var(--muted)}
+  .week{margin-top:26px;border-left:3px solid var(--good);padding:8px 0 8px 18px;font-size:clamp(15px,1.9vw,21px);max-width:34ch}
+  .week b{color:var(--good)}
+  .bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--violet),var(--coral));
+    width:0;transition:width .3s ease;z-index:20}
+  .count{position:fixed;bottom:18px;right:24px;font-family:var(--mono);font-size:12px;color:var(--faint);
+    z-index:20;font-variant-numeric:tabular-nums}
+  .hint{position:fixed;bottom:18px;left:24px;font-family:var(--mono);font-size:11px;color:var(--faint);z-index:20}
+  .cue{position:fixed;bottom:44px;left:0;right:0;text-align:center;padding:0 8vw;z-index:15;
+    font-size:13.5px;color:var(--coral);font-style:italic;max-width:900px;margin:0 auto;line-height:1.4}
+  .cue.hidden{display:none}
+  .cue::before{content:"\25B8 talk \00B7 ";font-family:var(--mono);font-style:normal;letter-spacing:.06em;color:var(--faint);font-size:11px}
+  :focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+  @media (max-width:760px){
+    .cols,.dates{grid-template-columns:1fr} .ar{display:none}
+    .slide{padding:5vh 7vw 16vh}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar" id="bar"></div>
+
+<div class="deck" id="deck">
+
+  <section class="slide on">
+    <div class="num">Basqo &middot; migration case &middot; Kiran Nambiar</div>
+    <h1>Migrate the <span class="g">backend first</span>.<br>Keep Bubble as the UI.</h1>
+    <div class="thesis">The pain is Bubble's recalculation ceiling and lack of code control &mdash; a <em>backend</em> problem, not scale. So I'd fix that with the smallest change one engineer can own.</div>
+    <div class="cue">~30 customers, 30&ndash;40 DAU &mdash; this is a restraint problem. I'll cover what I'd ask first, the stack, the alternatives, the migration, and dates. The headline decision: backend-first, Bubble stays the frontend.</div>
+  </section>
+
+  <section class="slide">
+    <div class="num">01 &middot; What I'd want to know first</div>
+    <h2>Four questions that shape everything</h2>
+    <ul>
+      <li><b>Which workflows hit the recalculation ceiling?</b><span>&nbsp;Scenario rollups, deviation, approvals &mdash; that's the hard part to get right.</span></li>
+      <li><b>Which of the ~70 types are core vs disposable?</b><span>&nbsp;Confirms the ~8&ndash;10 entities I'd actually model.</span></li>
+      <li><b>Bubble plan + Data API / API Connector limits?</b><span>&nbsp;Drives how I design the endpoints and the sync.</span></li>
+      <li><b>EU residency &mdash; sub-processors DPA'd, can calls run client-side?</b><span>&nbsp;It's a hard requirement, so it shapes the architecture.</span></li>
+    </ul>
+    <div class="cue">I didn't pretend to know the internals &mdash; these are the four answers I'd want before committing. Notice they're about the domain and the constraints, not the tech.</div>
+  </section>
+
+  <section class="slide">
+    <div class="num coral">02 &middot; Recommended stack</div>
+    <h2>Bubble UI &rarr; Go monolith &rarr; managed EU Postgres</h2>
+    <div class="flow">
+      <div class="node fe"><div class="h">Bubble (kept)</div><div class="t">UI &middot; API Connector</div><p>UI barely changes &mdash; it calls our API instead of its own DB. Founders keep contributing.</p></div>
+      <span class="ar">&rarr;</span>
+      <div class="node"><div class="h">Go modular monolith</div><div class="t">API &middot; domain logic</div><p>Single binary, trivial solo on-call. Recalc, scenarios, approvals, HRIS/ATS sync live here.</p></div>
+      <span class="ar">&rarr;</span>
+      <div class="node db"><div class="h">&#9670; PostgreSQL</div><div class="t">managed &middot; EU &middot; Supabase/Neon</div><p>Source of truth. JSONB + materialized views + RLS for tenant scoping.</p></div>
+    </div>
+    <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s> &mdash; operational surface one engineer carries for no payoff at 40 DAU.</div>
+    <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. And the line that lands: I've run a K8s operator &mdash; which is exactly why I'd keep it out of a 40-DAU product.</div>
+  </section>
+
+  <section class="slide">
+    <div class="num">03 &middot; Alternatives &amp; honest tradeoffs</div>
+    <h2>What else I weighed</h2>
+    <div class="cols">
+      <div class="colcard"><div class="ct">Full rewrite incl. frontend now</div><div class="for"><span class="lab">For</span>Cleanest end-state; fully off Bubble.</div><div class="ag"><span class="lab">Against</span>Doubles scope; gates everything on the frontend &mdash; which isn't the pain. Wrong sequencing.</div></div>
+      <div class="colcard"><div class="ct">TypeScript full-stack</div><div class="for"><span class="lab">For</span>Best single-language velocity &amp; eventual frontend.</div><div class="ag"><span class="lab">Against</span>My depth is Go; weaker for heavy recalc. The pick if we did FE in Phase 1.</div></div>
+      <div class="colcard"><div class="ct">Python &middot; Django / FastAPI</div><div class="for"><span class="lab">For</span>Batteries-included; data/finance/AI ecosystem.</div><div class="ag"><span class="lab">Against</span>Not my fluent language &mdash; for solo on-call on financial data, fluency beats fit.</div></div>
+      <div class="colcard rec"><div class="ct" style="color:var(--violet)">&rarr; Go monolith + Postgres</div><div class="for"><span class="lab">Why it wins</span>Highest velocity &amp; on-call confidence for me; right-sized for the team and the data today.</div></div>
+    </div>
+    <div class="cue">Several stacks would work at this scale &mdash; the deciding variable is who's building it. I chose for fluency and operability, not fashion. If recalc ever gets heavily numeric, a small Python service is the escape hatch.</div>
+  </section>
+
+  <section class="slide">
+    <div class="num coral">04 &middot; The migration</div>
+    <h2>Two-phase strangler &mdash; dual-run, per-customer cutover</h2>
+    <div class="phases">
+      <div class="ph"><div class="k">P1 &middot; model</div><div class="v"><b>~70 types &rarr; ~8&ndash;10 entities</b><span> &middot; AI-assisted from /meta, verified by hand</span></div></div>
+      <div class="ph"><div class="k">P1 &middot; sync</div><div class="v"><b>Backfill + nightly delta into Postgres</b><span> &middot; reconciliation harness diffs vs Bubble</span></div></div>
+      <div class="ph"><div class="k">P1 &middot; strangle</div><div class="v"><b>Repoint Bubble via API Connector</b><span> &middot; reads first, then writes + heavy logic into Go</span></div></div>
+      <div class="ph"><div class="k">P1 &middot; cut over</div><div class="v"><b>Customer-by-customer</b><span> &middot; gated by a clean diff, reversible, Bubble as fallback</span></div></div>
+      <div class="ph p2"><div class="k">P2 &middot; later</div><div class="v"><b>Swap Bubble UI for a custom frontend</b><span> &middot; same API, off the critical path</span></div></div>
+    </div>
+    <div class="cue">Zero regression doesn't come from a perfect script &mdash; it comes from running both systems, diffing them continuously, and flipping one customer at a time with a rollback. This is the PHP-monolith split and zero-downtime work I've done before.</div>
+  </section>
+
+  <section class="slide">
+    <div class="num">05 &middot; Dates &amp; week one</div>
+    <h2>Milestone-gated, not calendar-gated</h2>
+    <div class="dates">
+      <div class="d"><div class="lab">First cutover</div><div class="big">~Month 3</div><p>One friendly customer, once read parity is proven.</p></div>
+      <div class="d"><div class="lab">The gate</div><div class="big">Clean reconciliation</div><p>Green = ramp customers. Never trade data integrity for a date.</p></div>
+      <div class="d"><div class="lab">Bubble retired</div><div class="big">~Month 7&ndash;9</div><p>After the last customer's parity holds in production.</p></div>
+    </div>
+    <div class="week"><b>Week one:</b> model the core entities with you, stand up EU Postgres + the Bubble extract, and build the reconciliation harness &mdash; so we can see fidelity daily from day one.</div>
+    <div class="cue">I won't promise a hard date for all 30 up front &mdash; I'll give you a first cutover at ~month 3 and a reconciliation gate that tells us, per customer, when it's safe. That protects your zero-regression constraint. Thank you &mdash; happy to dig into any of it.</div>
+  </section>
+
+</div>
+
+<div class="count" id="count">1 / 6</div>
+<div class="hint">&larr; &rarr; navigate &middot; N notes &middot; F full-screen</div>
+
+<script>
+  (function(){
+    var slides=[].slice.call(document.querySelectorAll('.slide'));
+    var bar=document.getElementById('bar'), count=document.getElementById('count');
+    var i=0, notes=true;
+    function show(n){
+      i=Math.max(0,Math.min(slides.length-1,n));
+      slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+      bar.style.width=((i)/(slides.length-1)*100)+'%';
+      count.textContent=(i+1)+' / '+slides.length;
+    }
+    function next(){show(i+1);} function prev(){show(i-1);}
+    document.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();next();}
+      else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+      else if(e.key==='Home'){show(0);} else if(e.key==='End'){show(slides.length-1);}
+      else if(e.key==='n'||e.key==='N'){notes=!notes;document.querySelectorAll('.cue').forEach(function(c){c.classList.toggle('hidden',!notes);});}
+      else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen&&document.exitFullscreen();}}
+    });
+    document.getElementById('deck').addEventListener('click',function(e){
+      if(e.target.closest('a'))return;
+      next();
+    });
+    show(0);
+  })();
+</script>
+</body>
+</html>
