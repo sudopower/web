@@ -4,7 +4,7 @@
 
   <!-- title -->
   <text x="60" y="86" fill="#f8f8f2" font-size="44" font-weight="700">JSON vs Protobuf vs Avro</text>
-  <text x="60" y="126" fill="#75715e" font-size="24">how one field — <tspan fill="#e6db74">temperature: 23.5</tspan> — travels on the wire</text>
+  <text x="60" y="126" fill="#75715e" font-size="24">how one field, <tspan fill="#e6db74">temperature: 23.5</tspan>, travels on the wire</text>
 
   <!-- column guide -->
   <text x="60" y="190" fill="#75715e" font-size="18">FORMAT</text>
@@ -38,5 +38,5 @@
   <!-- footer takeaway -->
   <line x1="60" y1="528" x2="1140" y2="528" stroke="#3a3d40" stroke-width="1"/>
   <text x="60" y="572" fill="#f8f8f2" font-size="24">full names <tspan fill="#75715e">→</tspan> numeric tags <tspan fill="#75715e">→</tspan> nothing</text>
-  <text x="60" y="602" fill="#75715e" font-size="19">~20× faster to decode — and it isn't <tspan fill="#e6db74">only</tspan> about dropping the keys</text>
+  <text x="60" y="602" fill="#75715e" font-size="19">~20× faster to decode, and it isn't <tspan fill="#e6db74">only</tspan> about dropping the keys</text>
 </svg>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Basqo Migration — 10-min Deck</title>
+<title>Basqo Migration · 10-min Deck</title>
 <meta name="description" content="Founding-engineer migration case presentation deck.">
 <style>
   :root{
@@ -101,51 +101,51 @@
   <section class="slide on">
     <div class="num">Basqo &middot; migration case &middot; Kiran Nambiar</div>
     <h1>Migrate the <span class="g">backend first</span>.<br>Keep Bubble as the UI.</h1>
-    <div class="thesis">The pain is Bubble's recalculation ceiling and lack of code control &mdash; a <em>backend</em> problem, not scale. So I'd fix that with the smallest change one engineer can own.</div>
-    <div class="cue">~30 customer companies, 200 MAU, 30&ndash;40 DAU &mdash; this is a restraint problem, not a scale one. I'll cover what I'd ask first, the stack, the alternatives, the migration, and dates. The headline decision: backend-first, Bubble stays the frontend.</div>
+    <div class="thesis">The pain is Bubble's recalculation ceiling and lack of code control: a <em>backend</em> problem, not scale. So I'd fix that with the smallest change one engineer can own.</div>
+    <div class="cue">~30 customer companies, 200 MAU, 30&ndash;40 DAU. This is a restraint problem, not a scale one. I'll cover what I'd ask first, the stack, the alternatives, the migration, and dates. The headline decision: backend-first, Bubble stays the frontend.</div>
   </section>
 
   <section class="slide">
     <div class="num">01 &middot; What I'd want to know first</div>
     <h2>Four questions that shape everything</h2>
     <ul>
-      <li><b>Which workflows hit the recalculation ceiling?</b><span>&nbsp;Scenario rollups, deviation, approvals &mdash; that's the hard part to get right.</span></li>
+      <li><b>Which workflows hit the recalculation ceiling?</b><span>&nbsp;Scenario rollups, deviation, approvals. That's the hard part to get right.</span></li>
       <li><b>Which of the ~70 types are core vs disposable?</b><span>&nbsp;Confirms the ~8&ndash;10 entities I'd actually model.</span></li>
       <li><b>Bubble plan + Data API / API Connector limits?</b><span>&nbsp;Drives how I design the endpoints and the sync.</span></li>
-      <li><b>EU residency &mdash; sub-processors DPA'd, can calls run client-side?</b><span>&nbsp;It's a hard requirement, so it shapes the architecture.</span></li>
+      <li><b>EU residency: sub-processors DPA'd, can calls run client-side?</b><span>&nbsp;It's a hard requirement, so it shapes the architecture.</span></li>
     </ul>
-    <div class="cue">I didn't pretend to know the internals &mdash; these are the four answers I'd want before committing. Notice they're about the domain and the constraints, not the tech.</div>
+    <div class="cue">I didn't pretend to know the internals. These are the four answers I'd want before committing. Notice they're about the domain and the constraints, not the tech.</div>
   </section>
 
   <section class="slide">
     <div class="num coral">02 &middot; Recommended stack</div>
     <h2>Bubble UI &rarr; Go monolith &rarr; managed EU Postgres</h2>
     <div class="flow">
-      <div class="node fe"><div class="h">Bubble (kept)</div><div class="t">UI &middot; API Connector</div><p>UI barely changes &mdash; it calls our API instead of its own DB. Founders keep contributing.</p></div>
+      <div class="node fe"><div class="h">Bubble (kept)</div><div class="t">UI &middot; API Connector</div><p>UI barely changes; it calls our API instead of its own DB. Founders keep contributing.</p></div>
       <span class="ar">&rarr;</span>
       <div class="node"><div class="h">Go modular monolith</div><div class="t">API &middot; domain logic</div><p>Single binary, trivial solo on-call. Recalc, scenarios, approvals, HRIS/ATS sync live here.</p></div>
       <span class="ar">&rarr;</span>
       <div class="node db"><div class="h">&#9670; PostgreSQL</div><div class="t">managed &middot; EU &middot; Supabase/Neon</div><p>Source of truth. JSONB + materialized views + RLS for tenant scoping.</p></div>
     </div>
-    <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s> &mdash; operational surface one engineer carries for no payoff at this scale (200 MAU).</div>
-    <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. And the line that lands: I've run a K8s operator &mdash; which is exactly why I'd keep it out of a product this size.</div>
+    <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s>: operational surface one engineer carries for no payoff at this scale (200 MAU).</div>
+    <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. And the line that lands: I've run a K8s operator, which is exactly why I'd keep it out of a product this size.</div>
   </section>
 
   <section class="slide">
     <div class="num">03 &middot; Alternatives &amp; honest tradeoffs</div>
     <h2>What else I weighed</h2>
     <div class="cols">
-      <div class="colcard"><div class="ct">Full rewrite incl. frontend now</div><div class="for"><span class="lab">For</span>Cleanest end-state; fully off Bubble.</div><div class="ag"><span class="lab">Against</span>Doubles scope; gates everything on the frontend &mdash; which isn't the pain. Wrong sequencing.</div></div>
+      <div class="colcard"><div class="ct">Full rewrite incl. frontend now</div><div class="for"><span class="lab">For</span>Cleanest end-state; fully off Bubble.</div><div class="ag"><span class="lab">Against</span>Doubles scope; gates everything on the frontend, which isn't the pain. Wrong sequencing.</div></div>
       <div class="colcard"><div class="ct">TypeScript full-stack</div><div class="for"><span class="lab">For</span>Best single-language velocity &amp; eventual frontend.</div><div class="ag"><span class="lab">Against</span>My depth is Go; weaker for heavy recalc. The pick if we did FE in Phase 1.</div></div>
-      <div class="colcard"><div class="ct">Python &middot; Django / FastAPI</div><div class="for"><span class="lab">For</span>Batteries-included; data/finance/AI ecosystem.</div><div class="ag"><span class="lab">Against</span>Not my fluent language &mdash; for solo on-call on financial data, fluency beats fit.</div></div>
+      <div class="colcard"><div class="ct">Python &middot; Django / FastAPI</div><div class="for"><span class="lab">For</span>Batteries-included; data/finance/AI ecosystem.</div><div class="ag"><span class="lab">Against</span>Not my fluent language; for solo on-call on financial data, fluency beats fit.</div></div>
       <div class="colcard rec"><div class="ct" style="color:var(--violet)">&rarr; Go monolith + Postgres</div><div class="for"><span class="lab">Why it wins</span>Highest velocity &amp; on-call confidence for me; right-sized for the team and the data today.</div></div>
     </div>
-    <div class="cue">Several stacks would work at this scale &mdash; the deciding variable is who's building it. I chose for fluency and operability, not fashion. If recalc ever gets heavily numeric, a small Python service is the escape hatch.</div>
+    <div class="cue">Several stacks would work at this scale; the deciding variable is who's building it. I chose for fluency and operability, not fashion. If recalc ever gets heavily numeric, a small Python service is the escape hatch.</div>
   </section>
 
   <section class="slide">
     <div class="num coral">04 &middot; The migration</div>
-    <h2>Two-phase strangler &mdash; dual-run, per-customer cutover</h2>
+    <h2>Two-phase strangler: dual-run, per-customer cutover</h2>
     <div class="phases">
       <div class="ph"><div class="k">P1 &middot; model</div><div class="v"><b>~70 types &rarr; ~8&ndash;10 entities</b><span> &middot; AI-assisted from /meta, verified by hand</span></div></div>
       <div class="ph"><div class="k">P1 &middot; sync</div><div class="v"><b>Backfill + nightly delta into Postgres</b><span> &middot; reconciliation harness diffs vs Bubble</span></div></div>
@@ -153,7 +153,7 @@
       <div class="ph"><div class="k">P1 &middot; cut over</div><div class="v"><b>Customer-by-customer</b><span> &middot; gated by a clean diff, reversible, Bubble as fallback</span></div></div>
       <div class="ph p2"><div class="k">P2 &middot; later</div><div class="v"><b>Swap Bubble UI for a custom frontend</b><span> &middot; same API, off the critical path</span></div></div>
     </div>
-    <div class="cue">Zero regression doesn't come from a perfect script &mdash; it comes from running both systems, diffing them continuously, and flipping one customer at a time with a rollback. This is the PHP-monolith split and zero-downtime work I've done before.</div>
+    <div class="cue">Zero regression doesn't come from a perfect script; it comes from running both systems, diffing them continuously, and flipping one customer at a time with a rollback. This is the PHP-monolith split and zero-downtime work I've done before.</div>
   </section>
 
   <section class="slide">
@@ -164,8 +164,8 @@
       <div class="d"><div class="lab">The gate</div><div class="big">Clean reconciliation</div><p>Green = ramp customers. Never trade data integrity for a date.</p></div>
       <div class="d"><div class="lab">Bubble retired</div><div class="big">~Month 7&ndash;9</div><p>After the last customer's parity holds in production.</p></div>
     </div>
-    <div class="week"><b>Week one:</b> model the core entities with you, stand up EU Postgres + the Bubble extract, and build the reconciliation harness &mdash; so we can see fidelity daily from day one.</div>
-    <div class="cue">I won't promise a hard date for all 30 up front &mdash; I'll give you a first cutover at ~month 3 and a reconciliation gate that tells us, per customer, when it's safe. That protects your zero-regression constraint. Thank you &mdash; happy to dig into any of it.</div>
+    <div class="week"><b>Week one:</b> model the core entities with you, stand up EU Postgres + the Bubble extract, and build the reconciliation harness, so we can see fidelity daily from day one.</div>
+    <div class="cue">I won't promise a hard date for all 30 up front. I'll give you a first cutover at ~month 3 and a reconciliation gate that tells us, per customer, when it's safe. That protects your zero-regression constraint. Thank you. Happy to dig into any of it.</div>
   </section>
 
 </div>

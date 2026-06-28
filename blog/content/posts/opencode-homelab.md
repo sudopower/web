@@ -10,11 +10,11 @@ image = ''
 
 # The Goal
 
-I have a MacBook Air running a `kind` Kubernetes cluster for homelab experiments. I wanted to run [OpenCode](https://opencode.ai) — a terminal-based AI coding agent — on it and access the web UI from my main MacBook Pro.
+I have a MacBook Air running a `kind` Kubernetes cluster for homelab experiments. I wanted to run [OpenCode](https://opencode.ai), a terminal-based AI coding agent, on it and access the web UI from my main MacBook Pro.
 
 # Why Not Kubernetes?
 
-The Air's `kind` cluster runs inside Docker on macOS, which adds an extra networking layer. OpenCode also needs direct filesystem access to read and write code — mounting host directories into pods via `hostPath` is fragile. Running on the host directly is simpler and more reliable.
+The Air's `kind` cluster runs inside Docker on macOS, which adds an extra networking layer. OpenCode also needs direct filesystem access to read and write code; mounting host directories into pods via `hostPath` is fragile. Running on the host directly is simpler and more reliable.
 
 # Setup
 
@@ -65,7 +65,7 @@ The UI is then accessible from any machine on the LAN at `http://192.168.x.x:409
 
 # Running a Local Model with Ollama
 
-Rather than paying for API calls, I wanted to run a model locally on the Air (Apple M1, 8GB RAM). The best fit at that memory budget is `qwen3:8b` — good general coding ability, fits comfortably in 8GB.
+Rather than paying for API calls, I wanted to run a model locally on the Air (Apple M1, 8GB RAM). The best fit at that memory budget is `qwen3:8b`: good general coding ability, fits comfortably in 8GB.
 
 ```bash
 brew install ollama
@@ -92,15 +92,15 @@ OpenCode supports custom OpenAI-compatible providers via `~/.config/opencode/con
 }
 ```
 
-Restart opencode and the model shows up in the UI. First response is slow while the model loads into memory — subsequent ones are fast.
+Restart opencode and the model shows up in the UI. First response is slow while the model loads into memory; subsequent ones are fast.
 
 # Accessing from the MacBook Pro
 
 Two ways to use it from the Pro:
 
-**Browser** — navigate to `http://<air-ip>:4096`, log in with `opencode` / your password.
+**Browser**: navigate to `http://<air-ip>:4096`, log in with `opencode` / your password.
 
-**TUI** — install opencode on the Pro and attach to the remote server:
+**TUI**: install opencode on the Pro and attach to the remote server:
 
 ```bash
 npm install -g opencode-ai
@@ -111,6 +111,6 @@ This gives the full terminal UI locally, backed by the Air's server and model.
 
 # Notes
 
-- Anthropic Claude Pro/Max subscriptions can't be used with third-party tools — you need a direct API key from [console.anthropic.com](https://console.anthropic.com).
+- Anthropic Claude Pro/Max subscriptions can't be used with third-party tools; you need a direct API key from [console.anthropic.com](https://console.anthropic.com).
 - `qwen2.5-coder:7b` was tried first but had erratic tool-calling behaviour (responding to casual messages with raw JSON tool calls). `qwen3:8b` behaves much better.
-- The `PATH` env var in the launchd plist is important — launchd doesn't inherit your shell's PATH and won't find Homebrew binaries otherwise.
+- The `PATH` env var in the launchd plist is important; launchd doesn't inherit your shell's PATH and won't find Homebrew binaries otherwise.

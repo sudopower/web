@@ -103,7 +103,7 @@ body {
 
 .terminal-title:hover { color: var(--text); }
 
-/* ── window buttons (macOS traffic lights — intentional) ── */
+/* ── window buttons (macOS traffic lights, intentional) ── */
 .terminal-buttons {
   display: flex;
   gap: 8px;

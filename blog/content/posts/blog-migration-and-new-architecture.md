@@ -51,7 +51,7 @@ I think it will be a good excercise to revise some concepts and write about them
 ## A Quote to End On
 
 > "The best way to predict the future is to implement it." 
-> — Alan Kay
+> Alan Kay
 
 This quote perfectly captures the spirit of this blog. 
 Instead of just talking about technology, I believe in building, experimenting, and sharing the journey. 

@@ -148,7 +148,7 @@ a { color: inherit; }
   transition: border-color 0.15s, background 0.15s;
 }
 
-/* accent stripe — hidden by default, revealed on hover */
+/* accent stripe, hidden by default, revealed on hover */
 .post-card::before {
   content: "";
   position: absolute;
@@ -168,7 +168,7 @@ a { color: inherit; }
   opacity: 1;
 }
 
-/* featured post — full width, horizontal layout, always-on stripe */
+/* featured post: full width, horizontal layout, always-on stripe */
 .post-card.featured {
   grid-column: 1 / -1;
   flex-direction: row;
@@ -408,7 +408,7 @@ a { color: inherit; }
   border: 1px solid var(--border);
 }
 
-/* line number table — never truncate */
+/* line number table, never truncate */
 .post-content .lntable {
   max-width: none;
   border-spacing: 0;
@@ -433,14 +433,14 @@ a { color: inherit; }
   padding: 0;
 }
 
-/* line-number gutter — right padding creates the gap to the code column */
+/* line-number gutter: right padding creates the gap to the code column */
 .post-content .lntd:first-child {
   padding-right: 16px;
   color: var(--dim);
   user-select: none;
 }
 
-/* code column — no extra indent needed */
+/* code column, no extra indent needed */
 .post-content .lntd:last-child {
   width: 100%;
 }

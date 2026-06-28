@@ -3,14 +3,14 @@ date = '2026-05-20T12:50:00+02:00'
 draft = false
 title = 'M1 as a Homelab'
 description = 'Folding my unused MacBook Air under my work MacBook Pro and turning it into a small homelab running kind.'
-excerpt = "Most devs barely touch their personal laptop. Mine is now a tiny homelab I never look at — kind cluster today, maybe Photos and Ollama later."
+excerpt = "Most devs barely touch their personal laptop. Mine is now a tiny homelab I never look at: kind cluster today, maybe Photos and Ollama later."
 tags = ['homelab', 'kubernetes', 'infrastructure']
 image = 'images/m1-homelab-hero.jpg'
 +++
 
 # Why ?
 
-I've had this M1 MacBook Air sitting on my desk for ages. 8GB RAM, perfectly fine little machine. Like most devs I barely touch it — the company laptop runs the show and the personal one mostly just exists.
+I've had this M1 MacBook Air sitting on my desk for ages. 8GB RAM, perfectly fine little machine. Like most devs I barely touch it; the company laptop runs the show and the personal one mostly just exists.
 
 Felt wasteful. So I plugged it into my work MacBook Pro over USB-C, folded both lids on a vertical stand, and turned the Air into a tiny homelab I never look at.
 
@@ -82,7 +82,7 @@ Tradeoff: anyone on my home Wi-Fi who has my kubeconfig can hit the API. Risk: m
 
 # What's actually running
 
-I run [glassflow](https://github.com/glassflow/clickhouse-etl) — the thing I work on — without burning my MBP's memory. Local testing, debugging, and the cluster I'll throw at my Kubernetes exam prep all live here now.
+I run [glassflow](https://github.com/glassflow/clickhouse-etl), the thing I work on, without burning my MBP's memory. Local testing, debugging, and the cluster I'll throw at my Kubernetes exam prep all live here now.
 
 From the MBP:
 
@@ -108,7 +108,7 @@ glassflow-postgresql-0                          1/1     Running   0          26m
 glassflow-ui-5db85889b9-zdwgt                   2/2     Running   0          34m
 ```
 
-API, controller, NATS, Postgres, UI — six real pods doing real work on a laptop I can't see from where I'm sitting. Packets leave the MBP, cross the USB-C cable, get NAT'd into a Linux VM, land in containers on the Air, come back. A small Rube Goldberg and I love it.
+API, controller, NATS, Postgres, UI: six real pods doing real work on a laptop I can't see from where I'm sitting. Packets leave the MBP, cross the USB-C cable, get NAT'd into a Linux VM, land in containers on the Air, come back. A small Rube Goldberg and I love it.
 
 > # Result: a kube cluster I never have to look at 🚀
 
