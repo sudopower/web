@@ -102,7 +102,7 @@
     <div class="num">Basqo &middot; migration case &middot; Kiran Nambiar</div>
     <h1>Migrate the <span class="g">backend first</span>.<br>Keep Bubble as the UI.</h1>
     <div class="thesis">The pain is Bubble's recalculation ceiling and lack of code control &mdash; a <em>backend</em> problem, not scale. So I'd fix that with the smallest change one engineer can own.</div>
-    <div class="cue">~30 customers, 30&ndash;40 DAU &mdash; this is a restraint problem. I'll cover what I'd ask first, the stack, the alternatives, the migration, and dates. The headline decision: backend-first, Bubble stays the frontend.</div>
+    <div class="cue">~30 customer companies, 200 MAU, 30&ndash;40 DAU &mdash; this is a restraint problem, not a scale one. I'll cover what I'd ask first, the stack, the alternatives, the migration, and dates. The headline decision: backend-first, Bubble stays the frontend.</div>
   </section>
 
   <section class="slide">
@@ -127,8 +127,8 @@
       <span class="ar">&rarr;</span>
       <div class="node db"><div class="h">&#9670; PostgreSQL</div><div class="t">managed &middot; EU &middot; Supabase/Neon</div><p>Source of truth. JSONB + materialized views + RLS for tenant scoping.</p></div>
     </div>
-    <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s> &mdash; operational surface one engineer carries for no payoff at 40 DAU.</div>
-    <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. And the line that lands: I've run a K8s operator &mdash; which is exactly why I'd keep it out of a 40-DAU product.</div>
+    <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s> &mdash; operational surface one engineer carries for no payoff at this scale (200 MAU).</div>
+    <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. And the line that lands: I've run a K8s operator &mdash; which is exactly why I'd keep it out of a product this size.</div>
   </section>
 
   <section class="slide">
