@@ -1,6 +1,6 @@
 +++
 date = '2026-07-01T00:00:00+00:00'
-draft = true
+draft = false
 title = 'A Context Meter for Claude Code'
 description = 'A small Python status line that shows live context-window usage in Claude Code, and how it wires into the session JSON Claude Code pipes on stdin.'
 excerpt = 'Anthropic dropped the context counter from Claude Code for a cleaner UI, but without it there is no telling how full the window is, so auto-compaction fires when you do not want it to. A tiny status line that always shows it.'
