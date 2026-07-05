@@ -207,6 +207,7 @@
       <div class="node db"><div class="h">&#9670; PostgreSQL</div><div class="t">managed &middot; EU &middot; Supabase/Neon</div><p>Source of truth. JSONB + materialized views + RLS for tenant scoping.</p></div>
     </div>
     <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s>: operational surface one engineer carries for no payoff at this scale (200 MAU).</div>
+    <div class="no" style="margin-top:12px">Every current Bubble capability checked against this stack &rarr; <a href="https://sudopower.com/bqc" target="_blank" rel="noopener" style="color:var(--violet);font-family:var(--mono);text-decoration:none;border-bottom:1px solid rgba(139,124,246,.4)">sudopower.com/bqc</a></div>
     <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. Clean internal boundaries mean the public API + MCP on your roadmap (which Bubble can't give you today) become thin adapters, not a rebuild. And the line that lands: I've run a K8s operator, which is exactly why I'd keep it out of a product this size, staffed by one engineer for at least the next 12 months.</div>
   </section>
 
