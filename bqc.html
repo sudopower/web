@@ -125,7 +125,7 @@
   <section class="slide on">
     <div class="num">Basqo &middot; does the stack hold? &middot; Kiran Nambiar</div>
     <h1>Every capability Bubble runs today<br><span class="g">maps to Go + Postgres.</span></h1>
-    <div class="thesis">I walked all six current use cases and every integration through the proposed stack. It holds. The one new operational piece is a <em>Postgres-backed job runner</em>. Not Kubernetes.</div>
+    <div class="thesis">I walked all six current use cases and every integration through the proposed stack. It holds. The one new operational piece is a <em>Postgres-backed job runner</em> for the nightly syncs.</div>
     <div class="cue">Rather than just pick a stack, I traced every capability the PDF says Bubble does today and checked it fits. Short version: it all lives in Go + Postgres, and the only new infra is a background job runner, which is still just Postgres. Let me walk the use cases, then the integrations, then the one gap.</div>
   </section>
 
@@ -156,7 +156,7 @@
         <div class="badges"><span class="badge mod">Complexity mod</span><span class="badge fits">Stack fits</span></div>
       </div>
     </div>
-    <div class="cue">The forecast is the hard one, and it's hard because of external APIs, not our side. Approvals and scenarios are squarely in Postgres and Go. Note what I'm deliberately NOT adding: no workflow engine for approvals, no separate compute for scenarios. The data is small.</div>
+    <div class="cue">The forecast is the hard one, and it's hard because of external APIs, not our side. Approvals are a state machine in Postgres; scenarios are just rows the database aggregates in milliseconds. The data is small enough that both stay simple.</div>
   </section>
 
   <!-- 3 - CORE USE CASES B -->
@@ -210,12 +210,12 @@
   <!-- 5 - THE GAP: SCHEDULER -->
   <section class="slide">
     <div class="num coral">The one new piece</div>
-    <h2>Where the nightly jobs run without Kubernetes</h2>
+    <h2>Where the scheduled jobs run</h2>
     <div class="schwrap">
       <div class="schcard">
         <div class="st">The honest gap</div>
         <div class="sbig">Postgres-backed job runner: <span>River</span></div>
-        <p>HRIS / ATS syncs, materialized-view refreshes, and approval reminders all need scheduled background work. In a "one binary, no K8s" world, that's the piece we hadn't named.</p>
+        <p>HRIS / ATS syncs, materialized-view refreshes, and approval reminders all need scheduled background work. In a single-binary deployment, that's the one piece we hadn't named yet.</p>
       </div>
       <div>
         <ul>
@@ -223,24 +223,24 @@
           <li><b>Uses the Postgres we already have.</b> Durable jobs, retries, periodic schedules, no new datastore.</li>
           <li><b>Survives restarts.</b> A crashed nightly sync resumes; nothing silently dropped.</li>
         </ul>
-        <div class="no"><b>Not:</b> <s>K8s CronJobs</s> <s>Kafka</s> <s>Redis</s> <s>a separate worker fleet</s>. Each is operational surface one engineer would carry for no payoff at this scale.</div>
+        <div class="no">It ships and scales <b>with the API</b>, so scheduled work stays as easy to operate as everything else.</div>
       </div>
     </div>
-    <div class="cue">This is the question a technical founder should ask: if there's no Kubernetes, where do the nightly jobs run? The answer keeps the thesis intact. A Postgres-backed queue lives in the same binary and uses the same database, so it's durable and observable without adding a single moving part to on-call.</div>
+    <div class="cue">The natural question a technical founder asks: where do the nightly jobs actually run? A Postgres-backed queue lives in the same binary and uses the same database, so it's durable and observable without adding a moving part to on-call.</div>
   </section>
 
   <!-- 6 - VERDICT -->
   <section class="slide">
     <div class="num">Verdict</div>
-    <h2>The restraint thesis holds</h2>
+    <h2>Every capability fits, end to end</h2>
     <div class="adds">
       <div class="a"><div class="lab">Addition 1</div><div class="big">Job scheduler</div><p>River, Postgres-backed, in the binary. For the nightly syncs.</p></div>
       <div class="a"><div class="lab">Addition 2</div><div class="big">Object storage</div><p>EU bucket / Supabase Storage. For raw CSV / Excel uploads.</p></div>
       <div class="a"><div class="lab">Addition 3</div><div class="big">Org hierarchy</div><p>Recursive CTE / ltree. A schema detail, not infra, for manager scoping.</p></div>
     </div>
     <div class="rank">Complexity, hardest first: <b class="hh">HRIS / ATS integrations</b> &rarr; multi-tenant RLS + manager subtree &rarr; recalc / scenarios &rarr; approvals + config migration &rarr; CSV import &rarr; <b class="ll">deviation</b> &rarr; the keep-as-is integrations.</div>
-    <div class="landline"><b>The line:</b> I didn't just pick a stack, I walked every current capability through it. It all fits in Go + Postgres. The only new operational piece is a Postgres-backed job runner, deliberately not Kubernetes.</div>
-    <div class="cue">Nothing here needs Kafka, microservices, ClickHouse, or K8s. Three small additions, all consistent with the restraint thesis. And the whole exercise is really the proof: the stack isn't a guess, it's what's left after checking every box.</div>
+    <div class="landline"><b>The line:</b> I didn't just pick a stack, I walked every current capability through it. It all fits in Go + Postgres, with three small additions.</div>
+    <div class="cue">The whole exercise is really the proof: the stack isn't a guess, it's what's left after checking every box. Three small additions, and nothing that a solo engineer can't operate day to day.</div>
   </section>
 
 </div>
