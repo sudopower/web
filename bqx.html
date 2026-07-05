@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>FY2026 Workforce Cost Plan</title>
+<meta name="description" content="AI-generated executive summary of an FY2026 workforce cost plan, built from a sample cost export. Illustrative.">
+<style>
+  :root{
+    --surface-1:#ffffff; --surface-2:#ffffff; --page:#f4f6f9;
+    --text-primary:#0f172a; --text-secondary:#51586b; --muted:#8b90a0;
+    --grid:#e9ebf1; --axis:#d3d7e2; --border:rgba(15,23,42,0.08);
+    --series-1:#2a78d6; --series-2:#1baf7a; --series-3:#eda100; --series-4:#008300;
+    --series-5:#4a3aa7; --series-6:#e34948; --series-7:#e87ba4; --series-8:#eb6834;
+    --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
+    --delta-good:#006300;
+    --card-shadow:0 1px 2px rgba(15,23,42,0.04), 0 8px 24px rgba(15,23,42,0.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --surface-1:#1a1a19; --surface-2:#202020; --page:#0d0d0d;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+      --series-1:#3987e5; --series-2:#199e70; --series-3:#c98500; --series-4:#008300;
+      --series-5:#9085e9; --series-6:#e66767; --series-7:#d55181; --series-8:#d95926;
+      --delta-good:#0ca30c;
+      --card-shadow:0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.28);
+    }
+  }
+  :root[data-theme="dark"]{
+    --surface-1:#1a1a19; --surface-2:#202020; --page:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --series-1:#3987e5; --series-2:#199e70; --series-3:#c98500; --series-4:#008300;
+    --series-5:#9085e9; --series-6:#e66767; --series-7:#d55181; --series-8:#d95926;
+    --delta-good:#0ca30c;
+    --card-shadow:0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.28);
+  }
+  :root[data-theme="light"]{
+    --surface-1:#ffffff; --surface-2:#ffffff; --page:#f4f6f9;
+    --text-primary:#0f172a; --text-secondary:#51586b; --muted:#8b90a0;
+    --grid:#e9ebf1; --axis:#d3d7e2; --border:rgba(15,23,42,0.08);
+    --series-1:#2a78d6; --series-2:#1baf7a; --series-3:#eda100; --series-4:#008300;
+    --series-5:#4a3aa7; --series-6:#e34948; --series-7:#e87ba4; --series-8:#eb6834;
+    --delta-good:#006300;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--page);
+    color:var(--text-primary);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+  section{padding:72px 0;}
+  section+section{border-top:1px solid var(--border);}
+  .eyebrow{
+    text-transform:uppercase; letter-spacing:.08em; font-size:12px; font-weight:700;
+    color:var(--series-1); margin:0 0 10px;
+  }
+  h1{font-size:44px; line-height:1.08; margin:0 0 14px; font-weight:700; letter-spacing:-.01em;}
+  h2{font-size:28px; line-height:1.2; margin:0 0 8px; font-weight:700; letter-spacing:-.01em;}
+  .lede{font-size:17px; line-height:1.55; color:var(--text-secondary); max-width:680px; margin:0 0 8px;}
+  .card{
+    background:var(--surface-1); border:1px solid var(--border); border-radius:14px;
+    padding:28px; box-shadow:var(--card-shadow);
+  }
+  .grid{display:grid; gap:20px;}
+  .cols-2{grid-template-columns:1fr 1fr;}
+  .cols-3{grid-template-columns:repeat(3,1fr);}
+  .cols-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:900px){
+    .cols-2, .cols-3, .cols-4{grid-template-columns:1fr;}
+    h1{font-size:32px;}
+  }
+
+  /* banner */
+  .demo-banner{
+    background:color-mix(in srgb, var(--series-1) 12%, var(--surface-1));
+    border-bottom:1px solid var(--border); color:var(--text-secondary);
+    font-size:12.5px; text-align:center; padding:8px 16px;
+  }
+  .demo-banner b{color:var(--text-primary);}
+
+  /* nav */
+  .topnav{
+    position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--page) 88%, transparent);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--border);
+  }
+  .topnav .wrap{display:flex; align-items:center; gap:18px; padding:12px 28px; overflow-x:auto;}
+  .topnav .brand{font-weight:700; font-size:13px; white-space:nowrap; color:var(--text-primary);}
+  .topnav a{
+    font-size:13px; color:var(--text-secondary); text-decoration:none; white-space:nowrap;
+    padding:6px 10px; border-radius:20px;
+  }
+  .topnav a:hover{background:var(--surface-1); color:var(--text-primary);}
+
+  /* cover */
+  .cover{padding-top:96px; padding-bottom:80px;}
+  .cover-kicker{font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);}
+  .cover-hero{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:40px; flex-wrap:wrap;
+    margin-top:36px; padding-top:32px; border-top:1px solid var(--border);
+  }
+  .cover-figure .value{font-size:64px; font-weight:700; letter-spacing:-.02em; line-height:1;}
+  .cover-figure .label{font-size:14px; color:var(--text-secondary); margin-top:8px;}
+  .cover-meta{font-size:13px; color:var(--muted); text-align:right; line-height:1.6;}
+
+  /* stat tiles */
+  .tile{background:var(--surface-1); border:1px solid var(--border); border-radius:14px; padding:22px 22px 18px; box-shadow:var(--card-shadow);}
+  .tile .label{font-size:13px; color:var(--text-secondary); margin-bottom:10px;}
+  .tile .value{font-size:32px; font-weight:700; letter-spacing:-.01em;}
+  .tile .delta{font-size:13px; margin-top:6px; color:var(--text-secondary);}
+  .tile .delta.good{color:var(--delta-good); font-weight:600;}
+  .tile .spark{margin-top:12px; display:block; width:100%; height:34px;}
+  .tile .note{font-size:12px; color:var(--muted); margin-top:8px;}
+
+  /* chart chrome */
+  .chart-card{background:var(--surface-1); border:1px solid var(--border); border-radius:14px; padding:24px 24px 8px; box-shadow:var(--card-shadow);}
+  .chart-card svg{display:block; width:100%; height:auto;}
+  .legend{display:flex; flex-wrap:wrap; gap:14px 22px; margin:14px 2px 4px; font-size:13px; color:var(--text-secondary);}
+  .legend .item{display:flex; align-items:center; gap:7px;}
+  .legend .sw{width:10px; height:10px; border-radius:2px; flex:none;}
+  .legend .dot{width:10px; height:10px; border-radius:50%; flex:none;}
+
+  details.tbl{margin:6px 2px 18px;}
+  details.tbl summary{
+    cursor:pointer; font-size:13px; color:var(--series-1); font-weight:600; padding:6px 0; list-style:none;
+  }
+  details.tbl summary::-webkit-details-marker{display:none;}
+  details.tbl summary:before{content:"▸ "; }
+  details.tbl[open] summary:before{content:"▾ "; }
+  table.data{width:100%; border-collapse:collapse; font-size:13px; margin-top:6px;}
+  table.data th, table.data td{text-align:right; padding:7px 10px; border-bottom:1px solid var(--grid); font-variant-numeric:tabular-nums;}
+  table.data th:first-child, table.data td:first-child{text-align:left; font-variant-numeric:normal;}
+  table.data th{color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em;}
+
+  /* tooltip */
+  #tooltip{
+    position:fixed; pointer-events:none; opacity:0; transition:opacity .08s ease;
+    background:var(--text-primary); color:var(--page); font-size:12.5px; line-height:1.5;
+    padding:9px 12px; border-radius:8px; z-index:200; max-width:260px; box-shadow:0 6px 20px rgba(0,0,0,.18);
+  }
+  #tooltip b{font-weight:700;}
+  #tooltip .row{display:flex; justify-content:space-between; gap:14px;}
+  #tooltip .sw{display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:6px;}
+
+  /* insight cards */
+  .insight{padding:22px; border-radius:14px; border:1px solid var(--border); background:var(--surface-1); box-shadow:var(--card-shadow);}
+  .insight .icon{font-size:20px; margin-bottom:10px; display:block;}
+  .insight h3{font-size:16px; margin:0 0 8px; font-weight:700;}
+  .insight p{font-size:13.5px; line-height:1.55; color:var(--text-secondary); margin:0;}
+  .insight.flag{border-color:color-mix(in srgb, var(--warning) 45%, var(--border));}
+  .insight.flag h3{color:#8a6100;}
+  @media (prefers-color-scheme:dark){ .insight.flag h3{color:var(--warning);} }
+  :root[data-theme="dark"] .insight.flag h3{color:var(--warning);}
+
+  .callout{
+    display:flex; gap:12px; align-items:flex-start; padding:16px 18px; border-radius:10px;
+    background:color-mix(in srgb, var(--warning) 12%, var(--surface-1)); border:1px solid color-mix(in srgb, var(--warning) 35%, var(--border));
+    font-size:13.5px; color:var(--text-secondary); margin-top:16px;
+  }
+  .callout b{color:var(--text-primary);}
+
+  footer{padding:40px 0 64px; color:var(--muted); font-size:12.5px; line-height:1.7;}
+  .section-head{margin-bottom:28px;}
+  .kicker-row{display:flex; align-items:baseline; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+</style>
+</head>
+<body>
+
+<div class="demo-banner">Illustrative concept &nbsp;·&nbsp; an <b>AI-generated executive briefing</b> built from a sample cost export. Not a live Basqo feature.</div>
+
+<div id="tooltip"></div>
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">FY2026 Workforce Cost Plan</span>
+    <a href="#kpis">Overview</a>
+    <a href="#trajectory">Trajectory</a>
+    <a href="#mix">Cost Mix</a>
+    <a href="#departments">By Department</a>
+    <a href="#hiring">Hiring</a>
+    <a href="#entities">Entities</a>
+    <a href="#costcenters">Cost Centers</a>
+    <a href="#insights">Insights</a>
+  </div>
+</nav>
+
+<section class="cover">
+  <div class="wrap">
+    <div class="cover-kicker">Live Cost Estimate &nbsp;·&nbsp; Finance / People Planning</div>
+    <h1 style="margin-top:14px; max-width:820px;">The FY2026 workforce cost plan, in one view</h1>
+    <p class="lede">A read-through of the live headcount &amp; cost export: 209 planned roles across 7 legal entities, 11 departments and 12 months of FY2026. Built to spot where the money goes, how fast the team is growing, and what needs a second look before the budget locks.</p>
+    <div class="cover-hero">
+      <div class="cover-figure">
+        <div class="value">€15.92M</div>
+        <div class="label">Total planned workforce cost, FY2026</div>
+      </div>
+      <div class="cover-meta">
+        Source: Costs Live Estimate export<br>
+        Generated 2026-07-01 · 209 people/roles · 7 entities<br>
+        Prepared 2026-07-05
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kpis">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">01 · Overview</div>
+      <h2>Four numbers that frame the year</h2>
+      <p class="lede">Headcount nearly doubles, but monthly burn grows even faster: the team gets more expensive per head, not just bigger.</p>
+    </div>
+    <div class="grid cols-4" id="kpi-tiles"></div>
+  </div>
+</section>
+
+<section id="trajectory">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">02 · Trajectory</div>
+      <h2>Cost climbs in step with hiring, then cost-per-head takes over</h2>
+      <p class="lede">Monthly spend more than doubles from €793K in January to €1.70M in December, tracking two hiring waves in March and August. Hover any month for the full breakdown.</p>
+    </div>
+    <div class="chart-card">
+      <div id="chart-trend"></div>
+    </div>
+    <details class="tbl"><summary>View as table</summary>
+      <div id="table-trend"></div>
+    </details>
+  </div>
+</section>
+
+<section id="mix">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">03 · Cost Mix</div>
+      <h2>Where the money goes: department and cost type</h2>
+      <p class="lede">Engineering and Sales alone account for more than half of annual spend. Base salary drives 82% of cost; social charges and one-off extras make up the rest.</p>
+    </div>
+    <div class="grid cols-2">
+      <div>
+        <div class="chart-card"><div id="chart-dept"></div></div>
+        <details class="tbl"><summary>View as table</summary><div id="table-dept"></div></details>
+      </div>
+      <div>
+        <div class="chart-card"><div id="chart-costtype"></div></div>
+        <details class="tbl"><summary>View as table</summary><div id="table-costtype"></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="departments">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">04 · By Department</div>
+      <h2>How the department mix shifts month to month</h2>
+      <p class="lede">Every department scales up, but Sales and Tech - Engineering pull furthest ahead as the year progresses. Hover a month for the full stack.</p>
+    </div>
+    <div class="chart-card">
+      <div id="chart-stack"></div>
+      <div class="legend" id="legend-stack"></div>
+    </div>
+    <details class="tbl"><summary>View as table</summary><div id="table-stack"></div></details>
+  </div>
+</section>
+
+<section id="hiring">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">05 · Hiring</div>
+      <h2>Sales scales headcount faster than anyone</h2>
+      <p class="lede">Sales adds 32 people (24 → 56): more net-new hires than any other department, and enough to overtake its own cost-center peers.</p>
+    </div>
+    <div class="chart-card">
+      <div id="chart-dumbbell"></div>
+      <div class="legend" id="legend-dumbbell"></div>
+    </div>
+    <details class="tbl"><summary>View as table</summary><div id="table-dumbbell"></div></details>
+  </div>
+</section>
+
+<section id="entities">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">06 · Entities</div>
+      <h2>Cost is concentrated in one legal entity, with a flag</h2>
+      <p class="lede">ACME GmbH carries nearly 69% of planned cost. The second-largest line, "Demo Sample Entity", is worth a closer look.</p>
+    </div>
+    <div class="chart-card"><div id="chart-entity"></div></div>
+    <details class="tbl"><summary>View as table</summary><div id="table-entity"></div></details>
+    <div class="callout">
+      <span style="font-size:18px;">⚠️</span>
+      <div><b>Data-quality flag:</b> "Demo Sample Entity" is not one of the named ACME/Cartha legal entities and reads like placeholder or sample data, yet it carries <b>€3.04M (19.1%)</b> of total planned cost, more than ACME SAS. Confirm whether these roles belong to a real entity before this plan is finalized.</div>
+    </div>
+  </div>
+</section>
+
+<section id="costcenters">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">07 · Cost Centers</div>
+      <h2>Engineering and Sales DACH are the two largest cost centers</h2>
+      <p class="lede">The top 8 cost centers account for €12.4M of the €15.9M total; a long tail of 6 smaller cost centers makes up the remaining €974K.</p>
+    </div>
+    <div class="chart-card"><div id="chart-cc"></div></div>
+    <details class="tbl"><summary>View as table</summary><div id="table-cc"></div></details>
+  </div>
+</section>
+
+<section id="insights">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">08 · Insights</div>
+      <h2>What this means for the FY2026 plan</h2>
+    </div>
+    <div class="grid cols-3" id="insight-cards"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Source: sample "Costs Live Estimate" export (4,070 line items, 209 people/roles, Jan–Dec 2026).
+    Figures are planning estimates from a live cost model and will change as headcount plans are updated.
+    Illustrative concept deck; not a live Basqo feature.
+  </div>
+</footer>
+
+<script>
+(function(){
+  const NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, style){
+    const e = document.createElementNS(NS, tag);
+    for (const k in (attrs||{})) e.setAttribute(k, attrs[k]);
+    if (style) e.style.cssText = style;
+    return e;
+  }
+  function text(x,y,str,opts){
+    opts = opts||{};
+    const t = el('text', Object.assign({x:x,y:y,'font-size':opts.size||12,'text-anchor':opts.anchor||'start'}, opts.attrs||{}));
+    t.style.cssText = 'fill:'+(opts.color||'var(--text-secondary)')+(opts.weight?';font-weight:'+opts.weight:'');
+    t.textContent = str;
+    return t;
+  }
+  function fmtCompact(n){
+    const sign = n<0?'-':'';
+    n = Math.abs(n);
+    if (n>=1000000) return sign+'€'+(n/1000000).toFixed(2)+'M';
+    if (n>=1000) return sign+'€'+Math.round(n/1000).toLocaleString('en-US')+'K';
+    return sign+'€'+Math.round(n);
+  }
+  function fmtFull(n){ return '€'+Math.round(n).toLocaleString('en-US'); }
+  function fmtPct(n){ return n.toFixed(1)+'%'; }
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  const tooltip = document.getElementById('tooltip');
+  function showTip(evt, html){
+    tooltip.innerHTML = html;
+    const pad = 16;
+    let x = evt.clientX + 14, y = evt.clientY + 14;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    tooltip.style.opacity = 1;
+    requestAnimationFrame(()=>{
+      const r = tooltip.getBoundingClientRect();
+      if (x + r.width + pad > vw) x = evt.clientX - r.width - 14;
+      if (y + r.height + pad > vh) y = evt.clientY - r.height - 14;
+      tooltip.style.left = x+'px'; tooltip.style.top = y+'px';
+    });
+  }
+  function hideTip(){ tooltip.style.opacity = 0; }
+
+  /* ---------------- DATA ---------------- */
+  const monthlyCost = [793041,815846,1044620,1100439,1265816,1277198,1350822,1556596,1661631,1670491,1687918,1697620];
+  const monthlyHC   = [110,114,133,140,152,154,162,188,202,204,207,208];
+  const perHead     = [7209,7157,7854,7860,8328,8293,8338,8280,8226,8189,8154,8162];
+
+  const DEPTS = [
+    {key:'Tech - Engineering', color:'var(--series-1)'},
+    {key:'Sales',              color:'var(--series-2)'},
+    {key:'Marketing',          color:'var(--series-3)'},
+    {key:'Finance',            color:'var(--series-4)'},
+    {key:'Product',            color:'var(--series-5)'},
+    {key:'Support',            color:'var(--series-6)'},
+    {key:'Management',         color:'var(--series-7)'},
+    {key:'Other',              color:'var(--series-8)'},
+  ];
+  const deptTotals = {
+    'Tech - Engineering':4396363, 'Sales':3921945, 'Marketing':2094480, 'Management':1235270,
+    'Finance':1168108, 'Product':803955, 'Support':763446, 'Other':1538469
+  };
+  const DEPT_TOTAL = Object.values(deptTotals).reduce((a,b)=>a+b,0);
+
+  const deptByMonth = {
+    'Tech - Engineering': [259996,262926,270952,278859,366185,366185,366293,411331,452407,452515,452407,456307],
+    'Sales':              [178861,183649,214266,232339,284120,289455,346233,421942,444624,436242,444257,445957],
+    'Marketing':          [121323,123753,150703,160800,160800,166847,174407,183765,203826,215310,215310,217638],
+    'Finance':            [33828,42800,55647,93923,108694,108694,108694,123166,123166,123166,123166,123166],
+    'Product':            [25822,25822,29421,34259,44590,44590,47110,88233,109450,114993,119831,119831],
+    'Support':            [52442,52742,63105,66129,66129,66129,66129,66129,66129,66129,66129,66129],
+    'Management':         [16767,16767,104444,114003,115280,115280,115280,125575,125575,125575,130363,130363],
+    'Other':              [104001,107387,156082,120126,120019,120019,126678,136455,136455,136563,136455,138229],
+  };
+
+  const costType = [
+    {label:'Base salary',       value:13030717, color:'var(--series-1)'},
+    {label:'Social charges',    value:2694190,  color:'var(--series-2)'},
+    {label:'Custom cost type',  value:197130,   color:'var(--series-3)'},
+  ];
+  const COSTTYPE_TOTAL = 15922037;
+
+  const headcountGrowth = [
+    {label:'Sales',              jan:24, dec:56},
+    {label:'Tech - Engineering', jan:31, dec:45},
+    {label:'Marketing',          jan:19, dec:33},
+    {label:'Product',            jan:5,  dec:17},
+    {label:'Finance',            jan:6,  dec:17},
+    {label:'Management',         jan:1,  dec:10},
+    {label:'Other',              jan:14, dec:18},
+    {label:'Support',            jan:11, dec:13},
+  ];
+
+  const entities = [
+    {label:'ACME GmbH',          value:10933884, color:'var(--series-1)'},
+    {label:'Demo Sample Entity', value:3036350,  color:'var(--series-8)', flag:true},
+    {label:'ACME SAS',           value:1610636,  color:'var(--series-2)'},
+    {label:'Subsidiary NL',      value:138522,   color:'var(--series-3)'},
+    {label:'ACME UK',            value:68400,    color:'var(--series-5)'},
+    {label:'EoR',                value:20250,    color:'var(--series-6)'},
+    {label:'Cartha SAS',         value:4658,     color:'var(--series-7)'},
+  ];
+  const ENTITY_TOTAL = 15922037;
+
+  const costCenters = [
+    {label:'3200 · Engineering',            value:4765742, color:'var(--series-1)'},
+    {label:'4100 · Sales DACH',             value:2536593, color:'var(--series-2)'},
+    {label:'5100 · Performance Marketing',  value:1373914, color:'var(--series-3)'},
+    {label:'4300 · Sales Outbound',         value:910068,  color:'var(--series-2)'},
+    {label:'2300 · Finance FP&A',           value:763835,  color:'var(--series-4)'},
+    {label:'3100 · Product',                value:738152,  color:'var(--series-5)'},
+    {label:'1100 · Customer Service',       value:709673,  color:'var(--series-6)'},
+    {label:'01 · Sales',                    value:621178,  color:'var(--series-2)'},
+    {label:'6 smaller cost centers',        value:974346,  color:'var(--muted)'},
+  ];
+
+  /* ---------------- KPI TILES ---------------- */
+  function sparkline(values, color){
+    const w=200,h=34,pad=3;
+    const min=Math.min(...values), max=Math.max(...values);
+    const rng = (max-min)||1;
+    const pts = values.map((v,i)=>{
+      const x = pad + (w-2*pad) * i/(values.length-1);
+      const y = h-pad - (h-2*pad) * (v-min)/rng;
+      return [x,y];
+    });
+    const svg = el('svg',{viewBox:`0 0 ${w} ${h}`, preserveAspectRatio:'none'});
+    const path = 'M'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+    svg.appendChild(el('path',{d:path, fill:'none', 'stroke-width':1.75, 'stroke-linecap':'round','stroke-linejoin':'round'}, 'stroke:var(--muted)'));
+    const last = pts[pts.length-1];
+    svg.appendChild(el('circle',{cx:last[0],cy:last[1],r:3.2}, 'fill:'+color));
+    return svg;
+  }
+  const kpiData = [
+    {label:'Total planned cost, FY2026', value:'€15.92M', delta:'Jan → Dec 2026 · base salary + social charges + extras', good:false, spark:monthlyCost, color:'var(--series-1)'},
+    {label:'Headcount, December 2026', value:'208', delta:'+89% vs January (110)', good:true, spark:monthlyHC, color:'var(--series-2)'},
+    {label:'Net-new hires, FY2026', value:'98', delta:'+26 in August alone, the single biggest month', good:true, spark:monthlyHC.map(v=>v-monthlyHC[0]), color:'var(--series-3)'},
+    {label:'Avg. fully-loaded cost / employee', value:'€8,162/mo', delta:'+13% vs January (€7,209) · stabilized after Q1 ramp', good:false, spark:perHead, color:'var(--series-5)'},
+  ];
+  const kpiWrap = document.getElementById('kpi-tiles');
+  kpiData.forEach(d=>{
+    const tile = document.createElement('div'); tile.className='tile';
+    tile.innerHTML = `<div class="label">${d.label}</div><div class="value">${d.value}</div>`;
+    const delta = document.createElement('div'); delta.className='delta'+(d.good?' good':''); delta.textContent=d.delta;
+    tile.appendChild(delta);
+    const sparkWrap = document.createElement('div'); sparkWrap.className='spark';
+    sparkWrap.appendChild(sparkline(d.spark, d.color));
+    tile.appendChild(sparkWrap);
+    kpiWrap.appendChild(tile);
+  });
+
+  /* ---------------- CHART: trend combo (line cost + column headcount) ---------------- */
+  (function(){
+    const W=960, padL=58, padR=54, plotW=W-padL-padR;
+    const lineTop=16, lineBot=210, lineH=lineBot-lineTop;
+    const colTop=248, colBot=372, colH=colBot-colTop;
+    const axisY=396, H=414;
+    const slotW = plotW/12;
+    const costMax = 2000000, hcMax=220;
+    const xAt = i => padL + slotW*(i+0.5);
+
+    const svg = el('svg',{viewBox:`0 0 ${W} ${H}`});
+
+    [0,500000,1000000,1500000,2000000].forEach(v=>{
+      const y = lineBot - lineH*(v/costMax);
+      svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y,y2:y,'stroke-width':1}, 'stroke:var(--grid)'));
+      svg.appendChild(text(padL-10,y+4,fmtCompact(v),{anchor:'end',size:10.5,color:'var(--muted)'}));
+    });
+    [0,100,200].forEach(v=>{
+      const y = colBot - colH*(v/hcMax);
+      svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y,y2:y,'stroke-width':1}, 'stroke:var(--grid)'));
+      svg.appendChild(text(padL-10,y+4,v,{anchor:'end',size:10.5,color:'var(--muted)'}));
+    });
+
+    svg.appendChild(text(padL, lineTop-2, 'MONTHLY COST', {size:10, color:'var(--muted)', weight:700}));
+    svg.appendChild(text(padL, colTop-10, 'HEADCOUNT', {size:10, color:'var(--muted)', weight:700}));
+
+    const linePts = monthlyCost.map((v,i)=>[xAt(i), lineBot-lineH*(v/costMax)]);
+    let areaD = 'M'+linePts.map(p=>p.join(',')).join(' L')+` L${linePts[11][0]},${lineBot} L${linePts[0][0]},${lineBot} Z`;
+    svg.appendChild(el('path',{d:areaD}, 'fill:var(--series-1);opacity:.10'));
+    let lineD = 'M'+linePts.map(p=>p.join(',')).join(' L');
+    svg.appendChild(el('path',{d:lineD, fill:'none','stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'}, 'stroke:var(--series-1)'));
+    const lastP = linePts[11];
+    svg.appendChild(el('circle',{cx:lastP[0],cy:lastP[1],r:5},'fill:var(--series-1);stroke:var(--surface-1);stroke-width:2'));
+    svg.appendChild(text(lastP[0]+9, lastP[1]-8, '€1.70M', {size:12.5, color:'var(--text-primary)', weight:700}));
+
+    const barW = Math.min(24, slotW*0.55);
+    monthlyHC.forEach((v,i)=>{
+      const x = xAt(i)-barW/2;
+      const h = colH*(v/hcMax);
+      const y = colBot-h;
+      const r = Math.min(4,h);
+      const d = `M${x},${y+r} Q${x},${y} ${x+r},${y} L${x+barW-r},${y} Q${x+barW},${y} ${x+barW},${y+r} L${x+barW},${colBot} L${x},${colBot} Z`;
+      svg.appendChild(el('path',{d:d}, 'fill:var(--series-2)'));
+    });
+    svg.appendChild(text(xAt(11), colBot-colH*(monthlyHC[11]/hcMax)-10, '208', {anchor:'middle', size:12.5, color:'var(--text-primary)', weight:700}));
+
+    svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:colBot,y2:colBot,'stroke-width':1},'stroke:var(--axis)'));
+    MONTHS.forEach((m,i)=>{
+      svg.appendChild(text(xAt(i), axisY, m, {anchor:'middle', size:11, color:'var(--muted)'}));
+    });
+
+    const crosshair = el('line',{y1:8,y2:colBot,'stroke-width':1},'stroke:var(--axis);opacity:0');
+    svg.appendChild(crosshair);
+    for(let i=0;i<12;i++){
+      const hit = el('rect',{x:padL+slotW*i, y:8, width:slotW, height:colBot-8, fill:'transparent', cursor:'crosshair'});
+      hit.addEventListener('mousemove',(evt)=>{
+        crosshair.setAttribute('x1',xAt(i)); crosshair.setAttribute('x2',xAt(i)); crosshair.style.opacity=1;
+        showTip(evt, `<b>${MONTHS[i]} 2026</b>
+          <div class="row"><span><span class="sw" style="background:var(--series-1)"></span>Cost</span><b>${fmtFull(monthlyCost[i])}</b></div>
+          <div class="row"><span><span class="sw" style="background:var(--series-2)"></span>Headcount</span><b>${monthlyHC[i]}</b></div>
+          <div class="row"><span>Cost / head</span><b>${fmtFull(perHead[i])}</b></div>`);
+      });
+      hit.addEventListener('mouseleave', ()=>{ crosshair.style.opacity=0; hideTip(); });
+      svg.appendChild(hit);
+    }
+    document.getElementById('chart-trend').appendChild(svg);
+
+    let rows = MONTHS.map((m,i)=>`<tr><td>${m} 2026</td><td>${fmtFull(monthlyCost[i])}</td><td>${monthlyHC[i]}</td><td>${fmtFull(perHead[i])}</td></tr>`).join('');
+    document.getElementById('table-trend').innerHTML = `<table class="data"><thead><tr><th>Month</th><th>Cost</th><th>Headcount</th><th>Cost / head</th></tr></thead><tbody>${rows}</tbody></table>`;
+  })();
+
+  /* ---------------- Generic horizontal ranking bar chart ---------------- */
+  function hbarChart(container, data, opts){
+    opts = opts || {};
+    const W=960, labelW=opts.labelW||200, tipW=110, rowH=26, gap=14;
+    const barAreaW = W - labelW - tipW;
+    const H = data.length*(rowH+gap);
+    const maxVal = Math.max(...data.map(d=>d.value));
+    const total = opts.total;
+    const svg = el('svg',{viewBox:`0 0 ${W} ${H}`});
+    data.forEach((d,i)=>{
+      const y = i*(rowH+gap);
+      const w = barAreaW * (d.value/maxVal);
+      const r = Math.min(4, rowH/2);
+      const x0 = labelW;
+      const path = `M${x0},${y} L${x0+w-r},${y} Q${x0+w},${y} ${x0+w},${y+r} L${x0+w},${y+rowH-r} Q${x0+w},${y+rowH} ${x0+w-r},${y+rowH} L${x0},${y+rowH} Z`;
+      svg.appendChild(el('path',{d:path}, 'fill:'+d.color));
+      svg.appendChild(text(labelW-10, y+rowH/2+4, d.label, {anchor:'end', size:12.5, color:'var(--text-primary)'}));
+      const pct = total ? ' ('+fmtPct(d.value/total*100)+')' : '';
+      svg.appendChild(text(x0+w+10, y+rowH/2+4, fmtCompact(d.value)+pct, {size:12, color:'var(--text-secondary)'}));
+      if (d.flag){
+        svg.appendChild(text(x0+w+10, y+rowH/2+18, '⚠ verify entity', {size:10.5, color:'var(--warning)', weight:700}));
+      }
+      const hit = el('rect',{x:0,y:y,width:W,height:rowH+gap, fill:'transparent', cursor:'pointer'});
+      hit.addEventListener('mousemove',(evt)=>{
+        showTip(evt, `<b>${d.label}</b><div class="row"><span>Cost</span><b>${fmtFull(d.value)}</b></div>`+(total?`<div class="row"><span>Share</span><b>${fmtPct(d.value/total*100)}</b></div>`:''));
+      });
+      hit.addEventListener('mouseleave', hideTip);
+      svg.appendChild(hit);
+    });
+    container.appendChild(svg);
+  }
+
+  (function(){
+    const data = DEPTS.map(d=>({label:d.key, value:deptTotals[d.key], color:d.color}));
+    data.sort((a,b)=>b.value-a.value);
+    hbarChart(document.getElementById('chart-dept'), data, {total:DEPT_TOTAL});
+    let rows = data.map(d=>`<tr><td>${d.label}</td><td>${fmtFull(d.value)}</td><td>${fmtPct(d.value/DEPT_TOTAL*100)}</td></tr>`).join('');
+    document.getElementById('table-dept').innerHTML = `<table class="data"><thead><tr><th>Department</th><th>Cost</th><th>Share</th></tr></thead><tbody>${rows}</tbody></table>`;
+  })();
+
+  (function(){
+    const data = costType.map(d=>({label:d.label, value:d.value, color:d.color}));
+    hbarChart(document.getElementById('chart-costtype'), data, {total:COSTTYPE_TOTAL, labelW:150});
+    let rows = data.map(d=>`<tr><td>${d.label}</td><td>${fmtFull(d.value)}</td><td>${fmtPct(d.value/COSTTYPE_TOTAL*100)}</td></tr>`).join('');
+    document.getElementById('table-costtype').innerHTML = `<table class="data"><thead><tr><th>Cost type</th><th>Cost</th><th>Share</th></tr></thead><tbody>${rows}</tbody></table>`;
+  })();
+
+  (function(){
+    hbarChart(document.getElementById('chart-entity'), entities, {total:ENTITY_TOTAL, labelW:190});
+    let rows = entities.map(d=>`<tr><td>${d.label}${d.flag?' ⚠':''}</td><td>${fmtFull(d.value)}</td><td>${fmtPct(d.value/ENTITY_TOTAL*100)}</td></tr>`).join('');
+    document.getElementById('table-entity').innerHTML = `<table class="data"><thead><tr><th>Entity</th><th>Cost</th><th>Share</th></tr></thead><tbody>${rows}</tbody></table>`;
+  })();
+
+  (function(){
+    hbarChart(document.getElementById('chart-cc'), costCenters, {total:15922037, labelW:230});
+    let rows = costCenters.map(d=>`<tr><td>${d.label}</td><td>${fmtFull(d.value)}</td><td>${fmtPct(d.value/15922037*100)}</td></tr>`).join('');
+    document.getElementById('table-cc').innerHTML = `<table class="data"><thead><tr><th>Cost center</th><th>Cost</th><th>Share</th></tr></thead><tbody>${rows}</tbody></table>`;
+  })();
+
+  /* ---------------- Stacked column: dept x month ---------------- */
+  (function(){
+    const W=960, padL=58, padR=20, plotW=W-padL-padR;
+    const top=20, bottom=372, H0=bottom-top, axisY=394, H=412;
+    const slotW = plotW/12, barW = Math.min(30, slotW*0.6);
+    const domainMax = 2000000;
+    const xAt = i => padL + slotW*(i+0.5);
+    const svg = el('svg',{viewBox:`0 0 ${W} ${H}`});
+
+    [0,500000,1000000,1500000,2000000].forEach(v=>{
+      const y = bottom - H0*(v/domainMax);
+      svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y,y2:y,'stroke-width':1},'stroke:var(--grid)'));
+      svg.appendChild(text(padL-10,y+4,fmtCompact(v),{anchor:'end',size:10.5,color:'var(--muted)'}));
+    });
+
+    for(let i=0;i<12;i++){
+      let cum = bottom;
+      const x = xAt(i)-barW/2;
+      DEPTS.forEach((d,di)=>{
+        const val = deptByMonth[d.key][i];
+        const segH = H0*(val/domainMax);
+        const yTop = cum-segH;
+        const isTop = di===DEPTS.length-1;
+        const r = isTop ? Math.min(4,segH) : 0;
+        let path;
+        if (r>0){
+          path = `M${x},${yTop+r} Q${x},${yTop} ${x+r},${yTop} L${x+barW-r},${yTop} Q${x+barW},${yTop} ${x+barW},${yTop+r} L${x+barW},${cum-1} L${x},${cum-1} Z`;
+        } else {
+          path = `M${x},${yTop+1} L${x+barW},${yTop+1} L${x+barW},${cum-1} L${x},${cum-1} Z`;
+        }
+        svg.appendChild(el('path',{d:path}, 'fill:'+d.color));
+        cum = yTop;
+      });
+      const total = DEPTS.reduce((s,d)=>s+deptByMonth[d.key][i],0);
+      const hit = el('rect',{x:padL+slotW*i, y:top, width:slotW, height:bottom-top, fill:'transparent', cursor:'pointer'});
+      hit.addEventListener('mousemove',(evt)=>{
+        const rowsHtml = DEPTS.slice().sort((a,b)=>deptByMonth[b.key][i]-deptByMonth[a.key][i])
+          .map(d=>`<div class="row"><span><span class="sw" style="background:${d.color}"></span>${d.key}</span><b>${fmtCompact(deptByMonth[d.key][i])}</b></div>`).join('');
+        showTip(evt, `<b>${MONTHS[i]} 2026 · ${fmtFull(total)}</b>${rowsHtml}`);
+      });
+      hit.addEventListener('mouseleave', hideTip);
+      svg.appendChild(hit);
+    }
+    svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:bottom,y2:bottom,'stroke-width':1},'stroke:var(--axis)'));
+    MONTHS.forEach((m,i)=> svg.appendChild(text(xAt(i), axisY, m, {anchor:'middle', size:11, color:'var(--muted)'})));
+    document.getElementById('chart-stack').appendChild(svg);
+
+    const legendWrap = document.getElementById('legend-stack');
+    DEPTS.forEach(d=>{
+      const item = document.createElement('div'); item.className='item';
+      item.innerHTML = `<span class="sw" style="background:${d.color}"></span>${d.key}`;
+      legendWrap.appendChild(item);
+    });
+
+    let rows = MONTHS.map((m,i)=>{
+      const cells = DEPTS.map(d=>`<td>${fmtCompact(deptByMonth[d.key][i])}</td>`).join('');
+      const total = DEPTS.reduce((s,d)=>s+deptByMonth[d.key][i],0);
+      return `<tr><td>${m}</td>${cells}<td><b>${fmtFull(total)}</b></td></tr>`;
+    }).join('');
+    const heads = DEPTS.map(d=>`<th>${d.key}</th>`).join('');
+    document.getElementById('table-stack').innerHTML = `<table class="data"><thead><tr><th>Month</th>${heads}<th>Total</th></tr></thead><tbody>${rows}</tbody></table>`;
+  })();
+
+  /* ---------------- Dumbbell: headcount growth ---------------- */
+  (function(){
+    const W=960, labelW=200, padR=40, rowH=32, gap=14;
+    const barAreaW = W-labelW-padR;
+    const topPad = 30;
+    const H = headcountGrowth.length*(rowH+gap)+topPad+16;
+    const domainMax = 60;
+    const xAt = v => labelW + barAreaW*(v/domainMax);
+    const svg = el('svg',{viewBox:`0 0 ${W} ${H}`});
+
+    [0,20,40,60].forEach(v=>{
+      const x = xAt(v);
+      svg.appendChild(el('line',{x1:x,x2:x,y1:topPad-6,y2:H-16,'stroke-width':1},'stroke:var(--grid)'));
+      svg.appendChild(text(x, H-4, v, {anchor:'middle', size:10.5, color:'var(--muted)'}));
+    });
+
+    headcountGrowth.forEach((d,i)=>{
+      const y = topPad+i*(rowH+gap);
+      const xj = xAt(d.jan), xd = xAt(d.dec);
+      svg.appendChild(text(labelW-14, y+5, d.label, {anchor:'end', size:12.5, color:'var(--text-primary)'}));
+      svg.appendChild(el('line',{x1:xj,x2:xd,y1:y,y2:y,'stroke-width':2},'stroke:var(--axis)'));
+      svg.appendChild(el('circle',{cx:xj,cy:y,r:6},'fill:var(--muted);stroke:var(--surface-1);stroke-width:2'));
+      svg.appendChild(el('circle',{cx:xd,cy:y,r:6},'fill:var(--series-1);stroke:var(--surface-1);stroke-width:2'));
+      svg.appendChild(text(xj, y-12, d.jan, {anchor:'middle', size:11, color:'var(--muted)'}));
+      svg.appendChild(text(xd, y-12, d.dec, {anchor:'middle', size:12, color:'var(--text-primary)', weight:700}));
+      svg.appendChild(text(xd+16, y+4, '+'+(d.dec-d.jan), {size:11.5, color:'var(--delta-good)', weight:700}));
+
+      const hit = el('rect',{x:0,y:y-rowH/2,width:W,height:rowH+gap, fill:'transparent', cursor:'pointer'});
+      hit.addEventListener('mousemove',(evt)=>{
+        showTip(evt, `<b>${d.label}</b>
+          <div class="row"><span>Jan 2026</span><b>${d.jan}</b></div>
+          <div class="row"><span>Dec 2026</span><b>${d.dec}</b></div>
+          <div class="row"><span>Net new</span><b>+${d.dec-d.jan}</b></div>`);
+      });
+      hit.addEventListener('mouseleave', hideTip);
+      svg.appendChild(hit);
+    });
+    document.getElementById('chart-dumbbell').appendChild(svg);
+
+    const legendWrap = document.getElementById('legend-dumbbell');
+    legendWrap.innerHTML = `<div class="item"><span class="dot" style="background:var(--muted)"></span>January 2026</div><div class="item"><span class="dot" style="background:var(--series-1)"></span>December 2026</div>`;
+
+    let rows = headcountGrowth.map(d=>`<tr><td>${d.label}</td><td>${d.jan}</td><td>${d.dec}</td><td>+${d.dec-d.jan}</td></tr>`).join('');
+    document.getElementById('table-dumbbell').innerHTML = `<table class="data"><thead><tr><th>Department</th><th>Jan 2026</th><th>Dec 2026</th><th>Net new</th></tr></thead><tbody>${rows}</tbody></table>`;
+  })();
+
+  /* ---------------- Insight cards ---------------- */
+  const insights = [
+    {icon:'📈', title:'Team more than doubles', body:'Headcount grows from 110 to 208 people (+89%) over the year, with August the single biggest hiring month at +26 net new.', flag:false},
+    {icon:'⚙️', title:'Burn outpaces headcount growth', body:'Monthly cost grows 114% (€793K → €1.70M) while headcount grows 89%: cost per employee climbs from €7.2K to a stabilized ~€8.2K/month after the Q1 ramp.', flag:false},
+    {icon:'🏗️', title:'Two departments, half the budget', body:'Tech - Engineering (27.6%) and Sales (24.6%) together account for €8.3M of the €15.9M total, more than every other department combined.', flag:false},
+    {icon:'🚀', title:'Sales is the fastest-scaling org', body:'Sales headcount grows from 24 to 56 (+32 people), more net-new hires than any other department, concentrated in the Sales DACH and Sales Outbound cost centers.', flag:false},
+    {icon:'⚠️', title:'Verify the "Demo Sample Entity" line', body:'This legal entity carries €3.04M (19.1%) of planned cost, more than ACME SAS, but its name suggests placeholder data. Confirm before the budget is locked.', flag:true},
+    {icon:'⚠️', title:'One contractor costs more than the CEO', body:'A Full-Stack Developer engaged as an external contractor (ID C-081314) is budgeted at €627K for the year, above the CEO line (€465.75K). Worth a rate and scope review.', flag:true},
+  ];
+  const insightWrap = document.getElementById('insight-cards');
+  insights.forEach(i=>{
+    const card = document.createElement('div'); card.className = 'insight'+(i.flag?' flag':'');
+    card.innerHTML = `<span class="icon">${i.icon}</span><h3>${i.title}</h3><p>${i.body}</p>`;
+    insightWrap.appendChild(card);
+  });
+
+})();
+</script>
+
+</body>
+</html>

@@ -51,7 +51,7 @@ jobs:
           mkdir -p _deploy
           # Copy static site files (about, contact, tools, css, js, assets, tools dir, CNAME)
           cp -r about css js assets tools _deploy/
-          cp contact.html tools.html bq.html CNAME _deploy/
+          cp contact.html tools.html bq.html bqx.html CNAME _deploy/
           # Overlay Hugo output at root (provides index.html, posts, etc.)
           cp -r blog/public/* _deploy/
           # Clean up
