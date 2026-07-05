@@ -206,8 +206,7 @@
       <span class="ar">&rarr;</span>
       <div class="node db"><div class="h">&#9670; PostgreSQL</div><div class="t">managed &middot; EU &middot; Supabase/Neon</div><p>Source of truth. JSONB + materialized views + RLS for tenant scoping.</p></div>
     </div>
-    <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s>: operational surface one engineer carries for no payoff at this scale (200 MAU).</div>
-    <div class="no" style="margin-top:12px">Every current Bubble capability checked against this stack &rarr; <a href="https://sudopower.com/bqc" target="_blank" rel="noopener" style="color:var(--violet);font-family:var(--mono);text-decoration:none;border-bottom:1px solid rgba(139,124,246,.4)">sudopower.com/bqc</a></div>
+    <div class="no" style="margin-top:22px">Every current Bubble capability checked against this stack &rarr; <a href="https://sudopower.com/bqc" target="_blank" rel="noopener" style="color:var(--violet);font-family:var(--mono);text-decoration:none;border-bottom:1px solid rgba(139,124,246,.4)">sudopower.com/bqc</a></div>
     <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. Clean internal boundaries mean the public API + MCP on your roadmap (which Bubble can't give you today) become thin adapters, not a rebuild. And the line that lands: I've run a K8s operator, which is exactly why I'd keep it out of a product this size, staffed by one engineer for at least the next 12 months.</div>
   </section>
 
@@ -219,9 +218,10 @@
       <div class="colcard"><div class="ct">Full rewrite incl. frontend now</div><div class="for"><span class="lab">For</span>Cleanest end-state; fully off Bubble.</div><div class="ag"><span class="lab">Against</span>Doubles scope; gates everything on the frontend, which isn't the pain. Wrong sequencing.</div></div>
       <div class="colcard"><div class="ct">TypeScript full-stack</div><div class="for"><span class="lab">For</span>Best single-language velocity &amp; eventual frontend.</div><div class="ag"><span class="lab">Against</span>My depth is Go; weaker for heavy recalc. The pick if we did FE in Phase 1.</div></div>
       <div class="colcard"><div class="ct">Python &middot; Django / FastAPI</div><div class="for"><span class="lab">For</span>Batteries-included; data/finance/AI ecosystem.</div><div class="ag"><span class="lab">Against</span>Not my fluent language; for solo on-call on financial data, fluency beats fit.</div></div>
-      <div class="colcard rec"><div class="ct" style="color:var(--violet)">&rarr; Go monolith + Postgres</div><div class="for"><span class="lab">Why it wins</span>Highest velocity &amp; on-call confidence for me; right-sized for the team and the data today.</div></div>
+      <div class="colcard"><div class="ct">Heavier infra &middot; Kafka / ClickHouse / K8s</div><div class="for"><span class="lab">For</span>Scales to far larger load, event volume, and analytics.</div><div class="ag"><span class="lab">Against</span>No real value at 200 MAU today; too much operational surface for one engineer to maintain.</div></div>
+      <div class="colcard rec" style="grid-column:1 / -1"><div class="ct" style="color:var(--violet)">&rarr; Go monolith + Postgres</div><div class="for"><span class="lab">Why it wins</span>Highest velocity &amp; on-call confidence for me; right-sized for the team and the data today.</div></div>
     </div>
-    <div class="cue">Several stacks would work at this scale; the deciding variable is who's building it. I chose for fluency and operability, not fashion. If recalc ever gets heavily numeric, a small Python service is the escape hatch.</div>
+    <div class="cue">Several stacks would work at this scale; the deciding variable is who's building it. The heavy-infra options buy scale we don't have yet and cost operability a solo engineer can't spare, so they're a deliberate no for now, not forever. I chose for fluency and operability, not fashion. If recalc ever gets heavily numeric, a small Python service is the escape hatch.</div>
   </section>
 
   <!-- 6 - MIGRATION -->
