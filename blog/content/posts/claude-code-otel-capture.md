@@ -2,17 +2,19 @@
 date = '2026-07-04T00:00:00+00:00'
 draft = false
 title = 'Capturing Claude Code Session Telemetry with a Local OTel Collector'
-description = 'Claude Code exports OTLP traces, logs, and metrics if the env vars are set before the session starts. A local otel-collector plus a polling CSV sidecar turns that into a self-updating log of cost, tokens, and tool calls per session.'
-excerpt = 'Claude Code speaks OTLP, but only if you tell it to before the session starts, and only to something already listening. A local collector plus a CSV sidecar turns that into a self-updating usage log, no manual export step.'
+description = 'Claude Code exports OTLP traces, logs, and metrics if the env vars are set before the session starts, traces need one extra beta flag. A local otel-collector plus a polling CSV sidecar turns that into a self-updating log of cost, tokens, tool calls, and the span tree per session.'
+excerpt = 'Claude Code speaks OTLP, but only if you tell it to before the session starts, and only to something already listening. Traces need a beta flag the other exporters do not. A local collector plus a CSV sidecar turns all of it into a self-updating usage log, no manual export step.'
 tags = ['claude-code', 'ai', 'tooling', 'observability', 'otel']
 image = 'images/claude-otel-architecture.svg'
 +++
 
 > **TL;DR**: Claude Code exports OTLP logs, metrics, and traces if a handful of
-> env vars are set before a session starts. A local `otel-collector` writes
-> the raw export to JSONL, and a small polling sidecar turns that into a
-> `claude_usage.csv` (model, cost, tokens, tool calls) with nothing to trigger
-> by hand. [Repo here](https://github.com/sudopower/claude-otel-capture).
+> env vars are set before a session starts, traces need one extra beta flag
+> on top of the others, easy to miss since nothing errors if you skip it. A
+> local `otel-collector` writes the raw export to JSONL, and a small polling
+> sidecar turns that into `claude_usage.csv` (model, cost, tokens, tool calls)
+> and `claude_spans.csv` (the call tree: interaction -> tool -> llm_request),
+> with nothing to trigger by hand. [Repo here](https://github.com/sudopower/claude-otel-capture).
 
 # The Goal
 
@@ -44,18 +46,38 @@ listening on that endpoint when Claude Code starts. If nothing's there, the
 exporter just fails quietly and you get nothing. So the env vars alone
 aren't the setup, they're the last step.
 
+That's the setup for logs and metrics. Traces are a separate beta feature,
+gated behind a flag that isn't mentioned anywhere near the other telemetry
+docs, so it's easy to wire up a collector with a `traces` pipeline (like the
+one below) and never notice it's receiving nothing. `OTEL_TRACES_EXPORTER=otlp`
+by itself does nothing; Claude Code silently skips span creation unless
+`CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1` is also set:
+
+```bash
+export CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1
+export OTEL_TRACES_EXPORTER=otlp
+```
+
+I originally shipped this repo without that flag. The collector's traces
+pipeline was live and listening, `claude_spans.csv` existed, and it just
+stayed empty forever with no error on either side. Confirmed it two ways:
+`OTEL_TRACES_EXPORTER=console` prints real spans to stdout once the beta
+flag is set, and pointing a throwaway collector at the OTLP endpoint with
+the flag on shows an actual `resourceSpans` payload arrive over gRPC.
+Without it, neither ever produces a trace.
+
 # Architecture
 
 ```
-claude (OTLP) -> otel-collector -> data/claude-events.jsonl -> csv-writer -> claude_usage.csv
+claude (OTLP) -> otel-collector -> data/claude-events.jsonl -> csv-writer -> claude_usage.csv, claude_spans.csv
 ```
 
 ![Pipeline: claude exports OTLP to otel-collector, which writes claude-events.jsonl, polled by csv-writer into claude_usage.csv](../../images/claude-otel-architecture.svg)
 
 Two containers. `otel-collector` receives OTLP over gRPC/HTTP and writes the
 raw export straight to a JSONL file, nothing parsed or dropped. `csv-writer`
-polls that file every five seconds and regenerates the CSV, so there's no
-command to remember after the fact, the file just stays current while the
+polls that file every five seconds and regenerates both CSVs, so there's no
+command to remember after the fact, the files just stay current while the
 stack is up.
 
 # The Collector Config
@@ -170,6 +192,59 @@ like this:
 
 ![Bar chart: cost by model (claude-sonnet-5 $0.3368, claude-haiku-4-5 $0.0623, claude-opus-4-8 $0.4095) and tool calls by tool (Read 2, Grep 1, Glob 1)](../../images/claude-otel-usage-chart.svg)
 
+# Spans Get Their Own CSV
+
+Once the beta flag is on, `resourceSpans` shows up in the same JSONL, structurally
+different enough from log records that it gets its own parser and its own
+output file, `claude_spans.csv`, rather than trying to force it into the
+`FIELDS` schema above:
+
+```python
+SPAN_FIELDS = [
+    "timestamp", "trace_id", "span_id", "parent_span_id", "span_name",
+    "session_id", "model", "duration_ms", "input_tokens", "output_tokens",
+    "cache_read_tokens", "cache_creation_tokens", "ttft_ms", "success", "stop_reason",
+]
+
+def iter_spans(obj):
+    for rs in obj.get("resourceSpans", []):
+        for ss in rs.get("scopeSpans", []):
+            for span in ss.get("spans", []):
+                yield span
+
+def span_to_row(span):
+    attrs = {a["key"]: attr_value(a["value"]) for a in span.get("attributes", [])}
+    duration_ms = attrs.get("duration_ms") or attrs.get("interaction.duration_ms")
+    return {
+        "trace_id": span.get("traceId", ""),
+        "span_id": span.get("spanId", ""),
+        "parent_span_id": span.get("parentSpanId", ""),
+        "span_name": span.get("name", ""),
+        "duration_ms": duration_ms,
+        ...
+    }
+```
+
+`span.get("parentSpanId", "")` is the whole reason this is worth a second file:
+it's how a flat list of spans turns back into a call tree. One real turn,
+same `trace_id` on every row:
+
+| span_id | parent_span_id | span_name | model | duration_ms | ttft_ms | stop_reason |
+|---|---|---|---|---|---|---|
+| b9627b1d… | *(root)* | claude_code.interaction | | 8437 | | |
+| 51fa875b… | b9627b1d… | claude_code.llm_request | claude-sonnet-5 | 4694 | 2740 | tool_use |
+| 7e062ead… | b9627b1d… | claude_code.tool | | 11 | | |
+| 8bdf191c… | 7e062ead… | claude_code.tool.execution | | 3 | | |
+| 3e556636… | b9627b1d… | claude_code.llm_request | claude-sonnet-5 | 3142 | 1984 | end_turn |
+
+Read top to bottom, that's one turn: the model call decides to use a tool
+(`stop_reason: tool_use`), the tool runs (`claude_code.tool` wraps
+`claude_code.tool.execution`), and a second model call ends the turn
+(`stop_reason: end_turn`), all three children of the one
+`claude_code.interaction` root span. `claude_usage.csv` has the same
+information flattened into log events; `claude_spans.csv` has the shape of
+the turn.
+
 # Setup
 
 ```bash
@@ -200,6 +275,12 @@ and a couple of real rows pulled straight out of the CSV:
   otel-collector`, don't `rm` the file while it's live. This one cost me an
   hour of "why is my CSV empty" before I noticed the container had never
   stopped writing, just to nowhere I could see.
+- **`OTEL_TRACES_EXPORTER=otlp` alone gets you nothing.** The collector's
+  `traces` pipeline receiver is listening fine, but Claude Code itself never
+  creates a span unless `CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1` is also set.
+  There's no warning on either end, `claude_spans.csv` just stays an empty
+  header row forever. This is the mistake the first version of this post
+  and repo made.
 - **`user.email` and account UUIDs are in the raw export.** Prompt and
   response text are redacted by default, but the JSONL still isn't something
   to commit. `data/` and `*.csv` are gitignored in the repo.
