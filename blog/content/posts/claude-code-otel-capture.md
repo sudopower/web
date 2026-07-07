@@ -282,10 +282,12 @@ The top two rows are the main Opus agent invoking the Task tool. The three
 below them are the Sonnet subagent's own turn (two model calls wrapping its one
 `Read`), all parented to the `tool.execution` span above and all stamped with
 its `agent_id`. So `parent_span_id` gives you the nesting and `agent_id` gives
-you attribution: which subagent, on which model, under which parent turn. Cost
-still comes from the log side (spans carry tokens but not `cost_usd`), and in
-this run that split out to $0.74 of Opus against $0.25 of Sonnet across the
-three subagents.
+you attribution: which subagent, on which model, under which parent turn. The
+`3148a886…` those top rows hang off is the session's `claude_code.interaction`
+root, which is not in this capture: it stays open until the session ends, and
+spans only export once they close (see Gotchas). Cost still comes from the log
+side (spans carry tokens but not `cost_usd`), and in this run that split out to
+$0.74 of Opus against $0.25 of Sonnet across the three subagents.
 
 # Setup
 
@@ -326,6 +328,18 @@ and a couple of real rows pulled straight out of the CSV:
 - **`user.email` and account UUIDs are in the raw export.** Prompt and
   response text are redacted by default, but the JSONL still isn't something
   to commit. `data/` and `*.csv` are gitignored in the repo.
+- **The root `claude_code.interaction` span is missing until the session
+  ends.** A span is exported when it closes, not when it opens, so the
+  collector only ever receives finished spans. The per-step spans
+  (`llm_request`, `tool`, `tool.execution`) close as each step completes and
+  arrive within seconds, but the interaction span that wraps the whole session
+  stays open, and therefore unexported, until the session exits. In a one-shot
+  `claude -p` run that happens immediately, so the root is present; in a
+  long-running interactive session it is absent, and every captured span points
+  at a `parent_span_id` that never arrives. Closing the session ends that root
+  and flushes it on shutdown, so leave the collector up until then. And since
+  restarting the collector truncates the JSONL (that's the reset above), don't
+  bounce it right as you close a session or you lose that final root span.
 
 # Phase 2
 
