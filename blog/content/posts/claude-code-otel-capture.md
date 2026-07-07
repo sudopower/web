@@ -202,7 +202,7 @@ output file, `claude_spans.csv`, rather than trying to force it into the
 ```python
 SPAN_FIELDS = [
     "timestamp", "trace_id", "span_id", "parent_span_id", "span_name",
-    "session_id", "model", "duration_ms", "input_tokens", "output_tokens",
+    "session_id", "agent_id", "model", "duration_ms", "input_tokens", "output_tokens",
     "cache_read_tokens", "cache_creation_tokens", "ttft_ms", "success", "stop_reason",
 ]
 
@@ -220,6 +220,7 @@ def span_to_row(span):
         "span_id": span.get("spanId", ""),
         "parent_span_id": span.get("parentSpanId", ""),
         "span_name": span.get("name", ""),
+        "agent_id": attrs.get("agent_id", ""),  # empty on the main agent, set on subagents
         "duration_ms": duration_ms,
         ...
     }
@@ -244,6 +245,47 @@ Read top to bottom, that's one turn: the model call decides to use a tool
 `claude_code.interaction` root span. `claude_usage.csv` has the same
 information flattened into log events; `claude_spans.csv` has the shape of
 the turn.
+
+# Subagents Stay in the Same Trace
+
+The reason `agent_id` is in `SPAN_FIELDS` at all: I wanted to know what a
+session looks like when the main agent dispatches subagents on a different
+model. So I ran this session on Opus and had it spawn three Sonnet subagents
+(each reading a file and summarizing it), telemetry and the beta flag on the
+whole time. The trace answered three things I'd been guessing at.
+
+First, it's all one trace and one session. Every span, the Opus main and all
+three Sonnet subagents, carries the same `trace_id` and the same `session.id`.
+A subagent does not open its own session or its own trace, so you cannot tell
+them apart by `session.id`.
+
+Second, `agent_id` is what tells them apart. The main agent's `llm_request`
+spans have an empty `agent_id`; each subagent's spans carry a distinct one.
+That single attribute is the only thing separating the Opus turns from the
+Sonnet ones in the trace, which is exactly why it earns a column.
+
+Third, a subagent's spans hang off the parent's tool span. When the main agent
+calls the Task tool, that produces a `claude_code.tool` and a
+`claude_code.tool.execution` span belonging to the main agent (no `agent_id`),
+and everything the subagent then does nests underneath that execution span. One
+real dispatch from this session, same `trace_id` on every row:
+
+| span_id | parent_span_id | span_name | agent_id | model | stop_reason |
+|---|---|---|---|---|---|
+| aaf45133… | 3148a886… | claude_code.tool | | | |
+| f253fecb… | aaf45133… | claude_code.tool.execution | | | |
+| 8c8a24ce… | f253fecb… | claude_code.llm_request | a9f513d5… | claude-sonnet-5 | tool_use |
+| c1cd61df… | f253fecb… | claude_code.tool | a9f513d5… | | |
+| 780673bc… | f253fecb… | claude_code.llm_request | a9f513d5… | claude-sonnet-5 | end_turn |
+
+The top two rows are the main Opus agent invoking the Task tool. The three
+below them are the Sonnet subagent's own turn (two model calls wrapping its one
+`Read`), all parented to the `tool.execution` span above and all stamped with
+its `agent_id`. So `parent_span_id` gives you the nesting and `agent_id` gives
+you attribution: which subagent, on which model, under which parent turn. Cost
+still comes from the log side (spans carry tokens but not `cost_usd`), and in
+this run that split out to $0.74 of Opus against $0.25 of Sonnet across the
+three subagents.
 
 # Setup
 
