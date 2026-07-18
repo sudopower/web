@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Basqo · Capability &rarr; Code</title>
+<meta name="description" content="Every current Bubble capability mapped to the proposed Go + Postgres stack.">
+<style>
+  :root{
+    --ground:#0C0E1F; --surface:#15182E; --surface2:#1C2038; --hair:#2A2E4A;
+    --text:#E6E8F4; --muted:#9CA0C0; --faint:#6E7299;
+    --violet:#8B7CF6; --coral:#F4738E; --good:#56D6A0; --warn:#F2B45B; --gap:#F06A7E;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;overflow:hidden;
+    background-image:radial-gradient(1100px 600px at 82% -8%,rgba(139,124,246,.12),transparent 60%),
+      radial-gradient(800px 500px at -8% 8%,rgba(244,115,142,.07),transparent 55%);}
+  .deck{height:100vh;width:100vw;position:relative}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+    padding:6vh 7vw 12vh;max-width:1140px;margin:0 auto}
+  .slide.on{display:flex}
+  @media (prefers-reduced-motion:no-preference){
+    .slide.on{animation:fade .45s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  }
+  .num{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--violet);margin-bottom:22px;font-weight:600}
+  .num.coral{color:var(--coral)}
+  h1{font-size:clamp(32px,5.2vw,58px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:0;text-wrap:balance}
+  h1 .g{background:linear-gradient(92deg,var(--violet),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:clamp(24px,3.5vw,40px);font-weight:760;letter-spacing:-.02em;line-height:1.1;margin:0 0 26px;text-wrap:balance}
+  .thesis{margin-top:30px;border-left:3px solid var(--coral);padding:10px 0 10px 20px;
+    font-size:clamp(17px,2.2vw,24px);font-weight:560;letter-spacing:-.01em;max-width:32ch;line-height:1.4}
+  .thesis em{color:var(--coral);font-style:normal}
+
+  /* capability card grid */
+  .capGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:6px}
+  .capCard{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:9px}
+  .capCard.hot{border-color:rgba(139,124,246,.5);background:linear-gradient(180deg,rgba(139,124,246,.08),transparent)}
+  .capCard .csrc{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+  .capCard .ch{font-weight:720;font-size:clamp(15px,1.7vw,18.5px);line-height:1.14}
+  .capCard .chow{font-size:clamp(12px,1.3vw,14px);color:var(--muted);line-height:1.44}
+  .capCard .chow b{color:var(--text);font-weight:600}
+  .capCard .cnote{font-size:clamp(11px,1.2vw,12.5px);color:var(--faint);line-height:1.4}
+  .capCard .cnote b{color:var(--violet);font-weight:600}
+  .badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+  .badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;font-weight:700;white-space:nowrap}
+  .badge.low{color:var(--good);background:rgba(86,214,160,.13);border:1px solid rgba(86,214,160,.32)}
+  .badge.mod{color:var(--warn);background:rgba(242,180,91,.13);border:1px solid rgba(242,180,91,.32)}
+  .badge.high{color:var(--gap);background:rgba(240,106,126,.13);border:1px solid rgba(240,106,126,.32)}
+  .badge.fits{color:var(--violet);background:rgba(139,124,246,.13);border:1px solid rgba(139,124,246,.32)}
+  .badge.plus{color:var(--coral);background:rgba(244,115,142,.12);border:1px solid rgba(244,115,142,.32)}
+
+  /* integrations table */
+  .tbl{width:100%;border-collapse:collapse;margin-top:6px;font-size:clamp(12.5px,1.5vw,16px)}
+  .tbl th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);font-weight:600;padding:0 14px 12px;border-bottom:1px solid var(--hair)}
+  .tbl td{padding:13px 14px;border-bottom:1px solid var(--hair);color:var(--muted);line-height:1.4;vertical-align:top}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl td:first-child{color:var(--text);font-weight:660;white-space:nowrap}
+  .tbl .keep{color:var(--good);font-family:var(--mono);font-size:11px}
+  .tbl .cx{font-family:var(--mono);font-size:11px;font-weight:700}
+  .tbl .cx.low{color:var(--good)} .tbl .cx.high{color:var(--gap)}
+  .tbl .inf{font-family:var(--mono);font-size:11px}
+  .tbl .inf.no{color:var(--faint)} .tbl .inf.yes{color:var(--coral)}
+
+  /* scheduler slide */
+  .schwrap{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;margin-top:6px;align-items:start}
+  .schcard{background:var(--surface);border:1px solid rgba(139,124,246,.5);border-radius:12px;
+    background-image:linear-gradient(180deg,rgba(139,124,246,.1),transparent);padding:20px 22px}
+  .schcard .st{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin-bottom:12px}
+  .schcard .sbig{font-size:clamp(22px,3vw,32px);font-weight:780;letter-spacing:-.01em}
+  .schcard .sbig span{color:var(--violet)}
+  .schcard p{margin:12px 0 0;font-size:clamp(13px,1.5vw,16px);color:var(--muted);line-height:1.5}
+  ul{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+  li{font-size:clamp(13px,1.5vw,16px);line-height:1.4;display:flex;gap:13px;align-items:flex-start;color:var(--muted)}
+  li::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--violet);margin-top:.55em;flex-shrink:0;transform:rotate(45deg)}
+  li b{color:var(--text);font-weight:640}
+  .no{margin-top:22px;font-size:clamp(13px,1.5vw,16px);color:var(--muted)}
+  .no s{color:var(--gap);opacity:.8}
+  .no b{color:var(--text)}
+
+  /* verdict slide */
+  .adds{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  .a{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px}
+  .a .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .a .big{font-size:clamp(16px,2vw,21px);font-weight:740;color:var(--violet);margin-top:8px}
+  .a p{margin:8px 0 0;font-size:clamp(12px,1.3vw,14px);color:var(--muted);line-height:1.45}
+  .rank{margin-top:22px;font-size:clamp(13px,1.6vw,17px);color:var(--muted);line-height:1.55}
+  .rank b{color:var(--text)}
+  .rank .hh{color:var(--gap)} .rank .ll{color:var(--good)}
+  .landline{margin-top:20px;border-left:3px solid var(--good);padding:8px 0 8px 18px;font-size:clamp(15px,1.9vw,21px);max-width:44ch;line-height:1.4}
+  .landline b{color:var(--good)}
+
+  /* chrome */
+  .bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--violet),var(--coral));
+    width:0;transition:width .3s ease;z-index:20}
+  .count{position:fixed;bottom:18px;right:24px;font-family:var(--mono);font-size:12px;color:var(--faint);
+    z-index:20;font-variant-numeric:tabular-nums}
+  .hint{position:fixed;bottom:18px;left:24px;font-family:var(--mono);font-size:11px;color:var(--faint);z-index:20}
+  .cue{position:fixed;bottom:44px;left:0;right:0;text-align:center;padding:0 8vw;z-index:15;
+    font-size:13.5px;color:var(--coral);font-style:italic;max-width:920px;margin:0 auto;line-height:1.4}
+  .cue.hidden{display:none}
+  .cue::before{content:"\25B8 talk \00b7 ";font-family:var(--mono);font-style:normal;letter-spacing:.06em;color:var(--faint);font-size:11px}
+  :focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
+  @media (max-width:820px){
+    .capGrid,.adds{grid-template-columns:1fr} .schwrap{grid-template-columns:1fr}
+    .slide{padding:5vh 7vw 16vh}
+    .tbl th:nth-child(2),.tbl td:nth-child(2){display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar" id="bar"></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 - THESIS -->
+  <section class="slide on">
+    <div class="num">Basqo &middot; does the stack hold? &middot; Kiran Nambiar</div>
+    <h1>Every capability Bubble runs today<br><span class="g">maps to Go + Postgres.</span></h1>
+    <div class="thesis">I walked all six current use cases and every integration through the proposed stack. It holds. The one new operational piece is a <em>Postgres-backed job runner</em> for the nightly syncs.</div>
+    <div class="cue">Rather than just pick a stack, I traced every capability the PDF says Bubble does today and checked it fits. Short version: it all lives in Go + Postgres, and the only new infra is a background job runner, which is still just Postgres. Let me walk the use cases, then the integrations, then the one gap.</div>
+  </section>
+
+  <!-- 2 - CORE USE CASES A -->
+  <section class="slide">
+    <div class="num coral">Core use cases &middot; 1 of 2</div>
+    <h2>Live forecast, approvals, scenarios</h2>
+    <div class="capGrid">
+      <div class="capCard">
+        <div class="csrc">Daily live forecast</div>
+        <div class="ch">HRIS-driven forecast</div>
+        <div class="chow">Scheduled job pulls Personio / HiBob / Bamboo <b>in parallel</b>, normalises each to our model, idempotent upsert to Postgres.</div>
+        <div class="cnote"><b>Lever:</b> a unified HRIS API (Kombo, EU) collapses 3 integrations into 1.</div>
+        <div class="badges"><span class="badge high">Complexity high</span><span class="badge plus">+ scheduler</span></div>
+      </div>
+      <div class="capCard">
+        <div class="csrc">Approval management</div>
+        <div class="ch">Configurable flows</div>
+        <div class="chow">Config-driven <b>rule table</b> (JSONB conditions) + a state machine in Go. Route by cost center / role / amount; notify via SendGrid + Slack.</div>
+        <div class="cnote"><b>No Temporal needed</b> at this volume: approvals are human-speed.</div>
+        <div class="badges"><span class="badge mod">Complexity mod</span><span class="badge fits">Stack fits</span></div>
+      </div>
+      <div class="capCard">
+        <div class="csrc">Budgeting &amp; scenarios</div>
+        <div class="ch">Base / freeze / growth</div>
+        <div class="chow"><b>scenario_id</b> on the fact table. Clone = copy rows; compare = query two side by side. Rollups via materialized views.</div>
+        <div class="cnote"><b>Small data:</b> Postgres aggregates tens of thousands of rows in ms.</div>
+        <div class="badges"><span class="badge mod">Complexity mod</span><span class="badge fits">Stack fits</span></div>
+      </div>
+    </div>
+    <div class="cue">The forecast is the hard one, and it's hard because of external APIs, not our side. Approvals are a state machine in Postgres; scenarios are just rows the database aggregates in milliseconds. The data is small enough that both stay simple.</div>
+  </section>
+
+  <!-- 3 - CORE USE CASES B -->
+  <section class="slide">
+    <div class="num coral">Core use cases &middot; 2 of 2</div>
+    <h2>Deviation, upload, access control</h2>
+    <div class="capGrid">
+      <div class="capCard">
+        <div class="csrc">Deviation analysis</div>
+        <div class="ch">Plan vs actuals</div>
+        <div class="chow">A <b>SQL join + aggregation</b> of plan (scenario) against actuals (HRIS / uploads), grouped by cost center and month. Materialized view for the read.</div>
+        <div class="cnote"><b>Migrates first:</b> this is the read-heavy Month-1 workload.</div>
+        <div class="badges"><span class="badge low">Complexity low</span><span class="badge fits">Stack fits</span></div>
+      </div>
+      <div class="capCard">
+        <div class="csrc">Single source of truth</div>
+        <div class="ch">CSV / Excel upload</div>
+        <div class="chow">Endpoint &rarr; parse (<b>encoding/csv</b>, excelize) &rarr; validate &rarr; column-map &rarr; idempotent upsert. Raw files in object storage.</div>
+        <div class="cnote"><b>Real work:</b> validation UX and column mapping, not parsing.</div>
+        <div class="badges"><span class="badge mod">Complexity mod</span><span class="badge plus">+ object store</span></div>
+      </div>
+      <div class="capCard hot">
+        <div class="csrc">Data privacy &amp; access</div>
+        <div class="ch">Admin vs manager scope</div>
+        <div class="chow">Postgres <b>Row-Level Security</b> for tenant + role scoping. Manager sees their org subtree via recursive CTE / ltree.</div>
+        <div class="cnote"><b>Selling point:</b> Bubble privacy rules &rarr; RLS is a clean 1:1. API + MCP inherit it.</div>
+        <div class="badges"><span class="badge high">Complexity mod-high</span><span class="badge fits">Stack fits</span></div>
+      </div>
+    </div>
+    <div class="cue">Deviation is almost free in SQL. Upload's difficulty is telling a user which rows failed and why, not reading the file. Access control is the one I'd test hardest, because a financial-data leak is catastrophic, but it maps beautifully: their privacy rules become Postgres RLS, and everything downstream inherits it.</div>
+  </section>
+
+  <!-- 4 - INTEGRATIONS -->
+  <section class="slide">
+    <div class="num">Integrations</div>
+    <h2>Keep what works, own what's core</h2>
+    <table class="tbl">
+      <thead><tr><th>Integration</th><th>Approach</th><th>Complexity</th><th>New infra</th></tr></thead>
+      <tbody>
+        <tr><td>WorkOS &middot; SSO</td><td><span class="keep">keep</span> &nbsp;Go SDK validates tokens; Phase 1 unchanged.</td><td><span class="cx low">low</span></td><td><span class="inf no">none</span></td></tr>
+        <tr><td>SendGrid &middot; email</td><td><span class="keep">keep</span> &nbsp;Go SDK; transactional on approval steps.</td><td><span class="cx low">low</span></td><td><span class="inf no">none</span></td></tr>
+        <tr><td>Slack &middot; notify</td><td>Thin Go client (webhooks / Web API).</td><td><span class="cx low">low</span></td><td><span class="inf no">none</span></td></tr>
+        <tr><td>Mixpanel &middot; analytics</td><td>Keep Phase 1; PostHog (EU) is future scope.</td><td><span class="cx low">low</span></td><td><span class="inf no">none</span></td></tr>
+        <tr><td>HRIS &middot; read-only nightly</td><td>Per-provider clients + normalise + upsert.</td><td><span class="cx high">high</span></td><td><span class="inf yes">scheduler</span></td></tr>
+        <tr><td>ATS &middot; 2-way nightly</td><td>Read like HRIS, plus <b style="color:var(--text)">push jobs</b> with external-ID mapping + idempotency + reconciliation.</td><td><span class="cx high">high</span></td><td><span class="inf yes">scheduler</span></td></tr>
+      </tbody>
+    </table>
+    <div class="cue">Auth and email I keep as-is: no reason to rebuild WorkOS or SendGrid. Slack and Mixpanel are thin. The two hard ones are HRIS and ATS, and the 2-way ATS push is the harder half because you have to avoid creating duplicate job openings and reconcile edits made on their side. Still just Go HTTP clients and Postgres state, no new infra beyond the scheduler.</div>
+  </section>
+
+  <!-- 5 - THE GAP: SCHEDULER -->
+  <section class="slide">
+    <div class="num coral">The one new piece</div>
+    <h2>Where the scheduled jobs run</h2>
+    <div class="schwrap">
+      <div class="schcard">
+        <div class="st">The honest gap</div>
+        <div class="sbig">Postgres-backed job runner: <span>River</span></div>
+        <p>HRIS / ATS syncs, materialized-view refreshes, and approval reminders all need scheduled background work. In a single-binary deployment, that's the one piece we hadn't named yet.</p>
+      </div>
+      <div>
+        <ul>
+          <li><b>Runs inside the same Go binary.</b> No extra service to operate.</li>
+          <li><b>Uses the Postgres we already have.</b> Durable jobs, retries, periodic schedules, no new datastore.</li>
+          <li><b>Survives restarts.</b> A crashed nightly sync resumes; nothing silently dropped.</li>
+        </ul>
+        <div class="no">It ships and scales <b>with the API</b>, so scheduled work stays as easy to operate as everything else.</div>
+      </div>
+    </div>
+    <div class="cue">The natural question a technical founder asks: where do the nightly jobs actually run? A Postgres-backed queue lives in the same binary and uses the same database, so it's durable and observable without adding a moving part to on-call.</div>
+  </section>
+
+  <!-- 6 - VERDICT -->
+  <section class="slide">
+    <div class="num">Verdict</div>
+    <h2>Every capability fits, end to end</h2>
+    <div class="adds">
+      <div class="a"><div class="lab">Addition 1</div><div class="big">Job scheduler</div><p>River, Postgres-backed, in the binary. For the nightly syncs.</p></div>
+      <div class="a"><div class="lab">Addition 2</div><div class="big">Object storage</div><p>EU bucket / Supabase Storage. For raw CSV / Excel uploads.</p></div>
+      <div class="a"><div class="lab">Addition 3</div><div class="big">Org hierarchy</div><p>Recursive CTE / ltree. A schema detail, not infra, for manager scoping.</p></div>
+    </div>
+    <div class="rank">Complexity, hardest first: <b class="hh">HRIS / ATS integrations</b> &rarr; multi-tenant RLS + manager subtree &rarr; recalc / scenarios &rarr; approvals + config migration &rarr; CSV import &rarr; <b class="ll">deviation</b> &rarr; the keep-as-is integrations.</div>
+    <div class="landline"><b>The line:</b> I didn't just pick a stack, I walked every current capability through it. It all fits in Go + Postgres, with three small additions.</div>
+    <div class="cue">The whole exercise is really the proof: the stack isn't a guess, it's what's left after checking every box. Three small additions, and nothing that a solo engineer can't operate day to day.</div>
+  </section>
+
+</div>
+
+<div class="count" id="count">1 / 6</div>
+<div class="hint">&#8592; &rarr; navigate &middot; N notes &middot; F full-screen</div>
+
+<script>
+  (function(){
+    var slides=[].slice.call(document.querySelectorAll('.slide'));
+    var bar=document.getElementById('bar'), count=document.getElementById('count');
+    var i=0, notes=true;
+    function show(n){
+      i=Math.max(0,Math.min(slides.length-1,n));
+      slides.forEach(function(s,k){s.classList.toggle('on',k===i);});
+      bar.style.width=((i)/(slides.length-1)*100)+'%';
+      count.textContent=(i+1)+' / '+slides.length;
+    }
+    function next(){show(i+1);} function prev(){show(i-1);}
+    document.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();next();}
+      else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+      else if(e.key==='Home'){show(0);} else if(e.key==='End'){show(slides.length-1);}
+      else if(e.key==='n'||e.key==='N'){notes=!notes;document.querySelectorAll('.cue').forEach(function(c){c.classList.toggle('hidden',!notes);});}
+      else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen&&document.exitFullscreen();}}
+    });
+    document.getElementById('deck').addEventListener('click',function(e){
+      if(e.target.closest('a'))return;
+      next();
+    });
+    show(0);
+  })();
+</script>
+
+</body>
+</html>

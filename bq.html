@@ -15,8 +15,7 @@
     --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{background:var(--ground);color:var(--text);font-family:var(--sans);
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);
     -webkit-font-smoothing:antialiased;overflow:hidden;
     background-image:radial-gradient(1100px 600px at 82% -8%,rgba(139,124,246,.12),transparent 60%),
       radial-gradient(800px 500px at -8% 8%,rgba(244,115,142,.07),transparent 55%);}
@@ -44,6 +43,8 @@
   li b{color:var(--text);font-weight:680}
   li span{color:var(--muted)}
   .small{font-size:clamp(14px,1.5vw,17px)}
+
+  /* stack flow */
   .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:6px}
   .node{flex:1;min-width:160px;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:16px 18px}
   .node.db{border-color:rgba(139,124,246,.5);background:linear-gradient(180deg,rgba(139,124,246,.12),transparent)}
@@ -54,6 +55,26 @@
   .ar{align-self:center;color:var(--faint);font-size:22px}
   .no{margin-top:20px;font-size:clamp(13px,1.5vw,16px);color:var(--muted)}
   .no s{color:var(--gap);opacity:.8}
+
+  /* bottleneck: cascade + why */
+  .btl{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;margin-top:6px;align-items:start}
+  .cascade{display:flex;flex-direction:column;gap:0}
+  .lvl{display:flex;align-items:center;gap:12px;font-size:clamp(13px,1.5vw,16px)}
+  .lvl .box{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:7px 13px;font-weight:640;color:var(--text);white-space:nowrap}
+  .lvl .box.trig{border-color:var(--coral);background:linear-gradient(180deg,rgba(244,115,142,.14),transparent)}
+  .lvl .box.top{border-color:rgba(139,124,246,.55);background:linear-gradient(180deg,rgba(139,124,246,.14),transparent);color:var(--text)}
+  .lvl .meta{color:var(--faint);font-size:clamp(11px,1.2vw,13px)}
+  .drop{color:var(--coral);font-family:var(--mono);font-size:15px;margin:2px 0 2px 16px;opacity:.9}
+  .whyc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px 20px}
+  .whyc .wt{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:12px}
+  .whyc ul{gap:12px}
+  .whyc li{font-size:clamp(13px,1.4vw,15.5px);line-height:1.4}
+  .whyc li::before{background:var(--coral)}
+  .whyc li b{color:var(--text)}
+  .scewn{margin-top:16px;font-size:clamp(13px,1.5vw,16px);color:var(--muted)}
+  .scewn b{color:var(--warn)}
+
+  /* two-col */
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:6px}
   .colcard{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px 20px}
   .colcard .ct{font-weight:700;font-size:clamp(15px,1.7vw,19px);margin-bottom:6px}
@@ -62,6 +83,8 @@
   .colcard .lab{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
   .colcard .for .lab{color:var(--good)} .colcard .ag .lab{color:var(--warn)}
   .rec{border-color:rgba(139,124,246,.5);background:linear-gradient(180deg,rgba(139,124,246,.09),transparent)}
+
+  /* phases */
   .phases{display:flex;flex-direction:column;gap:12px;margin-top:6px}
   .ph{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline}
   .ph .k{font-family:var(--mono);font-size:13px;color:var(--violet);font-weight:600;white-space:nowrap}
@@ -69,6 +92,7 @@
   .ph .v b{color:var(--text)} .ph .v span{color:var(--muted)}
   .p2{border-top:1px solid var(--hair);padding-top:14px;margin-top:4px}
   .p2 .k{color:var(--coral)}
+
   .dates{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
   .d{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px}
   .d .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
@@ -76,6 +100,28 @@
   .d p{margin:8px 0 0;font-size:clamp(12px,1.3vw,14px);color:var(--muted)}
   .week{margin-top:26px;border-left:3px solid var(--good);padding:8px 0 8px 18px;font-size:clamp(15px,1.9vw,21px);max-width:34ch}
   .week b{color:var(--good)}
+
+  /* Q&A grid */
+  .qaGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+  .qaCard{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:14px 16px}
+  .qaCard .ql{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);margin-bottom:5px}
+  .qaCard .qq{font-size:clamp(12px,1.3vw,13.5px);color:var(--faint);font-style:italic;margin-bottom:6px;line-height:1.3}
+  .qaCard .qa{font-size:clamp(12px,1.35vw,14px);color:var(--muted);line-height:1.45}
+  .qaCard .qa b{color:var(--text);font-weight:600}
+
+  /* future / bonus slide */
+  .intro{font-size:clamp(15px,1.9vw,20px);color:var(--muted);max-width:42ch;margin-top:2px;line-height:1.5}
+  .fcard{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:18px 20px;margin-top:18px;display:flex;flex-direction:column;gap:13px;max-width:44ch}
+  .flagrow{display:flex;gap:11px;align-items:flex-start;font-size:clamp(13px,1.5vw,16px);color:var(--muted);line-height:1.42}
+  .flagrow .fi{color:var(--warn);flex-shrink:0}
+  .flagrow b{color:var(--text)}
+  .peeklink{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:4px;
+    font-family:var(--mono);font-size:clamp(12.5px,1.5vw,15px);text-decoration:none;
+    color:var(--ground);background:linear-gradient(92deg,var(--violet),var(--coral));
+    padding:11px 18px;border-radius:9px;font-weight:700}
+  .peeklink:hover{opacity:.92}
+
+  /* chrome */
   .bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--violet),var(--coral));
     width:0;transition:width .3s ease;z-index:20}
   .count{position:fixed;bottom:18px;right:24px;font-family:var(--mono);font-size:12px;color:var(--faint);
@@ -84,10 +130,11 @@
   .cue{position:fixed;bottom:44px;left:0;right:0;text-align:center;padding:0 8vw;z-index:15;
     font-size:13.5px;color:var(--coral);font-style:italic;max-width:900px;margin:0 auto;line-height:1.4}
   .cue.hidden{display:none}
-  .cue::before{content:"\25B8 talk \00B7 ";font-family:var(--mono);font-style:normal;letter-spacing:.06em;color:var(--faint);font-size:11px}
+  .cue::before{content:"▸ talk · ";font-family:var(--mono);font-style:normal;letter-spacing:.06em;color:var(--faint);font-size:11px}
   :focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+
   @media (max-width:760px){
-    .cols,.dates{grid-template-columns:1fr} .ar{display:none}
+    .cols,.dates,.qaGrid,.btl{grid-template-columns:1fr} .ar{display:none}
     .slide{padding:5vh 7vw 16vh}
   }
 </style>
@@ -98,27 +145,59 @@
 
 <div class="deck" id="deck">
 
+  <!-- 1 - THESIS -->
   <section class="slide on">
     <div class="num">Basqo &middot; migration case &middot; Kiran Nambiar</div>
     <h1>Migrate the <span class="g">backend first</span>.<br>Keep Bubble as the UI.</h1>
     <div class="thesis">The pain is Bubble's recalculation ceiling and lack of code control: a <em>backend</em> problem, not scale. So I'd fix that with the smallest change one engineer can own.</div>
-    <div class="cue">~30 customer companies, 200 MAU, 30&ndash;40 DAU. This is a restraint problem, not a scale one. I'll cover what I'd ask first, the stack, the alternatives, the migration, and dates. The headline decision: backend-first, Bubble stays the frontend.</div>
+    <div class="cue">~30 customer companies, 200 MAU, 30-40 DAU, so the challenge is getting the backend right, not handling load. I'll cover the bottleneck, what I'd ask first, the stack, the alternatives, the migration, and dates. The headline decision: backend-first, Bubble stays the frontend.</div>
   </section>
 
+  <!-- 2 - THE BOTTLENECK -->
   <section class="slide">
-    <div class="num">01 &middot; What I'd want to know first</div>
+    <div class="num coral">01 &middot; The bottleneck</div>
+    <h2>One edit, a cascade of recalculations</h2>
+    <div class="btl">
+      <div class="cascade">
+        <div class="lvl"><div class="box trig">Position &times; month &times; cost type</div><div class="meta">salary 3750 &rarr; 4000</div></div>
+        <div class="drop">&darr; rolls up</div>
+        <div class="lvl"><div class="box">Cost center total</div></div>
+        <div class="drop">&darr;</div>
+        <div class="lvl"><div class="box">Department total</div></div>
+        <div class="drop">&darr;</div>
+        <div class="lvl"><div class="box">Legal entity total</div><div class="meta">7 entities / customer</div></div>
+        <div class="drop">&darr;</div>
+        <div class="lvl"><div class="box top">Company plan + deviation</div></div>
+        <div class="scewn">Then <b>&times;3-5 scenarios</b> (base / freeze / growth), each a full parallel copy, compared against each other.</div>
+      </div>
+      <div class="whyc">
+        <div class="wt">Why Bubble hits a ceiling</div>
+        <ul>
+          <li><b>Interpreted, slow per op.</b> Summing thousands of rows in visual workflows takes seconds-to-minutes, not milliseconds.</li>
+          <li><b>Metered compute.</b> Every recalculation burns paid Workload Units, so it's slow <em>and</em> costly.</li>
+          <li><b>No code-level control.</b> Can't recompute only what changed, cache, precompute rollups, or parallelise scenarios. The levers don't exist.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cue">I'm not an FP&amp;A expert, I'll lean on you for domain. But the engineering shape is clear: the core operation is a cascading aggregation, and that's exactly what a database and native code do orders of magnitude faster than a no-code interpreter that also meters you per op. The bottleneck is compute they can't optimise, not traffic. That's what Postgres + Go fixes directly.</div>
+  </section>
+
+  <!-- 3 - WHAT I'D ASK FIRST -->
+  <section class="slide">
+    <div class="num">02 &middot; What I'd want to know first</div>
     <h2>Four questions that shape everything</h2>
     <ul>
       <li><b>Which workflows hit the recalculation ceiling?</b><span>&nbsp;Scenario rollups, deviation, approvals. That's the hard part to get right.</span></li>
-      <li><b>Which of the ~70 types are core vs disposable?</b><span>&nbsp;Confirms the ~8&ndash;10 entities I'd actually model.</span></li>
+      <li><b>Which of the ~70 types are core vs disposable?</b><span>&nbsp;Confirms the ~8-10 entities I'd actually model.</span></li>
       <li><b>Bubble plan + Data API / API Connector limits?</b><span>&nbsp;Drives how I design the endpoints and the sync.</span></li>
-      <li><b>EU residency: sub-processors DPA'd, can calls run client-side?</b><span>&nbsp;It's a hard requirement, so it shapes the architecture.</span></li>
+      <li><b>EU residency: are sub-processors DPA'd, can calls run client-side?</b><span>&nbsp;It's a hard requirement, so it shapes the architecture.</span></li>
     </ul>
     <div class="cue">I didn't pretend to know the internals. These are the four answers I'd want before committing. Notice they're about the domain and the constraints, not the tech.</div>
   </section>
 
+  <!-- 4 - STACK -->
   <section class="slide">
-    <div class="num coral">02 &middot; Recommended stack</div>
+    <div class="num coral">03 &middot; Recommended stack</div>
     <h2>Bubble UI &rarr; Go monolith &rarr; managed EU Postgres</h2>
     <div class="flow">
       <div class="node fe"><div class="h">Bubble (kept)</div><div class="t">UI &middot; API Connector</div><p>UI barely changes; it calls our API instead of its own DB. Founders keep contributing.</p></div>
@@ -127,51 +206,117 @@
       <span class="ar">&rarr;</span>
       <div class="node db"><div class="h">&#9670; PostgreSQL</div><div class="t">managed &middot; EU &middot; Supabase/Neon</div><p>Source of truth. JSONB + materialized views + RLS for tenant scoping.</p></div>
     </div>
-    <div class="no"><b style="color:var(--text)">Not proposed:</b> <s>Kafka</s> <s>microservices</s> <s>ClickHouse</s> <s>Kubernetes</s> <s>big-bang frontend rewrite</s>: operational surface one engineer carries for no payoff at this scale (200 MAU).</div>
-    <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. And the line that lands: I've run a K8s operator, which is exactly why I'd keep it out of a product this size.</div>
+    <div class="no" style="margin-top:22px">Every current Bubble capability checked against this stack &rarr; <a href="https://sudopower.com/bqc" target="_blank" rel="noopener" style="color:var(--violet);font-family:var(--mono);text-decoration:none;border-bottom:1px solid rgba(139,124,246,.4)">sudopower.com/bqc</a></div>
+    <div class="cue">One language for the hard part, one database, one host. Keep WorkOS + SendGrid. Clean internal boundaries mean the public API + MCP on your roadmap (which Bubble can't give you today) become thin adapters, not a rebuild. And the line that lands: I've run a K8s operator, which is exactly why I'd keep it out of a product this size, staffed by one engineer for at least the next 12 months.</div>
   </section>
 
+  <!-- 5 - ALTERNATIVES -->
   <section class="slide">
-    <div class="num">03 &middot; Alternatives &amp; honest tradeoffs</div>
+    <div class="num">04 &middot; Alternatives &amp; honest tradeoffs</div>
     <h2>What else I weighed</h2>
     <div class="cols">
       <div class="colcard"><div class="ct">Full rewrite incl. frontend now</div><div class="for"><span class="lab">For</span>Cleanest end-state; fully off Bubble.</div><div class="ag"><span class="lab">Against</span>Doubles scope; gates everything on the frontend, which isn't the pain. Wrong sequencing.</div></div>
       <div class="colcard"><div class="ct">TypeScript full-stack</div><div class="for"><span class="lab">For</span>Best single-language velocity &amp; eventual frontend.</div><div class="ag"><span class="lab">Against</span>My depth is Go; weaker for heavy recalc. The pick if we did FE in Phase 1.</div></div>
       <div class="colcard"><div class="ct">Python &middot; Django / FastAPI</div><div class="for"><span class="lab">For</span>Batteries-included; data/finance/AI ecosystem.</div><div class="ag"><span class="lab">Against</span>Not my fluent language; for solo on-call on financial data, fluency beats fit.</div></div>
-      <div class="colcard rec"><div class="ct" style="color:var(--violet)">&rarr; Go monolith + Postgres</div><div class="for"><span class="lab">Why it wins</span>Highest velocity &amp; on-call confidence for me; right-sized for the team and the data today.</div></div>
+      <div class="colcard"><div class="ct">Heavier infra &middot; Kafka / ClickHouse / K8s</div><div class="for"><span class="lab">For</span>Scales to far larger load, event volume, and analytics.</div><div class="ag"><span class="lab">Against</span>No real value at 200 MAU today; too much operational surface for one engineer to maintain.</div></div>
+      <div class="colcard rec" style="grid-column:1 / -1"><div class="ct" style="color:var(--violet)">&rarr; Go monolith + Postgres</div><div class="for"><span class="lab">Why it wins</span>Highest velocity &amp; on-call confidence for me; right-sized for the team and the data today.</div></div>
     </div>
-    <div class="cue">Several stacks would work at this scale; the deciding variable is who's building it. I chose for fluency and operability, not fashion. If recalc ever gets heavily numeric, a small Python service is the escape hatch.</div>
+    <div class="cue">Several stacks would work at this scale; the deciding variable is who's building it. The heavy-infra options buy scale we don't have yet and cost operability a solo engineer can't spare, so they're a deliberate no for now, not forever. I chose for fluency and operability, not fashion. If recalc ever gets heavily numeric, a small Python service is the escape hatch.</div>
   </section>
 
+  <!-- 6 - MIGRATION -->
   <section class="slide">
-    <div class="num coral">04 &middot; The migration</div>
+    <div class="num coral">05 &middot; The migration</div>
     <h2>Two-phase strangler: dual-run, per-customer cutover</h2>
     <div class="phases">
-      <div class="ph"><div class="k">P1 &middot; model</div><div class="v"><b>~70 types &rarr; ~8&ndash;10 entities</b><span> &middot; AI-assisted from /meta, verified by hand</span></div></div>
+      <div class="ph"><div class="k">P1 &middot; model</div><div class="v"><b>~70 types &rarr; ~8-10 entities</b><span> &middot; AI-assisted from /meta, verified by hand</span></div></div>
       <div class="ph"><div class="k">P1 &middot; sync</div><div class="v"><b>Backfill + nightly delta into Postgres</b><span> &middot; reconciliation harness diffs vs Bubble</span></div></div>
       <div class="ph"><div class="k">P1 &middot; strangle</div><div class="v"><b>Repoint Bubble via API Connector</b><span> &middot; reads first, then writes + heavy logic into Go</span></div></div>
       <div class="ph"><div class="k">P1 &middot; cut over</div><div class="v"><b>Customer-by-customer</b><span> &middot; gated by a clean diff, reversible, Bubble as fallback</span></div></div>
       <div class="ph p2"><div class="k">P2 &middot; later</div><div class="v"><b>Swap Bubble UI for a custom frontend</b><span> &middot; same API, off the critical path</span></div></div>
     </div>
-    <div class="cue">Zero regression doesn't come from a perfect script; it comes from running both systems, diffing them continuously, and flipping one customer at a time with a rollback. This is the PHP-monolith split and zero-downtime work I've done before.</div>
+    <div class="cue">Zero regression doesn't come from a perfect script; it comes from running both systems, diffing them continuously, and flipping one customer at a time with a rollback.</div>
   </section>
 
+  <!-- 7 - DATES + WEEK ONE -->
   <section class="slide">
-    <div class="num">05 &middot; Dates &amp; week one</div>
+    <div class="num">06 &middot; Dates &amp; week one</div>
     <h2>Milestone-gated, not calendar-gated</h2>
     <div class="dates">
-      <div class="d"><div class="lab">First cutover</div><div class="big">~Month 3</div><p>One friendly customer, once read parity is proven.</p></div>
-      <div class="d"><div class="lab">The gate</div><div class="big">Clean reconciliation</div><p>Green = ramp customers. Never trade data integrity for a date.</p></div>
-      <div class="d"><div class="lab">Bubble retired</div><div class="big">~Month 7&ndash;9</div><p>After the last customer's parity holds in production.</p></div>
+      <div class="d"><div class="lab">First cutover</div><div class="big">Month 1</div><p>First read-heavy reports cut over to new backend. UI unchanged.</p></div>
+      <div class="d"><div class="lab">The gate</div><div class="big">Clean reconciliation</div><p>Harness signals green = safe to flip. Never trade data integrity for a date.</p></div>
+      <div class="d"><div class="lab">Bubble backend retired</div><div class="big">Month 6-8</div><p>All workflows migrated; cost audit at Month 8 to cut remaining Bubble spend.</p></div>
     </div>
-    <div class="week"><b>Week one:</b> model the core entities with you, stand up EU Postgres + the Bubble extract, and build the reconciliation harness, so we can see fidelity daily from day one.</div>
-    <div class="cue">I won't promise a hard date for all 30 up front. I'll give you a first cutover at ~month 3 and a reconciliation gate that tells us, per customer, when it's safe. That protects your zero-regression constraint. Thank you. Happy to dig into any of it.</div>
+    <div class="week"><b>Week one:</b> model core entities with you, stand up EU Postgres + Bubble extract, build the reconciliation harness, so we can see fidelity daily from day one.</div>
+    <div class="cue">I won't promise a hard date for all 30 up front. I'll give you a first cutover at Month 1 and a reconciliation gate that tells us, per customer, when it's safe. That protects your zero-regression constraint.</div>
+  </section>
+
+  <!-- 8 - Q&A -->
+  <section class="slide">
+    <div class="num">07 &middot; Questions I anticipated</div>
+    <h2>Discussion prep</h2>
+    <div class="qaGrid">
+      <div class="qaCard">
+        <div class="ql">API Connector handoff</div>
+        <div class="qq">Have you used it? How does the deviation view actually migrate?</div>
+        <div class="qa">Map response params, build AI-generated Postman test suite covering all filters. Switch connector URL once new endpoint passes every scenario. <b>UI sees no change.</b></div>
+      </div>
+      <div class="qaCard">
+        <div class="ql">Write conflicts</div>
+        <div class="qq">Two systems, bursty writes. Who wins?</div>
+        <div class="qa">Conflict doesn't arise if sequenced correctly. Phase 1 = reads only; Bubble stays write source of truth. Per-customer window: <b>pause writes, reconciliation green, then flip.</b> No dual-write.</div>
+      </div>
+      <div class="qaCard">
+        <div class="ql">HRIS sync timing</div>
+        <div class="qq">You pick 3AM, but the nightly HRIS pull also runs at night.</div>
+        <div class="qa">Harness tracks nightly sync completion as a hard precondition. <b>Cutover never starts until all sync tasks done AND reconciliation is green.</b> Need full workflow schedule first.</div>
+      </div>
+      <div class="qaCard">
+        <div class="ql">Solo engineer risk</div>
+        <div class="qq">What if you're sick for two weeks mid-migration?</div>
+        <div class="qa"><b>Runbooks + observable systems,</b> not personal promises. If 30 customers share one connector: one cutover, not 30. Dashboard anyone can read; rollback = one command.</div>
+      </div>
+      <div class="qaCard">
+        <div class="ql">Why Go</div>
+        <div class="qq">We can't read Go. Why not TypeScript?</div>
+        <div class="qa">Fluency = fastest debug at 2AM. <b>Single binary</b> = trivial solo on-call. Explicit error handling = can't silently swallow errors on financial data. Goroutines for scenario rollup concurrency.</div>
+      </div>
+      <div class="qaCard">
+        <div class="ql">Migration timeline</div>
+        <div class="qq">When does the first customer see the new backend? When are we off Bubble?</div>
+        <div class="qa"><b>Month 1:</b> first read cutover. <b>Month 3:</b> first write feature. <b>Month 6:</b> all workflows. <b>Month 8:</b> Bubble cost audit. Two-week app audit sharpens all numbers.</div>
+      </div>
+      <div class="qaCard">
+        <div class="ql">New features mid-migration</div>
+        <div class="qq">Customer needs a feature during the window. Build in Bubble or new system?</div>
+        <div class="qa">Build in Go, never in Bubble backend. New features <b>minimised by agreement.</b> First 2 weeks I get comfortable wiring Bubble connectors myself, so founders aren't the bottleneck.</div>
+      </div>
+      <div class="qaCard">
+        <div class="ql">Approval workflow migration</div>
+        <div class="qq">Customer-specific routing logic. How do you move it?</div>
+        <div class="qa">Build a <b>config-driven rule table</b> (straightforward). Migrate configs via Bubble app-definition export + parser, or agentic extraction with Claude. Manual admin UI as fallback.</div>
+      </div>
+    </div>
+    <div class="cue">These came up in prep. Happy to go deeper on any of them.</div>
+  </section>
+
+  <!-- 9 - FUTURE / ILLUSTRATIVE -->
+  <section class="slide">
+    <div class="num coral">Bonus &middot; future / illustrative</div>
+    <h2>What the backend unlocks: an AI executive briefing</h2>
+    <p class="intro">I ran the cost export you shared through the kind of AI executive summary Basqo could offer as a feature. It generated in seconds, and surfaced two things worth a second look:</p>
+    <div class="fcard">
+      <div class="flagrow"><span class="fi">&#9888;</span><div><b>&euro;3.04M under &ldquo;Demo Sample Entity&rdquo;</b> (19% of the plan): reads like placeholder data. Worth confirming before the budget locks.</div></div>
+      <div class="flagrow"><span class="fi">&#9888;</span><div><b>A contractor budgeted at &euro;627K</b>, above the CEO line. Worth a rate and scope review.</div></div>
+      <a class="peeklink" href="https://sudopower.com/bqx" target="_blank" rel="noopener">Open the live example &rarr; sudopower.com/bqx</a>
+    </div>
+    <div class="cue">Not proposing we build this now. It's what becomes cheap once the backend is in code with your permission model: a role-aware briefing per executive, scoped to what they're allowed to see. Same access layer that makes the migration safe.</div>
   </section>
 
 </div>
 
-<div class="count" id="count">1 / 6</div>
-<div class="hint">&larr; &rarr; navigate &middot; N notes &middot; F full-screen</div>
+<div class="count" id="count">1 / 9</div>
+<div class="hint">&#8592; &rarr; navigate &middot; N notes &middot; F full-screen</div>
 
 <script>
   (function(){
@@ -199,5 +344,6 @@
     show(0);
   })();
 </script>
+
 </body>
 </html>

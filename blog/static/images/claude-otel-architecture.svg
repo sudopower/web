@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" font-family="'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace">
+  <rect width="1200" height="420" fill="#0d1117"/>
+
+  <!-- title -->
+  <text x="60" y="70" fill="#c9d1d9" font-size="28" font-weight="700">claude-otel-capture pipeline</text>
+  <text x="60" y="100" fill="#8b949e" font-size="16">env vars must be set before `claude` starts; nothing here works retroactively</text>
+
+  <!-- flow: 5 nodes -->
+  <!-- node 1: claude -->
+  <rect x="40" y="180" width="180" height="90" rx="8" fill="#161b22" stroke="#3987e5" stroke-width="2"/>
+  <text x="130" y="216" fill="#3987e5" font-size="18" font-weight="700" text-anchor="middle">claude</text>
+  <text x="130" y="240" fill="#8b949e" font-size="13" text-anchor="middle">OTLP export</text>
+  <text x="130" y="257" fill="#8b949e" font-size="13" text-anchor="middle">(logs/metrics/traces)</text>
+
+  <!-- arrow 1 -->
+  <line x1="220" y1="225" x2="272" y2="225" stroke="#8b949e" stroke-width="2"/>
+  <polygon points="272,225 262,219 262,231" fill="#8b949e"/>
+  <text x="246" y="212" fill="#8b949e" font-size="12" text-anchor="middle">grpc :4317</text>
+
+  <!-- node 2: otel-collector -->
+  <rect x="276" y="170" width="200" height="110" rx="8" fill="#161b22" stroke="#199e70" stroke-width="2"/>
+  <text x="376" y="206" fill="#199e70" font-size="18" font-weight="700" text-anchor="middle">otel-collector</text>
+  <text x="376" y="230" fill="#8b949e" font-size="13" text-anchor="middle">otlp receiver</text>
+  <text x="376" y="248" fill="#8b949e" font-size="13" text-anchor="middle">-&gt; file exporter</text>
+  <text x="376" y="266" fill="#8b949e" font-size="13" text-anchor="middle">127.0.0.1 only</text>
+
+  <!-- arrow 2 -->
+  <line x1="476" y1="225" x2="528" y2="225" stroke="#8b949e" stroke-width="2"/>
+  <polygon points="528,225 518,219 518,231" fill="#8b949e"/>
+  <text x="502" y="212" fill="#8b949e" font-size="12" text-anchor="middle">writes</text>
+
+  <!-- node 3: jsonl file -->
+  <rect x="532" y="175" width="220" height="100" rx="8" fill="#161b22" stroke="#8b949e" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="642" y="211" fill="#c9d1d9" font-size="16" font-weight="700" text-anchor="middle">claude-events.jsonl</text>
+  <text x="642" y="234" fill="#8b949e" font-size="13" text-anchor="middle">raw OTLP, untouched</text>
+  <text x="642" y="252" fill="#8b949e" font-size="13" text-anchor="middle">kept for later replay</text>
+
+  <!-- arrow 3 -->
+  <line x1="752" y1="225" x2="804" y2="225" stroke="#8b949e" stroke-width="2"/>
+  <polygon points="804,225 794,219 794,231" fill="#8b949e"/>
+  <text x="778" y="212" fill="#8b949e" font-size="12" text-anchor="middle">polls 5s</text>
+
+  <!-- node 4: csv-writer -->
+  <rect x="808" y="170" width="180" height="110" rx="8" fill="#161b22" stroke="#c98500" stroke-width="2"/>
+  <text x="898" y="206" fill="#c98500" font-size="18" font-weight="700" text-anchor="middle">csv-writer</text>
+  <text x="898" y="230" fill="#8b949e" font-size="13" text-anchor="middle">parse_to_csv.py</text>
+  <text x="898" y="248" fill="#8b949e" font-size="13" text-anchor="middle">flattens attrs</text>
+  <text x="898" y="266" fill="#8b949e" font-size="13" text-anchor="middle">sidecar loop</text>
+
+  <!-- arrow 4 -->
+  <line x1="988" y1="225" x2="1040" y2="225" stroke="#8b949e" stroke-width="2"/>
+  <polygon points="1040,225 1030,219 1030,231" fill="#8b949e"/>
+
+  <!-- node 5: csv -->
+  <rect x="1044" y="180" width="120" height="90" rx="8" fill="#161b22" stroke="#199e70" stroke-width="2"/>
+  <text x="1104" y="220" fill="#199e70" font-size="16" font-weight="700" text-anchor="middle">claude_</text>
+  <text x="1104" y="240" fill="#199e70" font-size="16" font-weight="700" text-anchor="middle">usage.csv</text>
+
+  <!-- footer -->
+  <line x1="40" y1="330" x2="1164" y2="330" stroke="#30363d" stroke-width="1"/>
+  <text x="40" y="368" fill="#c9d1d9" font-size="20">two containers, one gitignored folder, no manual export step</text>
+  <text x="40" y="396" fill="#8b949e" font-size="15">docker compose up -d, then source env.sh &amp;&amp; claude</text>
+</svg>
