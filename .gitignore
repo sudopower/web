@@ -33,3 +33,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Basqo material kept for a future blog post (not published)
+basqo-archive/
