@@ -26,7 +26,7 @@ Once the big rock was out of the way, the gravel added up too:
 
 - OrbStack itself had **21GB** of unused images, build cache, and volumes just sitting there (`docker image prune`, `docker builder prune`, `docker volume prune` cleared it out)
 - `go build` cache, JetBrains cache, and a pile of app auto-updater junk (Linear, Lens, Loom, Slack) added another **~20GB**
-- A handful of apps I don't remember installing: **uTorrent Web**, leftover **Tor Browser** data with no Tor Browser installed, a fake "Numbers Creator Studio" app that is very much not Apple's Numbers
+- A fake "Numbers Creator Studio" app that is very much not Apple's Numbers
 - **eqMac** and **Lens**, redundant with tools I actually use day to day (k9s instead of Lens, and honestly do I need three different audio routing utilities on one laptop? no)
 - Two orphaned LaunchAgents from apps I don't have anymore (Red Hat CodeReady Containers, VirtualBox)
 
