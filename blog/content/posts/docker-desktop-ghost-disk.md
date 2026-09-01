@@ -1,8 +1,8 @@
 +++
-date = '2026-09-01T15:45:00+02:00'
+date = '2026-09-01T15:39:00+02:00'
 draft = false
 title = "My Disk Was 94% Full and Docker Desktop Wasn't Even Installed"
-description = 'Turned a "why is my Mac dying" moment into a script, a Claude Code skill, and a scheduled weekly check. 151GB of it was a single ghost folder.'
+description = 'Turned a why-is-my-Mac-dying moment into a script, a Claude Code skill, and a scheduled weekly check. 151GB of it was a single ghost folder.'
 excerpt = "Spinning beachballs, save dialogs hanging, the works. Turned out a big chunk of it was an app I uninstalled ages ago, still sitting on disk like nothing happened."
 tags = ['claude-code', 'ai', 'macos', 'automation', 'tooling']
 image = ''
