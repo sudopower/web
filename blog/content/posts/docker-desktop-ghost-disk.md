@@ -43,6 +43,8 @@ While I was in there I also noticed macOS flagging Warp for high energy use. I'v
 
 Turned out Warp had a process stuck mid auto-update, literally `--finish-update` sitting in the process args, chewing through CPU for almost 5 hours straight. Not a Claude Code problem, not even really a "Warp is bloated" problem, just a hung updater that a restart fixed. Worth knowing the difference before you go blaming the wrong thing.
 
+I ran into a much nastier version of this later, a process sitting on six cores and 8.9GB that `ps` insisted was using 11% CPU. Wrote that one up separately: [My Mac Was Throttling and ps Said Everything Was Fine](../ps-lied-about-my-cpu/).
+
 # Turning it into something reusable
 
 Doing this by hand once is fine. Doing it by hand every few months when the disk warning pops up again is not a plan. So the whole audit (the read-only, safe part, not the "delete stuff" part) is now:
