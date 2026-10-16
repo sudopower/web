@@ -1,0 +1,1515 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="robots" content="noindex, nofollow"></head><body>
+<title>Courtside Bet Assistant</title>
+<meta name="theme-color" content="#0A1712">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Looks ---------- */
+:root {
+  color-scheme: dark;
+  --font: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+  --sys: -apple-system, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+  --brand-green: #027B5B;
+  --brand-yellow: #FFDF1B;
+}
+body[data-look="arena"] {
+  --stage: #020705; --stage-ink: #E8F1EC; --stage-muted: #93AA9F; --stage-line: rgba(232,241,236,.14);
+  --bg: #07110D; --surface: #0F1D17; --surface-2: #162820; --line: rgba(232,241,236,.12);
+  --ink: #EEF5F1; --muted: #9AB2A7; --odds: #3BE3A0;
+  --accent: #14B87A; --accent-ink: #04140D;
+  --sel-bg: rgba(20,184,122,.13); --sel-line: #2BD594;
+  --cta: #FFDF1B; --cta-ink: #141A05;
+  --header: #0A1712; --header-ink: #FFFFFF; --header-btn: rgba(255,255,255,.1);
+  --user: #027B5B; --user-ink: #FFFFFF;
+  --live: #FF6F61;
+  --note-bg: transparent; --note-ink: #B9CDC4; --note-pad: 0;
+  --display: 'Barlow Condensed', 'Arial Narrow', sans-serif; --display-case: uppercase; --display-track: .03em;
+  --odds-size: 26px;
+  --r-card: 16px; --r-tile: 12px; --r-btn: 12px; --r-input: 14px; --r-say: 4px 16px 16px 16px; --r-me: 16px 16px 4px 16px;
+  --shadow: none;
+  --disc-line: rgba(255,255,255,.0);
+  --sf-bg: #161618; --sf-field: #2C2C2E; --sf-ink: #F5F5F7; --sf-muted: #98989F; --sf-tint: #0A84FF; --sf-line: rgba(255,255,255,.12);
+}
+body[data-look="coach"] {
+  --stage: #DCE9E1; --stage-ink: #0F2A20; --stage-muted: #45635A; --stage-line: rgba(15,42,32,.16);
+  --bg: #F2F7F4; --surface: #FFFFFF; --surface-2: #EAF3EE; --line: rgba(15,42,32,.12);
+  --ink: #0F2A20; --muted: #4A675B; --odds: #02704F;
+  --accent: #027B5B; --accent-ink: #FFFFFF;
+  --sel-bg: #E1F3EA; --sel-line: #027B5B;
+  --cta: #FFDF1B; --cta-ink: #1B2208;
+  --header: #027B5B; --header-ink: #FFFFFF; --header-btn: rgba(255,255,255,.16);
+  --user: #0F2A20; --user-ink: #FFFFFF;
+  --live: #C2352A;
+  --note-bg: #FFF6BF; --note-ink: #2B2A12; --note-pad: 10px 12px;
+  --display: 'Bricolage Grotesque', 'Trebuchet MS', sans-serif; --display-case: none; --display-track: -.01em;
+  --odds-size: 22px;
+  --r-card: 24px; --r-tile: 18px; --r-btn: 999px; --r-input: 999px; --r-say: 6px 22px 22px 22px; --r-me: 22px 22px 6px 22px;
+  --shadow: 0 1px 2px rgba(15,42,32,.05), 0 10px 26px -14px rgba(15,42,32,.22);
+  --disc-line: rgba(15,42,32,.1);
+  --sf-bg: #F7F7F8; --sf-field: #E6E6EA; --sf-ink: #111113; --sf-muted: #6C6C70; --sf-tint: #007AFF; --sf-line: rgba(0,0,0,.14);
+}
+
+/* ---------- Stage ---------- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { margin: 0; }
+body { background: var(--stage); color: var(--stage-ink); font: 16px/1.4 var(--font); -webkit-font-smoothing: antialiased; transition: background .3s; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid #FFDF1B; outline-offset: 2px; }
+body[data-look="coach"] :focus-visible { outline-color: #02704F; }
+
+/* ---------- Full-screen mobile shell (a centred phone-width column on wide screens) ---------- */
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+body { background: #030806; }
+.device { position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; max-width: 480px; height: 100vh; height: 100dvh; background: var(--bg); }
+.screen { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; }
+.app { position: relative; flex: 1; min-height: 0; width: 100%; overflow: hidden; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; --top-h: calc(56px + env(safe-area-inset-top)); }
+@media (min-width: 481px) { .device { box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 30px 80px rgba(0,0,0,.6); } }
+
+/* ---------- App header ---------- */
+.top { flex: none; height: 60px; padding: 0 10px 0 14px; display: flex; align-items: center; gap: 8px; background: var(--header); color: var(--header-ink); }
+.brand-mark { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.brand-name { font: 700 24px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--header-ink); }
+.brand-demo { padding: 3px 6px; border-radius: 6px; border: 1px solid currentColor; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+.brand { display: block; width: 105px; height: 28px; border-radius: 6px; object-fit: cover; }
+.balance { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
+.balance small { font-size: 11.5px; font-weight: 600; opacity: .8; }
+.balance strong { font-size: 16px; font-variant-numeric: tabular-nums; }
+.bets-btn { position: relative; flex: none; height: 44px; padding: 0 14px 0 12px; border: 0; border-radius: 22px; background: var(--header-btn); color: var(--header-ink); display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 15px; }
+.badge { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--brand-yellow); color: #141A05; font-size: 13px; font-weight: 700; display: grid; place-items: center; font-variant-numeric: tabular-nums; }
+.badge.bump { animation: bump .5s ease; }
+@keyframes bump { 40% { transform: scale(1.35); } }
+
+.floor { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+body[data-look="arena"] .floor::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 300px; pointer-events: none;
+  background:
+    radial-gradient(90px 280px at 16% -30px, rgba(255,247,214,.13), transparent 72%),
+    radial-gradient(90px 280px at 84% -30px, rgba(255,247,214,.13), transparent 72%),
+    radial-gradient(240px 120px at 50% 0, rgba(43,213,148,.10), transparent 75%);
+}
+.thread { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 18px 14px 14px; display: flex; flex-direction: column; gap: 16px; scrollbar-width: none; }
+.thread::-webkit-scrollbar { display: none; }
+
+/* ---------- Messages ---------- */
+.msg { display: flex; gap: 10px; animation: rise .32s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+.avatar { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; }
+.body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.say { margin: 0; align-self: flex-start; max-width: 100%; padding: 11px 14px; border-radius: var(--r-say); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); font-size: 16px; line-height: 1.45; text-wrap: pretty; }
+.say strong { font-weight: 700; }
+.msg.me { justify-content: flex-end; }
+.msg.me p { margin: 0; max-width: 80%; padding: 11px 14px; border-radius: var(--r-me); background: var(--user); color: var(--user-ink); font-size: 16px; line-height: 1.4; overflow-wrap: anywhere; }
+.think { display: flex; align-items: center; gap: 10px; color: var(--muted); }
+.dots { display: flex; gap: 4px; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: blink 1s infinite; }
+.dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+/* ---------- Shared bits ---------- */
+.disc { flex: none; border-radius: 50%; background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--disc-line); display: grid; place-items: center; overflow: hidden; }
+.disc img { object-fit: contain; }
+.disc.md { width: 52px; height: 52px; } .disc.md img { width: 38px; height: 38px; }
+.disc.sm { width: 36px; height: 36px; } .disc.sm img { width: 27px; height: 27px; }
+.disc.xs { width: 28px; height: 28px; } .disc.xs img { width: 21px; height: 21px; }
+.disc.mono { background: #552583; color: #FDB927; font-weight: 700; letter-spacing: .02em; }
+.disc.md.mono { font-size: 14px; } .disc.sm.mono { font-size: 11px; } .disc.xs.mono { font-size: 9px; }
+.pair { flex: none; display: flex; }
+.pair .disc + .disc { margin-left: -8px; }
+.league { flex: none; width: 28px; height: 28px; border-radius: 8px; background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--disc-line); display: grid; place-items: center; }
+.league img { width: 22px; height: 22px; object-fit: contain; }
+.odds { font: 700 var(--odds-size)/1 var(--display); color: var(--odds); font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.live { color: var(--live); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+.live .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; animation: blink 1.4s infinite; }
+.block-t { margin: 0; font: 700 15px/1.2 var(--display); text-transform: var(--display-case); letter-spacing: var(--display-track); color: var(--muted); }
+body[data-look="arena"] .block-t { font-size: 18px; }
+
+/* ---------- Tonight's games ---------- */
+.games { display: flex; gap: 10px; overflow-x: auto; margin-right: -14px; padding: 2px 14px 6px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.games::-webkit-scrollbar { display: none; }
+.game { flex: none; width: 172px; scroll-snap-align: start; padding: 12px; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+.game-when { font-size: 13px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.game-teams { display: flex; align-items: center; justify-content: space-between; }
+.game-team { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; letter-spacing: .03em; }
+.game-at { font-size: 13px; color: var(--muted); font-weight: 600; }
+.game-odds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.price { min-height: 46px; border-radius: var(--r-tile); border: 1px solid var(--line); background: var(--surface-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px; }
+.price span { font-size: 11.5px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.price b { font: 700 18px/1 var(--display); color: var(--odds); font-variant-numeric: tabular-nums; }
+
+/* ---------- Market board ---------- */
+.board { list-style: none; margin: 0; padding: 2px 12px; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.brow { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+.brow + .brow { border-top: 1px solid var(--line); }
+.brow-l { flex: 1; min-width: 0; overflow: hidden; display: flex; align-items: center; gap: 10px; }
+.brow-txt { min-width: 0; }
+.brow-txt b { display: block; font-size: 14.5px; line-height: 1.2; white-space: nowrap; }
+.brow-txt > span { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.brow-p { flex: none; display: grid; grid-template-columns: repeat(2, 66px); gap: 6px; }
+.brow .price { padding: 4px 2px; }
+.brow .price span { font-size: 11px; }
+.brow .price b { font-size: 17px; }
+.brow .pair .disc + .disc { margin-left: -10px; }
+@media (max-width: 374px) { .brow .pair { display: none; } }
+
+/* ---------- Bet card ---------- */
+.card { align-self: stretch; padding: 14px; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; }
+.card-h { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: var(--muted); font-weight: 500; }
+.pill { margin-left: auto; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 12.5px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.matchup { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+.side { display: flex; flex-direction: column; align-items: center; gap: 7px; font-size: 15.5px; font-weight: 600; text-align: center; }
+.at { font-size: 15px; font-weight: 600; color: var(--muted); padding: 0 6px 22px; }
+.prop { margin: -4px 0 0; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+.fut-title { margin: 0; font: 700 24px/1.1 var(--display); text-transform: var(--display-case); letter-spacing: var(--display-track); }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tile { position: relative; min-height: 76px; padding: 10px 8px; border-radius: var(--r-tile); border: 1.5px solid var(--line); background: var(--surface-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: border-color .18s, background .18s; }
+.tile-l { font-size: 15px; font-weight: 600; line-height: 1.2; text-align: center; }
+.tile .tick { position: absolute; top: 7px; right: 7px; width: 20px; height: 20px; border-radius: 50%; background: var(--sel-line); color: var(--accent-ink); display: none; place-items: center; }
+body[data-look="arena"] .tile .tick { color: #04140D; }
+.tile[aria-pressed="true"] { border-color: var(--sel-line); background: var(--sel-bg); }
+.tile[aria-pressed="true"] .tick { display: grid; }
+body[data-look="arena"] .tile[aria-pressed="true"] { box-shadow: 0 0 0 3px rgba(43,213,148,.12), 0 0 26px rgba(43,213,148,.16); }
+.note { margin: 0; display: flex; gap: 9px; align-items: flex-start; padding: var(--note-pad); border-radius: 14px; background: var(--note-bg); color: var(--note-ink); font-size: 15px; line-height: 1.45; text-wrap: pretty; }
+.note svg { flex: none; margin-top: 2px; }
+.note strong { color: inherit; }
+body[data-look="arena"] .note strong { color: var(--ink); }
+.cta { min-height: 54px; border: 0; border-radius: var(--r-btn); background: var(--cta); color: var(--cta-ink); padding: 0 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 700; font-size: 16.5px; font-variant-numeric: tabular-nums; white-space: nowrap; transition: transform .12s; }
+.cta:active { transform: scale(.98); }
+.cta small { font-size: 14px; font-weight: 600; }
+.cta:disabled { background: var(--surface-2); color: var(--muted); cursor: not-allowed; justify-content: center; }
+
+/* ---------- Parlay ---------- */
+.legs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.leg { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
+.leg + .leg { border-top: 1px solid var(--line); }
+.leg-txt { flex: 1; min-width: 0; }
+.leg-txt b { display: block; font-size: 15.5px; line-height: 1.2; }
+.leg-txt > span { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.leg .odds { font-size: 19px; }
+.leg-x { flex: none; width: 40px; height: 40px; margin-right: -6px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); display: grid; place-items: center; }
+.combo { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: var(--r-tile); background: var(--sel-bg); border: 1.5px solid var(--sel-line); }
+.combo > span:first-child { font-weight: 600; }
+.slip-legs { list-style: none; margin: 12px 0 0; padding: 12px 0 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 7px; font-size: 14px; }
+.slip-legs li { display: flex; justify-content: space-between; gap: 10px; }
+.slip-legs b { color: var(--odds); font-variant-numeric: tabular-nums; }
+
+/* ---------- Picks / bet types ---------- */
+.picks { list-style: none; margin: 0; padding: 4px 6px; border-radius: var(--r-card); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.picks li + li { border-top: 1px solid var(--line); }
+.pick { width: 100%; min-height: 64px; display: flex; align-items: center; gap: 11px; padding: 10px 8px; border: 0; border-radius: 12px; background: transparent; text-align: left; }
+.pick-txt { flex: 1; min-width: 0; }
+.pick svg { flex: none; color: var(--muted); }
+.pick-txt b { display: block; font-size: 15.5px; line-height: 1.25; }
+.pick-txt span { display: block; font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+.pick .odds { font-size: 20px; }
+.tbadge { flex: none; width: 38px; height: 38px; border-radius: 10px; background: var(--surface-2); color: var(--odds); display: grid; place-items: center; font: 700 14px/1 var(--display); letter-spacing: .02em; }
+.ghost { min-height: 44px; padding: 0 14px; border-radius: var(--r-btn); border: 1.5px solid var(--sel-line); background: transparent; color: var(--ink); font-weight: 700; font-size: 14.5px; white-space: nowrap; }
+
+/* ---------- Placed ---------- */
+.placed { border: 1.5px solid var(--sel-line); }
+.placed-h { display: flex; align-items: center; gap: 9px; font: 700 20px/1 var(--display); text-transform: var(--display-case); letter-spacing: var(--display-track); }
+.placed-h .ok { width: 26px; height: 26px; border-radius: 50%; background: var(--sel-line); color: #04140D; display: grid; place-items: center; }
+body[data-look="coach"] .placed-h .ok { color: #FFFFFF; }
+.row { display: flex; align-items: center; gap: 11px; }
+.row-txt { flex: 1; min-width: 0; }
+.row-txt b { display: block; font-size: 17px; line-height: 1.2; }
+.row-txt span { display: block; margin-top: 3px; font-size: 13.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ---------- Dock ---------- */
+.dock { flex: none; padding: 8px 12px 14px; border-top: 1px solid var(--line); background: var(--bg); display: flex; flex-direction: column; gap: 8px; }
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -12px; padding: 0 12px; }
+.chips::-webkit-scrollbar { display: none; }
+.chips:empty { display: none; }
+.chip { flex: none; min-height: 44px; padding: 0 15px; border-radius: 22px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 600; font-size: 14.5px; white-space: nowrap; }
+.composer { display: flex; gap: 8px; }
+.composer input { flex: 1; min-width: 0; height: 50px; padding: 0 18px; border-radius: var(--r-input); border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); font-size: 16px; -webkit-appearance: none; appearance: none; }
+.composer input::placeholder { color: var(--muted); opacity: 1; }
+.composer input:focus { border-color: var(--sel-line); outline: none; }
+.send { flex: none; width: 50px; height: 50px; border: 0; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; }
+
+@media (hover: hover) {
+  .price:hover, .chip:hover { border-color: var(--sel-line); }
+  .pick:hover { background: var(--surface-2); }
+  .leg-x:hover { background: var(--surface-2); color: var(--ink); }
+}
+
+/* ---------- Sheets ---------- */
+.sheet-wrap { position: absolute; inset: 0; z-index: 20; }
+.scrim { position: absolute; inset: 0; border: 0; padding: 0; background: rgba(0,0,0,.55); opacity: 0; transition: opacity .25s; cursor: default; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100% - 40px); overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 16px; padding: 8px 18px 18px; border-radius: 26px 26px 0 0; background: var(--surface); color: var(--ink); border-top: 1px solid var(--line); transform: translateY(105%); transition: transform .32s cubic-bezier(.2,.8,.2,1); }
+.sheet-wrap.open .scrim { opacity: 1; }
+.sheet-wrap.open .sheet { transform: none; }
+.grab { flex: none; align-self: center; width: 40px; height: 5px; border-radius: 3px; background: var(--line); }
+.sheet-h { display: flex; align-items: center; gap: 10px; }
+.sheet-h h2 { margin: 0; font: 700 26px/1 var(--display); text-transform: var(--display-case); letter-spacing: var(--display-track); }
+.icon-btn { margin-left: auto; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--surface-2); display: grid; place-items: center; }
+.sel-box { padding: 13px; border-radius: 16px; border: 1.5px solid var(--sel-line); background: var(--sel-bg); }
+.stake { display: flex; flex-direction: column; gap: 8px; }
+.stake label { font-size: 14px; font-weight: 600; color: var(--muted); }
+.stake-field { display: flex; align-items: center; height: 60px; padding: 0 16px; border-radius: 16px; border: 1.5px solid var(--line); background: var(--surface-2); }
+.stake-field:focus-within { border-color: var(--sel-line); }
+.stake-field span { font: 700 28px/1 var(--display); color: var(--muted); }
+.stake-field input { flex: 1; min-width: 0; height: 100%; border: 0; background: transparent; outline: none; padding-left: 4px; font: 700 30px/1 var(--display); font-variant-numeric: tabular-nums; }
+.presets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.preset { min-height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: transparent; font-weight: 600; font-variant-numeric: tabular-nums; }
+.preset[aria-pressed="true"] { border-color: var(--sel-line); background: var(--sel-bg); }
+.sum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sum div { padding: 10px 12px; border-radius: 14px; background: var(--surface-2); }
+.sum span { display: block; font-size: 13px; color: var(--muted); font-weight: 500; }
+.sum b { display: block; margin-top: 2px; font-size: 19px; font-variant-numeric: tabular-nums; }
+.err { margin: -4px 0 0; font-size: 14.5px; font-weight: 600; color: var(--live); }
+.err:empty { display: none; }
+.fine { margin: 0; text-align: center; font-size: 13px; color: var(--muted); }
+.fine a { color: inherit; }
+
+.mybets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.mb { padding: 13px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface-2); display: flex; flex-direction: column; gap: 11px; }
+.mb.done { opacity: .75; }
+.mb .slip-legs { margin: 0; padding-top: 10px; }
+.mb-status { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.mb-acts { display: flex; align-items: center; gap: 8px; padding-top: 11px; border-top: 1px solid var(--line); }
+.mb-acts p { flex: 1; margin: 0; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.mb-acts .ok-txt { color: var(--odds); }
+.solid { min-height: 44px; padding: 0 16px; border-radius: var(--r-btn); border: 0; background: var(--sel-line); color: #04140D; font-weight: 700; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+body[data-look="coach"] .solid { color: #FFFFFF; }
+.empty { padding: 28px 0; text-align: center; color: var(--muted); }
+
+/* ---------- Popup under the header ---------- */
+.toast { position: absolute; z-index: 30; top: calc(var(--top-h, 60px) + 8px); left: 10px; right: 10px; display: flex; align-items: center; gap: 11px; padding: 11px 12px 11px 11px; border-radius: 16px; background: var(--surface); color: var(--ink); border: 1.5px solid var(--sel-line); box-shadow: 0 14px 34px -12px rgba(0,0,0,.45); opacity: 0; transform: translateY(-14px) scale(.97); pointer-events: none; transition: opacity .22s ease, transform .3s cubic-bezier(.2,.9,.3,1.2); cursor: pointer; text-align: left; font: inherit; }
+.toast.show { opacity: 1; transform: none; pointer-events: auto; }
+.toast-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--sel-line); color: #04140D; display: grid; place-items: center; }
+body[data-look="coach"] .toast-ic { color: #FFFFFF; }
+.toast-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.toast-txt b { font-size: 15px; }
+.toast-txt span { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toast-amt { flex: none; font-weight: 800; font-size: 16px; font-variant-numeric: tabular-nums; color: var(--odds); }
+.toast-amt.neg { color: var(--ink); }
+.toast-bar { position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px; border-radius: 3px; background: var(--sel-line); transform-origin: left; opacity: .55; }
+.toast.show .toast-bar { animation: drain var(--toast-ms, 3500ms) linear forwards; }
+@keyframes drain { to { transform: scaleX(0); } }
+/* ---------- Loading splash ---------- */
+.splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--bg); transition: opacity .35s ease, visibility .35s; }
+.splash.done { opacity: 0; visibility: hidden; }
+.splash-dots { display: flex; align-items: flex-end; gap: 12px; height: 46px; }
+.splash-dots span { width: 16px; height: 16px; border-radius: 50%; background: #2BD594; animation: hop .9s cubic-bezier(.33,0,.3,1) infinite; }
+.splash-dots span:nth-child(2) { background: #14B87A; animation-delay: .15s; }
+.splash-dots span:nth-child(3) { background: #027B5B; animation-delay: .3s; }
+@keyframes hop { 0%, 60%, 100% { transform: translateY(0) scale(1.08, .92); } 30% { transform: translateY(-26px) scale(.95, 1.05); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.toast { left: max(10px, env(safe-area-inset-left)); right: max(10px, env(safe-area-inset-right)); }
+.top { height: calc(56px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) max(10px, env(safe-area-inset-right)) 0 max(14px, env(safe-area-inset-left)); }
+.thread { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+.dock { padding: 8px max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+.sheet { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
+@media (max-width: 374px) {
+  .bets-txt { display: none; }
+  .bets-btn { padding: 0 12px; }
+  .brand-name { font-size: 20px; }
+  .brand-demo { display: none; }
+}
+</style>
+<script>document.body.dataset.look = 'arena';</script>
+<div class="splash" id="splash" role="status" aria-label="Loading">
+  <div class="splash-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+</div>
+<div class="stage">
+  <div class="device">
+    <div class="screen">
+      <div class="app" id="app">
+        <header class="top" id="top">
+          <img class="brand" src="assets/logo.png" alt="bet365">
+          <div class="balance"><small>Balance</small><strong id="balance">$250.00</strong></div>
+          <button class="bets-btn" id="betsBtn" type="button" aria-haspopup="dialog">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"></path><path d="M14 6v2M14 11v2M14 16v1"></path></svg>
+            <span class="bets-txt">My bets</span> <span class="badge" id="badge">1</span>
+          </button>
+        </header>
+
+        <button class="toast" id="toast" type="button" aria-label="Dismiss" tabindex="-1">
+          <span class="toast-ic" id="toastIc"></span>
+          <span class="toast-txt"><b id="toastTitle"></b><span id="toastSub"></span></span>
+          <span class="toast-amt" id="toastAmt"></span>
+          <span class="toast-bar" aria-hidden="true"></span>
+        </button>
+        <p class="sr" id="toastLive" role="status" aria-live="polite"></p>
+
+        <div class="floor" id="floor">
+          <main class="thread" id="thread" role="log" aria-live="polite" aria-label="Conversation with the bet assistant"></main>
+        </div>
+
+        <div class="dock" id="dock">
+          <div class="chips" id="chips" role="group" aria-label="Suggestions"></div>
+          <form class="composer" id="composer" autocomplete="off">
+            <label class="sr" for="msg">Message the bet assistant</label>
+            <input id="msg" type="text" enterkeyhint="send" autocapitalize="sentences" autocorrect="off" spellcheck="false" placeholder="Try “parlay Celtics, Bulls, Warriors”">
+            <button class="send" type="submit" aria-label="Send">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"></path></svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Bet slip -->
+        <div class="sheet-wrap" id="slip" hidden>
+          <button class="scrim" type="button" tabindex="-1" aria-label="Close slip" data-close></button>
+          <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="slipTitle">
+            <span class="grab" aria-hidden="true"></span>
+            <div class="sheet-h">
+              <h2 id="slipTitle">Your slip</h2>
+              <button class="icon-btn" type="button" aria-label="Close slip" data-close>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </button>
+            </div>
+            <div class="sel-box" id="slipSel"></div>
+            <div class="stake">
+              <label for="stake">Stake</label>
+              <div class="stake-field"><span aria-hidden="true">$</span><input id="stake" type="text" inputmode="decimal" aria-describedby="slipErr"></div>
+              <div class="presets" id="presets" role="group" aria-label="Quick stakes"></div>
+            </div>
+            <div class="sum">
+              <div><span>To return</span><b id="slipRet">$0.00</b></div>
+              <div><span>Balance after</span><b id="slipAfter">$0.00</b></div>
+            </div>
+            <p class="err" id="slipErr" role="alert"></p>
+            <button class="cta" id="place" type="button"></button>
+            <p class="fine">18+ · Gambling problem? Call 1-800-GAMBLER</p>
+          </section>
+        </div>
+
+        <!-- My bets -->
+        <div class="sheet-wrap" id="bets" hidden>
+          <button class="scrim" type="button" tabindex="-1" aria-label="Close My bets" data-close></button>
+          <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="betsTitle" style="height: calc(100% - 40px)">
+            <span class="grab" aria-hidden="true"></span>
+            <div class="sheet-h">
+              <h2 id="betsTitle">My bets</h2>
+              <span class="pill" id="openCount" style="margin-left: 0"></span>
+              <button class="icon-btn" type="button" aria-label="Close My bets" data-close>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+              </button>
+            </div>
+            <ul class="mybets" id="betList"></ul>
+            <p class="fine">Cash out values move with the game.</p>
+          </section>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  /* ---------------- Data ---------------- */
+  const TEAMS = {
+    ATL: { name: 'Hawks', logo: 'assets/Hawks.png', alias: ['hawks', 'atlanta', 'atl'] },
+    BOS: { name: 'Celtics', logo: 'assets/Celtics.png', alias: ['celtics', 'celts', 'boston', 'bos'] },
+    BKN: { name: 'Nets', logo: 'assets/Nets.png', alias: ['nets', 'brooklyn', 'bkn'] },
+    CLE: { name: 'Cavaliers', logo: 'assets/Cavaliers.png', alias: ['cavaliers', 'cavs', 'cleveland', 'cle'] },
+    CHA: { name: 'Hornets', logo: 'assets/Hornets.png', alias: ['hornets', 'charlotte', 'cha'] },
+    CHI: { name: 'Bulls', logo: 'assets/Bulls.png', alias: ['bulls', 'chicago', 'chi'] },
+    DET: { name: 'Pistons', logo: 'assets/Pistons.png', alias: ['pistons', 'detroit', 'det'] },
+    HOU: { name: 'Rockets', logo: 'assets/Rockets.png', alias: ['rockets', 'houston', 'hou'] },
+    DAL: { name: 'Mavericks', logo: 'assets/Mavericks.png', alias: ['mavericks', 'mavs', 'dallas', 'dal'] },
+    GSW: { name: 'Warriors', logo: 'assets/Warriors.png', alias: ['warriors', 'golden state', 'dubs', 'gsw'] },
+    DEN: { name: 'Nuggets', logo: 'assets/Nuggets.png', alias: ['nuggets', 'denver', 'den'] },
+    LAL: { name: 'Lakers', logo: null, alias: ['lakers', 'la lakers', 'lal'] }
+  };
+  // Teams not on tonight's slate, so we can say so and offer something close.
+  const OFF = [
+    ['Knicks', ['knicks', 'new york', 'nyk']], ['Heat', ['heat', 'miami']], ['76ers', ['76ers', 'sixers', 'philly', 'philadelphia']],
+    ['Bucks', ['bucks', 'milwaukee']], ['Suns', ['suns', 'phoenix']], ['Clippers', ['clippers', 'clips']],
+    ['Thunder', ['thunder', 'okc', 'oklahoma']], ['Timberwolves', ['timberwolves', 'wolves', 'minnesota']],
+    ['Kings', ['kings', 'sacramento']], ['Grizzlies', ['grizzlies', 'grizz', 'memphis']], ['Pelicans', ['pelicans', 'pels', 'new orleans']],
+    ['Spurs', ['spurs', 'san antonio']], ['Jazz', ['jazz', 'utah']], ['Trail Blazers', ['blazers', 'trail blazers', 'portland']],
+    ['Raptors', ['raptors', 'toronto']], ['Magic', ['magic', 'orlando']], ['Pacers', ['pacers', 'indiana']], ['Wizards', ['wizards', 'washington']]
+  ];
+  const GAMES = {
+    g1: { away: 'BKN', home: 'CLE', time: '7:00 PM', live: { clock: 'Q2 4:12', a: 41, h: 52 }, ml: { a: 330, h: -420 }, spread: 10.5, total: 218.5 },
+    g2: { away: 'ATL', home: 'BOS', time: '7:30 PM', ml: { a: 150, h: -180 }, spread: 4.5, total: 226.5 },
+    g3: { away: 'CHA', home: 'CHI', time: '8:00 PM', ml: { a: 105, h: -125 }, spread: 2.5, total: 229.5 },
+    g4: { away: 'DET', home: 'HOU', time: '8:00 PM', ml: { a: 125, h: -150 }, spread: 3.5, total: 221.5 },
+    g5: { away: 'DAL', home: 'GSW', time: '10:00 PM', ml: { a: 115, h: -135 }, spread: 2.5, total: 227.5 },
+    g6: { away: 'DEN', home: 'LAL', time: '10:30 PM', ml: { a: -130, h: 110 }, spread: 2.5, total: 229.5 }
+  };
+  const STATS = {
+    threes: ['threes', 'three pointers', 'three pointer', '3 pointers', '3 pointer', '3pt', '3pm', '3s', 'triples', 'treys'],
+    points: ['points', 'point', 'pts', 'pt', 'score', 'scores', 'scoring'],
+    rebounds: ['rebounds', 'rebound', 'rebs', 'reb', 'boards'],
+    assists: ['assists', 'assist', 'asts', 'ast', 'dimes']
+  };
+  const BASE_LINE = { points: [18.5, -110, -110], rebounds: [6.5, -110, -110], assists: [4.5, -110, -110], threes: [2.5, -110, -110] };
+  const PLAYERS = [
+    { key: 'curry', player: 'Stephen Curry', short: 'Curry', alias: ['stephen curry', 'steph', 'curry'], team: 'GSW', game: 'g5', main: 'threes', lines: { threes: [4.5, -115, -105], points: [27.5, -110, -110], assists: [5.5, -120, 100], rebounds: [4.5, -105, -115] } },
+    { key: 'jokic', player: 'Nikola Jokić', short: 'Jokić', alias: ['nikola jokic', 'jokic', 'joker'], team: 'DEN', game: 'g6', main: 'assists', lines: { assists: [9.5, -120, 100], points: [28.5, -110, -110], rebounds: [12.5, -115, -105], threes: [1.5, -125, 105] } },
+    { key: 'luka', player: 'Luka Dončić', short: 'Dončić', alias: ['luka doncic', 'luka', 'doncic'], team: 'LAL', game: 'g6', main: 'points', lines: { points: [30.5, -110, -110], assists: [8.5, -105, -115], rebounds: [8.5, -110, -110], threes: [3.5, -120, 100] } },
+    { key: 'lebron', player: 'LeBron James', short: 'James', alias: ['lebron james', 'lebron', 'bron', 'king james'], team: 'LAL', game: 'g6', main: 'points', lines: { points: [22.5, -110, -110], assists: [7.5, -115, -105], rebounds: [7.5, -105, -115] } },
+    { key: 'brown', player: 'Jaylen Brown', short: 'Brown', alias: ['jaylen brown', 'jaylen'], team: 'BOS', game: 'g2', main: 'points', lines: { points: [24.5, -110, -110], rebounds: [6.5, -115, -105] } },
+    { key: 'trae', player: 'Trae Young', short: 'Young', alias: ['trae young', 'trae'], team: 'ATL', game: 'g2', main: 'assists', lines: { assists: [10.5, -110, -110], points: [24.5, -115, -105], threes: [2.5, -140, 115] } },
+    { key: 'mitchell', player: 'Donovan Mitchell', short: 'Mitchell', alias: ['donovan mitchell', 'mitchell', 'spida'], team: 'CLE', game: 'g1', main: 'points', lines: { points: [26.5, -105, -115], threes: [3.5, -110, -110] } },
+    { key: 'lamelo', player: 'LaMelo Ball', short: 'Ball', alias: ['lamelo ball', 'lamelo', 'melo'], team: 'CHA', game: 'g3', main: 'assists', lines: { assists: [7.5, -110, -110], points: [24.5, -110, -110], threes: [3.5, -115, -105] } },
+    { key: 'giddey', player: 'Josh Giddey', short: 'Giddey', alias: ['josh giddey', 'giddey'], team: 'CHI', game: 'g3', main: 'rebounds', lines: { rebounds: [8.5, -110, -110], assists: [7.5, -105, -115] } },
+    { key: 'cade', player: 'Cade Cunningham', short: 'Cunningham', alias: ['cade cunningham', 'cade', 'cunningham'], team: 'DET', game: 'g4', main: 'points', lines: { points: [26.5, -115, -105], assists: [9.5, -110, -110] } },
+    { key: 'durant', player: 'Kevin Durant', short: 'Durant', alias: ['kevin durant', 'durant', 'kd'], team: 'HOU', game: 'g4', main: 'points', lines: { points: [25.5, -110, -110], rebounds: [5.5, -120, 100] } },
+    { key: 'sengun', player: 'Alperen Şengün', short: 'Şengün', alias: ['alperen sengun', 'sengun', 'alperen'], team: 'HOU', game: 'g4', main: 'rebounds', lines: { rebounds: [10.5, -115, -105], points: [20.5, -110, -110] } },
+    { key: 'davis', player: 'Anthony Davis', short: 'Davis', alias: ['anthony davis', 'davis'], team: 'DAL', game: 'g5', main: 'rebounds', lines: { rebounds: [11.5, -110, -110], points: [24.5, -105, -115] } },
+    { key: 'thomas', player: 'Cam Thomas', short: 'Thomas', alias: ['cam thomas'], team: 'BKN', game: 'g1', main: 'points', lines: { points: [23.5, -110, -110] } }
+  ];
+  const FUTURES = {
+    champ: { title: 'NBA Champion 2026–27', what: 'to win the title', team: true,
+      win: (n) => `If the ${n} win the title, you win. Settles in June.`,
+      opts: [['DEN', 450], ['CLE', 500], ['HOU', 650], ['LAL', 900], ['GSW', 1600], ['BOS', 1800], ['DET', 2000], ['DAL', 2500], ['ATL', 3500], ['CHI', 8000], ['CHA', 20000], ['BKN', 50000]] },
+    mvp: { title: 'MVP 2026–27', what: 'to win MVP', team: false,
+      win: (n) => `If ${n} wins MVP, you win. Settles at the end of the season.`,
+      opts: [['jokic', 250], ['luka', 400], ['cade', 1100], ['mitchell', 2500], ['curry', 3000], ['brown', 5000], ['durant', 6000], ['lamelo', 10000]] }
+  };
+  const MARKET = { ml: 'Moneyline', spread: 'Spread', total: 'Total points', prop: 'Player bet', future: 'Futures' };
+
+  /* ---------------- Helpers ---------------- */
+  const $ = (s) => document.querySelector(s);
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[’']/g, '');
+  const money = (n) => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const cash = (n) => (Number.isInteger(n) ? '$' + n : money(n));
+  const fmt = (o) => (o > 0 ? '+' : '−') + Math.abs(o);
+  const dec = (o) => (o > 0 ? 1 + o / 100 : 1 + 100 / Math.abs(o));
+  const amer = (d) => (d >= 2 ? Math.round((d - 1) * 20) * 5 : -Math.round(100 / (d - 1) / 5) * 5);
+  const shift = (o, k) => amer(Math.max(1.03, dec(o) * (1 + k)));
+  const word = (a) => new RegExp('(^|[^a-z0-9])' + a.replace(/ /g, '\\s+') + '(?![a-z0-9])');
+  const uid = () => Math.random().toString(36).slice(2, 8);
+  const P = (key) => PLAYERS.find((p) => p.key === key);
+  const gameOf = (code) => Object.keys(GAMES).find((id) => GAMES[id].away === code || GAMES[id].home === code);
+  const favOf = (g) => (g.ml.a < g.ml.h ? 'a' : 'h');
+  const teamOf = (g, s) => (s === 'a' ? g.away : g.home);
+  const lev = (a, b) => {
+    if (Math.abs(a.length - b.length) > 2) return 9;
+    let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+    for (let i = 1; i <= a.length; i++) {
+      const cur = [i];
+      for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return prev[b.length];
+  };
+
+  const ICON = {
+    cashOut: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6M6.5 11.5L12 6l5.5 5.5"></path><path d="M5 20h14"></path></svg>',
+    spark: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"></path></svg>',
+    check: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>',
+    checkLg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>',
+    bulb: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.8 10.6c.6.6.8 1.3.8 2.4h6c0-1.1.2-1.8.8-2.4A6 6 0 0 0 12 3z"></path></svg>',
+    x: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>',
+    chev: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>'
+  };
+
+  const disc = (code, size) => {
+    const t = TEAMS[code];
+    return t.logo
+      ? `<span class="disc ${size}"><img src="${t.logo}" alt=""></span>`
+      : `<span class="disc ${size} mono" aria-hidden="true">${code}</span>`;
+  };
+  const league = '<span class="league"><img src="assets/nba.png" alt="NBA"></span>';
+  const liveTag = (g, full) => `<span class="live"><span class="dot"></span>Live · ${g.live.clock}${full ? ` · ${g.away} ${g.live.a}–${g.live.h} ${g.home}` : ''}</span>`;
+  const when = (g) => (g.live ? liveTag(g, true) : `Tonight · ${g.time}`);
+  const matchName = (g) => `${TEAMS[g.away].name} @ ${TEAMS[g.home].name}`;
+
+  /* ---------------- Lines ---------------- */
+  function propLine(p, stat, want) {
+    const [line, over, under] = p.lines[stat] || BASE_LINE[stat];
+    const base = { key: p.key, player: p.player, short: p.short, team: p.team, game: p.game, stat, line, over, under, alt: false };
+    if (want == null || want <= 0 || Math.abs(want - line) < 0.5) return base;
+    const k = Math.max(-0.8, Math.min(3, (stat === 'points' ? 0.045 : stat === 'rebounds' ? 0.09 : 0.12) * (want - line)));
+    return { ...base, line: want, over: shift(over, k), under: shift(under, -k), alt: true };
+  }
+  function totalLine(g, want) {
+    const base = { line: g.total, over: -110, under: -110, alt: false };
+    if (want == null || Math.abs(want - g.total) < 0.5) return base;
+    const k = Math.max(-0.8, Math.min(3, 0.035 * (want - g.total)));
+    return { line: want, over: shift(-110, k), under: shift(-110, -k), alt: true };
+  }
+
+  function optionsFor(game, market, extra = {}) {
+    const g = GAMES[game];
+    if (market === 'ml') return ['a', 'h'].map((s) => {
+      const c = teamOf(g, s), n = TEAMS[c].name;
+      return { side: s, team: c, short: n, label: `${n} to win`, board: c, said: `the ${n} to win`, odds: g.ml[s] };
+    });
+    if (market === 'spread') return ['a', 'h'].map((s) => {
+      const c = teamOf(g, s), n = TEAMS[c].name, fav = s === favOf(g), sign = fav ? '−' : '+';
+      return { side: s, team: c, fav, short: `${n} ${sign}${g.spread}`, label: `${n} ${sign}${g.spread}`, board: `${c} ${sign}${g.spread}`, said: `the ${n} ${sign}${g.spread}`, odds: -110 };
+    });
+    if (market === 'total') {
+      const tl = extra.total || totalLine(g);
+      return ['over', 'under'].map((s) => {
+        const W = s === 'over' ? 'Over' : 'Under';
+        return { side: s, team: null, short: `${W} ${tl.line}`, label: `${W} ${tl.line} points`, board: `${W[0]} ${tl.line}`, said: `${s} ${tl.line} points`, odds: tl[s] };
+      });
+    }
+    const p = extra.prop;
+    return ['over', 'under'].map((s) => {
+      const W = s === 'over' ? 'Over' : 'Under', label = `${p.short} ${s} ${p.line} ${p.stat}`;
+      return { side: s, team: p.team, short: `${W} ${p.line}`, label, board: `${W[0]} ${p.line}`, said: label, odds: p[s] };
+    });
+  }
+
+  /* ---------------- State ---------------- */
+  let S;
+  const fresh = () => ({
+    balance: 250, cards: {}, lastCard: null, slip: null, busy: false, confirm: null,
+    bets: [{ id: 'seed', team: 'CLE', label: 'Cavaliers −10.5', market: 'Spread', odds: -110, stake: 15, game: 'g1', status: 'open', cashout: 19.4 }]
+  });
+
+  /* ---------------- Elements ---------------- */
+  const thread = $('#thread'), chipsEl = $('#chips'), input = $('#msg');
+
+  const scrollEnd = () => requestAnimationFrame(() => thread.scrollTo({ top: thread.scrollHeight, behavior: 'smooth' }));
+  const append = (html) => { thread.insertAdjacentHTML('beforeend', html); scrollEnd(); return thread.lastElementChild; };
+  const bot = (inner) => append(`<div class="msg bot"><span class="avatar" aria-hidden="true">${ICON.spark}</span><div class="body">${inner}</div></div>`);
+  const me = (text) => append(`<div class="msg me"><p>${esc(text)}</p></div>`);
+  const say = (html) => `<p class="say">${html}</p>`;
+  const title = (t) => `<h2 class="block-t">${t}</h2>`;
+
+  function setChips(list) {
+    chipsEl.innerHTML = list.map((c) => `<button class="chip" type="button" data-say="${esc(c)}">${esc(c)}</button>`).join('');
+    chipsEl.scrollLeft = 0;
+  }
+  const CHIPS = {
+    start: ['$20 on the Celtics', 'Parlay Celtics, Bulls, Warriors', 'Curry over 4.5 threes', 'Spreads tonight', 'What’s a parlay?', 'Hawks or Celtics?', 'My bets'],
+    types: ['Moneylines tonight', 'Spreads tonight', 'Totals tonight', 'Player props', 'Build a parlay', 'Same game parlay', 'Title odds'],
+    placed: ['Another bet', 'Build a parlay', 'What’s good tonight?', 'My bets']
+  };
+
+  function refreshHeader() {
+    $('#balance').textContent = money(S.balance);
+    const open = S.bets.filter((b) => b.status === 'open').length;
+    const badge = $('#badge');
+    badge.textContent = open;
+    badge.hidden = open === 0;
+    $('#betsBtn').setAttribute('aria-label', `My bets, ${open} open`);
+  }
+
+  /* ---------------- Cards ---------------- */
+  const register = (c) => { S.cards[c.id] = c; S.lastCard = c.id; return c; };
+
+  function makeCard({ game, market, side = null, stake, prop = null, total = null }) {
+    const opts = optionsFor(game, market, { prop, total });
+    const sel = side == null ? -1 : opts.findIndex((o) => o.side === side);
+    return register({ id: 'c' + uid(), kind: 'single', game, market, prop, total, opts, sel: sel < 0 ? null : sel, stake: stake || 10 });
+  }
+
+  function makeFuture(fut, pick, stake) {
+    const F = FUTURES[fut];
+    let list = F.opts.slice(0, 4);
+    if (pick && !list.some((x) => x[0] === pick)) list = [F.opts.find((x) => x[0] === pick), ...F.opts.slice(0, 3)];
+    const opts = list.map(([k, odds]) => {
+      const name = F.team ? TEAMS[k].name : P(k).short;
+      return { side: k, team: F.team ? k : P(k).team, short: name, label: `${name} ${F.what}`, said: `${F.team ? 'the ' : ''}${name} ${F.what}`, odds };
+    });
+    const sel = pick ? opts.findIndex((o) => o.side === pick) : -1;
+    return register({ id: 'c' + uid(), kind: 'single', game: null, market: 'future', fut, opts, sel: sel < 0 ? null : sel, stake: stake || 10 });
+  }
+
+  const defaultSide = (leg) => (leg.market === 'ml' || leg.market === 'spread' ? favOf(GAMES[leg.game]) : 'over');
+  function resolveLeg(leg) {
+    const side = leg.side == null ? defaultSide(leg) : leg.side;
+    const opt = optionsFor(leg.game, leg.market, leg).find((o) => o.side === side);
+    return { game: leg.game, market: leg.market, prop: leg.prop || null, total: leg.total || null, side, opt };
+  }
+  const legKey = (l) => `${l.game}|${l.market}|${l.prop ? l.prop.key + l.prop.stat : ''}`;
+
+  function makeParlay(legs, stake, sgp) {
+    const map = new Map();
+    legs.map(resolveLeg).forEach((l) => map.set(legKey(l), l));
+    const rl = [...map.values()];
+    const same = rl.length > 1 && rl.every((l) => l.game === rl[0].game);
+    return register({ id: 'c' + uid(), kind: 'parlay', legs: rl, stake: stake || 10, sgp: !!sgp || same });
+  }
+  function parlayOdds(c) {
+    let d = c.legs.reduce((m, l) => m * dec(l.opt.odds), 1);
+    if (c.sgp) d = 1 + (d - 1) * 0.85;
+    return amer(d);
+  }
+  const cardOdds = (c) => (c.kind === 'parlay' ? parlayOdds(c) : c.opts[c.sel].odds);
+  const cardReady = (c) => (c.kind === 'parlay' ? c.legs.length > 1 : c.sel != null);
+  const cardSaid = (c) => (c.kind === 'parlay' ? `the ${c.legs.length}-leg parlay` : c.opts[c.sel].said);
+  const legsOf = (c) => (c.kind === 'parlay' ? c.legs
+    : c.market === 'future' ? []
+    : [{ game: c.game, market: c.market, prop: c.prop, total: c.total, side: c.sel == null ? null : c.opts[c.sel].side }]);
+
+  const SUGGEST = [
+    { game: 'g2', market: 'ml', side: 'h' },
+    { game: 'g3', market: 'spread', side: 'h' },
+    { game: 'g5', market: 'prop', side: 'over', player: 'curry' },
+    { game: 'g6', market: 'ml', side: 'a' },
+    { game: 'g4', market: 'ml', side: 'h' },
+    { game: 'g1', market: 'ml', side: 'h' }
+  ];
+  const suggestLeg = (s) => ({ game: s.game, market: s.market, side: s.side, prop: s.player ? propLine(P(s.player), P(s.player).main) : null });
+  function fillLegs(legs, size) {
+    const used = new Set(legs.map((l) => l.game));
+    const out = legs.slice();
+    for (const s of SUGGEST) {
+      if (out.length >= size) break;
+      if (!used.has(s.game)) { out.push(suggestLeg(s)); used.add(s.game); }
+    }
+    return out;
+  }
+  function sgpLegs(game) {
+    const g = GAMES[game], fav = favOf(g);
+    const p = PLAYERS.find((x) => x.game === game && x.team === teamOf(g, fav)) || PLAYERS.find((x) => x.game === game);
+    const legs = [{ game, market: 'ml', side: fav }];
+    if (p) legs.push({ game, market: 'prop', side: 'over', prop: propLine(p, p.main) });
+    legs.push({ game, market: 'total', side: 'over' });
+    return legs;
+  }
+
+  function plain(c, o) {
+    if (c.market === 'future') return FUTURES[c.fut].win(o.short);
+    const g = GAMES[c.game], name = o.team ? TEAMS[o.team].name : '';
+    if (c.market === 'ml') return `The ${name} just need to win the game.`;
+    if (c.market === 'spread') return o.fav
+      ? `The ${name} need to win by ${Math.ceil(g.spread)} or more.`
+      : `The ${name} can lose by up to ${Math.floor(g.spread)}, or win, and you still win.`;
+    if (c.market === 'total') {
+      const line = (c.total || totalLine(g)).line;
+      return o.side === 'over' ? `Both teams together need ${Math.ceil(line)} or more points.` : `Both teams together need ${Math.floor(line)} or fewer points.`;
+    }
+    return o.side === 'over'
+      ? `${c.prop.short} needs ${Math.ceil(c.prop.line)} or more ${c.prop.stat}.`
+      : `${c.prop.short} needs ${Math.floor(c.prop.line)} or fewer ${c.prop.stat}.`;
+  }
+
+  function cardHTML(c) {
+    if (c.kind === 'parlay') return parlayHTML(c);
+    const fut = c.market === 'future';
+    const g = fut ? null : GAMES[c.game], o = c.sel == null ? null : c.opts[c.sel];
+    const ret = o ? c.stake * dec(o.odds) : 0;
+    const tiles = c.opts.map((op, i) => `
+      <button class="tile" type="button" aria-pressed="${i === c.sel}" data-act="sel" data-card="${c.id}" data-i="${i}">
+        <span class="tick">${ICON.check}</span>
+        ${fut ? disc(op.team, 'xs') : ''}
+        <span class="tile-l">${op.short}</span>
+        <span class="odds">${fmt(op.odds)}</span>
+      </button>`).join('');
+    const alt = (c.prop && c.prop.alt) || (c.total && c.total.alt) ? ' · Alt line' : '';
+    const head = fut
+      ? `<div class="card-h">${league}<span>Season-long</span><span class="pill">Futures</span></div><p class="fut-title">${FUTURES[c.fut].title}</p>`
+      : `<div class="card-h">${league}<span>${when(g)}</span><span class="pill">${MARKET[c.market]}${alt}</span></div>
+        <div class="matchup">
+          <div class="side">${disc(g.away, 'md')}${TEAMS[g.away].name}</div>
+          <span class="at">@</span>
+          <div class="side">${disc(g.home, 'md')}${TEAMS[g.home].name}</div>
+        </div>
+        ${c.prop ? `<p class="prop">${disc(c.prop.team, 'xs')}${c.prop.player} · ${c.prop.stat}</p>` : ''}`;
+    return `
+      <article class="card" id="${c.id}" aria-label="${fut ? FUTURES[c.fut].title : `${MARKET[c.market]}, ${matchName(g)}`}">
+        ${head}
+        <div class="tiles" role="group" aria-label="Pick a side">${tiles}</div>
+        <p class="note">${ICON.bulb}<span>${o ? `${plain(c, o)} <strong>${cash(c.stake)} returns ${money(ret)}.</strong>` : 'Tap a side and I’ll work out what it pays.'}</span></p>
+        ${o
+          ? `<button class="cta" type="button" data-act="slip" data-card="${c.id}"><span>Review ${cash(c.stake)} bet</span><small>Returns ${money(ret)}</small></button>`
+          : '<button class="cta" type="button" disabled>Pick a side first</button>'}
+      </article>`;
+  }
+
+  function parlayHTML(c) {
+    const n = c.legs.length, odds = parlayOdds(c), ret = c.stake * dec(odds);
+    const legs = c.legs.map((l, i) => {
+      const g = GAMES[l.game];
+      return `<li class="leg">${l.opt.team ? disc(l.opt.team, 'sm') : league}
+        <span class="leg-txt"><b>${l.opt.label}</b><span>${MARKET[l.market]} · ${g.away} @ ${g.home} · ${g.live ? 'Live' : g.time}</span></span>
+        <span class="odds">${fmt(l.opt.odds)}</span>
+        <button class="leg-x" type="button" data-act="drop" data-card="${c.id}" data-i="${i}" aria-label="Remove ${esc(l.opt.label)}">${ICON.x}</button></li>`;
+    }).join('');
+    return `
+      <article class="card" id="${c.id}" aria-label="${n}-leg ${c.sgp ? 'same game ' : ''}parlay">
+        <div class="card-h">${league}<span>${n} legs${c.sgp ? ` · ${matchName(GAMES[c.legs[0].game])}` : ''}</span><span class="pill">${c.sgp ? 'Same game parlay' : 'Parlay'}</span></div>
+        <ol class="legs">${legs}</ol>
+        <div class="combo"><span>Combined odds</span><span class="odds">${fmt(odds)}</span></div>
+        <p class="note">${ICON.bulb}<span>All ${n} legs have to win. <strong>${cash(c.stake)} returns ${money(ret)}.</strong></span></p>
+        <button class="cta" type="button" data-act="slip" data-card="${c.id}"><span>Review ${cash(c.stake)} parlay</span><small>Returns ${money(ret)}</small></button>
+      </article>`;
+  }
+  const rerender = (c) => { const el = document.getElementById(c.id); if (el) el.outerHTML = cardHTML(c); };
+
+  function cardChips(c) {
+    if (c.kind === 'parlay') {
+      const s = SUGGEST.map((x) => resolveLeg(suggestLeg(x))).find((l) => !c.legs.some((x) => x.game === l.game));
+      return ['Make it $20', ...(s ? [`Add ${s.opt.label}`] : []), ...(c.sgp ? ['Build a parlay'] : ['Same game parlay']), 'My bets'];
+    }
+    if (c.market === 'future') return ['Make it $50', c.fut === 'mvp' ? 'Title odds' : 'MVP odds', 'Other games', 'My bets'];
+    if (c.market === 'ml') return ['Make it $50', 'Spread instead', 'Make it a parlay', 'My bets'];
+    if (c.market === 'spread' || c.market === 'total') return ['Make it $50', 'Moneyline instead', 'Make it a parlay', 'My bets'];
+    return ['Make it $50', 'Make it a parlay', 'Player props', 'My bets'];
+  }
+
+  /* ---------------- Blocks ---------------- */
+  function gamesBlock(heading) {
+    const cards = Object.entries(GAMES).map(([id, g]) => `
+      <article class="game" aria-label="${matchName(g)}">
+        <div class="game-when">${g.live ? liveTag(g) : g.time}</div>
+        <div class="game-teams">
+          <span class="game-team">${disc(g.away, 'sm')}${g.away}${g.live ? ' ' + g.live.a : ''}</span>
+          <span class="game-at">@</span>
+          <span class="game-team">${disc(g.home, 'sm')}${g.home}${g.live ? ' ' + g.live.h : ''}</span>
+        </div>
+        <div class="game-odds">
+          <button class="price" type="button" data-act="price" data-game="${id}" data-side="a" aria-label="${TEAMS[g.away].name} to win, ${fmt(g.ml.a)}"><span>${g.away}</span><b>${fmt(g.ml.a)}</b></button>
+          <button class="price" type="button" data-act="price" data-game="${id}" data-side="h" aria-label="${TEAMS[g.home].name} to win, ${fmt(g.ml.h)}"><span>${g.home}</span><b>${fmt(g.ml.h)}</b></button>
+        </div>
+      </article>`).join('');
+    return `${title(heading)}<div class="games">${cards}</div>`;
+  }
+
+  const priceBtn = (o, data) => `<button class="price" type="button" data-act="board" ${data} aria-label="${esc(o.label)}, ${fmt(o.odds)}"><span>${o.board}</span><b>${fmt(o.odds)}</b></button>`;
+  const brow = (icon, head, sub, btns) => `<li class="brow"><span class="brow-l">${icon}<span class="brow-txt"><b>${head}</b><span>${sub}</span></span></span><span class="brow-p">${btns}</span></li>`;
+  function boardBlock(market, onlyGame) {
+    let rows;
+    if (market === 'prop') {
+      rows = PLAYERS.filter((p) => !onlyGame || p.game === onlyGame).map((p) => {
+        const pl = propLine(p, p.main), g = GAMES[p.game];
+        const btns = optionsFor(p.game, 'prop', { prop: pl }).map((o) => priceBtn(o, `data-game="${p.game}" data-market="prop" data-player="${p.key}" data-stat="${pl.stat}" data-side="${o.side}"`)).join('');
+        return brow(disc(p.team, 'sm'), `${p.short} · ${pl.stat}`, `${g.away} @ ${g.home} · ${g.live ? 'Live' : g.time}`, btns);
+      });
+    } else {
+      rows = Object.entries(GAMES).filter(([id]) => !onlyGame || id === onlyGame).map(([id, g]) => {
+        const btns = optionsFor(id, market).map((o) => priceBtn(o, `data-game="${id}" data-market="${market}" data-side="${o.side}"`)).join('');
+        return brow(`<span class="pair">${disc(g.away, 'xs')}${disc(g.home, 'xs')}</span>`, `${g.away} @ ${g.home}`, g.live ? '<span class="live"><span class="dot"></span>Live</span>' : g.time, btns);
+      });
+    }
+    return `<ul class="board">${rows.join('')}</ul>`;
+  }
+  const BOARD = {
+    ml: ['Moneylines tonight', 'Pick a winner. Minus odds are the favourite.'],
+    spread: ['Spreads tonight', 'The favourite has to win by more than the line.'],
+    total: ['Totals tonight', 'Over or under the combined score.'],
+    prop: ['Player bets tonight', 'Over or under on one player’s numbers.']
+  };
+
+  const PICKS = [
+    { game: 'g2', market: 'ml', side: 'h', echo: 'Celtics to win', why: 'Biggest favourite still to tip off' },
+    { game: 'g3', market: 'spread', side: 'h', echo: 'Bulls −2.5', why: 'Tightest line on the board' },
+    { game: 'g5', market: 'prop', side: 'over', player: 'curry', echo: 'Curry over 4.5 threes', why: 'Player bet · Mavericks @ Warriors' },
+    { parlay: true, echo: 'Parlay Celtics, Bulls, Curry', why: '3 legs, one bigger payout' }
+  ];
+  function picksBlock() {
+    const rows = PICKS.map((p, i) => {
+      let icon, odds;
+      if (p.parlay) {
+        const c = { legs: fillLegs([], 3).map(resolveLeg), sgp: false };
+        icon = '<span class="tbadge">×3</span>'; odds = parlayOdds(c);
+      } else {
+        const leg = resolveLeg(suggestLeg(p));
+        icon = disc(leg.opt.team, 'sm'); odds = leg.opt.odds;
+      }
+      return `<li><button class="pick" type="button" data-act="pick" data-i="${i}">${icon}
+        <span class="pick-txt"><b>${p.echo}</b><span>${p.why}</span></span>
+        <span class="odds">${fmt(odds)}</span>${ICON.chev}</button></li>`;
+    }).join('');
+    return `<ul class="picks" aria-label="Tonight’s picks">${rows}</ul>`;
+  }
+
+  const TYPES = [
+    ['ML', 'Moneyline', 'Pick the winner', 'Celtics moneyline'],
+    ['SP', 'Spread', 'Win by more, or lose by less', 'Bulls −2.5'],
+    ['O/U', 'Total', 'Combined points, over or under', 'Mavs Warriors over 227.5'],
+    ['PL', 'Player bet', 'One player’s numbers', 'Jokić over 9.5 assists'],
+    ['×3', 'Parlay', 'Join bets, multiply the odds', 'Parlay Celtics, Bulls, Warriors'],
+    ['SGP', 'Same game parlay', 'Several bets from one game', 'Same game parlay Warriors'],
+    ['FUT', 'Futures', 'Season-long, like the title', 'Nuggets to win the title']
+  ];
+  const typesBlock = () => `<ul class="picks" aria-label="Bet types">${TYPES.map(([b, n, d, ex]) => `
+      <li><button class="pick" type="button" data-act="say" data-say="${esc(ex)}"><span class="tbadge">${b}</span>
+        <span class="pick-txt"><b>${n}</b><span>${d} · “${ex}”</span></span>${ICON.chev}</button></li>`).join('')}</ul>`;
+
+  /* ---------------- Understanding ---------------- */
+  const FUZZY_STOP = new Set(['bets', 'best', 'over', 'under', 'total', 'totals', 'spread', 'spreads', 'parlay', 'parlays', 'tonight', 'today',
+    'points', 'assists', 'rebounds', 'threes', 'games', 'money', 'moneyline', 'whats', 'with', 'will', 'wins', 'make', 'give', 'show',
+    'place', 'stake', 'lines', 'odds', 'props', 'player', 'team', 'teams', 'them', 'that', 'this', 'there', 'their', 'other', 'about',
+    'would', 'could', 'should', 'again', 'first', 'score', 'hello', 'thanks', 'honest', 'title', 'remove', 'instead', 'please', 'basketball']);
+
+  function findHits(t) {
+    const hits = [];
+    const has = (kind, key) => hits.some((h) => h.kind === kind && h.key === key);
+    const exact = (kind, key, aliases) => {
+      for (const a of aliases) {
+        const m = word(a).exec(t);
+        if (m) { const at = m.index + m[1].length; hits.push({ kind, key, at, end: m.index + m[0].length }); return; }
+      }
+    };
+    PLAYERS.forEach((p) => exact('player', p.key, p.alias));
+    Object.entries(TEAMS).forEach(([c, tm]) => exact('team', c, tm.alias));
+    OFF.forEach(([n, al]) => exact('off', n, al));
+
+    // Forgive typos: “celtcs”, “warriers”, “jokick”.
+    const toks = [...t.matchAll(/[a-z]+/g)].filter((m) => m[0].length >= 4 && !FUZZY_STOP.has(m[0]));
+    const covered = (i) => hits.some((h) => i >= h.at && i < h.end);
+    const fuzzy = (kind, key, aliases) => {
+      if (has(kind, key)) return;
+      for (const m of toks) {
+        if (covered(m.index)) continue;
+        for (const a of aliases) {
+          if (a.length < 5 || a.includes(' ')) continue;
+          const d = lev(m[0], a);
+          if (d > 0 && d <= (a.length >= 7 ? 2 : 1)) { hits.push({ kind, key, at: m.index, end: m.index + m[0].length, fuzzy: m[0] }); return; }
+        }
+      }
+    };
+    PLAYERS.forEach((p) => fuzzy('player', p.key, p.alias));
+    Object.entries(TEAMS).forEach(([c, tm]) => fuzzy('team', c, tm.alias));
+    OFF.forEach(([n, al]) => fuzzy('off', n, al));
+    return hits.sort((a, b) => a.at - b.at);
+  }
+  const hitName = (h) => (h.kind === 'team' ? TEAMS[h.key].name : h.kind === 'player' ? P(h.key).player : h.key);
+
+  function takeStake(t) {
+    const pats = [
+      /\$\s*(\d+(?:\.\d{1,2})?)/,
+      /\b(\d+(?:\.\d{1,2})?)\s*(?:bucks|dollars?|usd|quid)\b/,
+      /\b(?:bet|put|stake|wager|risk|make it|up it to|bump it to)\s+(\d+(?:\.\d{1,2})?)\b(?![.+]|\s*-?\s*(?:legs?|teams?|points?|pts|threes|assists|rebounds))/,
+      /^(\d+(?:\.\d{1,2})?)\s+on\b/
+    ];
+    for (const p of pats) {
+      const m = p.exec(t);
+      if (m) return { stake: parseFloat(m[1]), rest: (t.slice(0, m.index) + ' ' + t.slice(m.index + m[0].length)).trim() };
+    }
+    return { stake: null, rest: t };
+  }
+  function statOf(s) {
+    for (const [k, al] of Object.entries(STATS)) if (al.some((a) => word(a).test(s))) return k;
+    return null;
+  }
+  const numsIn = (s) => [...s.replace(/\b(?:3|three)\s*-?\s*(?:pointers?|pt|pm|s)\b/g, ' threes ')
+    .matchAll(/(\d+(?:\.\d+)?)(\+?)(?![\d.]*\s*-?\s*(?:legs?|teams?))(?![a-z])/g)].map((m) => ({ n: parseFloat(m[1]), plus: !!m[2] }));
+  const mktIn = (s) => (/\b(spreads?|cover|covers|ats|handicap)\b|(^|\s)[+\-−]\s?\d+(\.5)?\b/.test(s) ? 'spread'
+    : /\b(totals?|over|under|o\/u|combined)\b|\b[ou]\s?\d{3}/.test(s) ? 'total'
+    : /\b(moneylines?|money line|ml|to win|wins?|straight up|outright)\b/.test(s) ? 'ml' : null);
+
+  function marketOf(t) {
+    if (/\bsame[\s-]?game\b|\bsgp\b/.test(t)) return 'sgp';
+    if (/\b(parlays?|parley|accumulators?|accas?|multis?|combos?)\b|\b\d+\s*-?\s*(legs?|teams?|teamers?)\b/.test(t)) return 'parlay';
+    if (/\b(futures?|championship|champions?|title|finals|mvp|win it all|outrights?)\b/.test(t)) return 'future';
+    if (/\b(spreads?|cover|covers|ats|handicap)\b|(^|\s)[+\-−]\s?\d+(\.5)?\b/.test(t)) return 'spread';
+    const stat = statOf(t.replace(/\btotal points?\b/g, ''));
+    if (/\b(totals?|over\/under|o\/u|over|under)\b/.test(t) && !stat) return 'total';
+    if (/\b(props?|player (?:bets?|props?))\b/.test(t) || stat) return 'prop';
+    if (/\b(moneylines?|money line|ml|straight up|to win)\b/.test(t)) return 'ml';
+    return null;
+  }
+
+  function propLeg(key, ctx, parlayMode) {
+    const p = P(key);
+    const stat = statOf(ctx) || p.main;
+    const under = /\b(under|less than|fewer|below|no more than)\b|\bu\s?\d/.test(ctx);
+    const over = /\b(over|more than|or more|at least|score|scores|get|gets|hit|hits)\b|\bo\s?\d|\d\+/.test(ctx);
+    const nn = numsIn(ctx).find((x) => x.n > 0 && x.n < 80);
+    const side = under ? 'under' : over || nn ? 'over' : parlayMode ? 'over' : null;
+    let want = null;
+    if (nn) want = nn.n % 1 ? nn.n : (/\bover\b|more than/.test(ctx) && !nn.plus ? nn.n + 0.5 : nn.n - 0.5);
+    return { game: p.game, market: 'prop', side, prop: propLine(p, stat, want) };
+  }
+
+  // Each team or player mention becomes a leg; the words after it until the next mention say what kind.
+  function buildLegs(t, hits, parlayMode) {
+    const live = hits.filter((h) => h.kind !== 'off');
+    if (!live.length) return [];
+    const dm = mktIn(t.slice(0, live[0].at));
+    const nextAt = (k) => (live[k] ? live[k].at : t.length);
+    const legs = [];
+    for (let i = 0; i < live.length; i++) {
+      const h = live[i];
+      if (h.kind === 'player') { legs.push(propLeg(h.key, t.slice(h.at, nextAt(i + 1)), parlayMode)); continue; }
+      const gid = gameOf(h.key), g = GAMES[gid];
+      let ctx = t.slice(h.at, nextAt(i + 1)), side = h.key === g.away ? 'a' : 'h', both = false;
+      const nx = live[i + 1];
+      if (nx && nx.kind === 'team' && gameOf(nx.key) === gid) {
+        const m = /^\s*(vs\.?|v|versus|@|at|or|against|and|over|beat|beats|to beat|-|\/)?\s*(?:the\s*)?$/.exec(t.slice(h.end, nx.at));
+        if (m) {
+          i++;
+          ctx = t.slice(h.at, h.end) + ' ' + t.slice(nx.end, nextAt(i + 1));
+          if (!/over|beat/.test(m[1] || '')) {
+            const on = /\bon (?:the )?([a-z]+)/.exec(t);
+            const c2 = on && [h.key, nx.key].find((c) => TEAMS[c].alias.some((a) => a.startsWith(on[1]) || on[1].startsWith(a)));
+            side = c2 ? (c2 === g.away ? 'a' : 'h') : null;
+            both = !c2;
+          }
+        }
+      }
+      const market = mktIn(ctx) || dm || 'ml';
+      let total = null;
+      if (market === 'total') {
+        side = /\bunder\b|\bu\s?\d/.test(ctx) ? 'under' : /\bover\b|\bo\s?\d/.test(ctx) ? 'over' : parlayMode ? 'over' : null;
+        const n = numsIn(ctx).find((x) => x.n >= 150 && x.n <= 320);
+        if (n) total = totalLine(g, n.n % 1 ? n.n : side === 'under' ? n.n - 0.5 : n.n + 0.5);
+        both = false;
+      }
+      legs.push({ game: gid, market, side, total, both });
+    }
+    return legs;
+  }
+
+  function parse(raw) {
+    const t0 = norm(raw).replace(/\s+/g, ' ').trim();
+    const { stake, rest: t } = takeStake(t0);
+    const hits = findHits(t), live = hits.filter((h) => h.kind !== 'off'), off = hits.find((h) => h.kind === 'off');
+    const mk = marketOf(t);
+    const fuzzy = hits.filter((h) => h.fuzzy).map((h) => ({ typed: h.fuzzy, name: hitName(h) }));
+    const words = t0.split(' ').length;
+    const last = S.lastCard ? S.cards[S.lastCard] : null;
+    const bare = !hits.length && !mk;
+
+    if (/\b(my bets?|open bets?|cash ?out|track (?:my )?bets?)\b/.test(t0)) return { type: 'mybets' };
+    if (bare && /^(hi|hey|hello|yo|sup|hiya|howdy|hola|good (?:morning|afternoon|evening))\b/.test(t0) && words <= 6) return { type: 'greet' };
+    if (bare && /\b(thanks|thank you|thx|ty|cheers|appreciate it|nice one|great|cool|awesome)\b/.test(t0) && words <= 6) return { type: 'thanks' };
+    if (/\b(balance|how much (?:money )?(?:do i have|have i got|is left)|my money|my funds)\b/.test(t0)) return { type: 'balance' };
+    if (bare && (/^(help|what can you do|how does this work|what do you do|commands|options|menu)\b/.test(t0) || /\bbet types?\b|\btypes of bets?\b|\bwhat can i (?:say|ask)\b/.test(t0))) return { type: 'help' };
+    if (!live.length && mk && /\b(what(?:s| is| are| does)|explain|how (?:does|do|is|are)|meaning|define|mean|tell me about)\b/.test(t0)) return { type: 'explain', market: mk };
+
+    if (last) {
+      const toP = /\b(make (?:it|this|that) (?:a |into a )?parlay|parlay (?:it|this|that)|turn (?:it|this|that) into a parlay|as a parlay)\b/.test(t);
+      const addish = /^(add|and|plus|also|throw in|with|parlay (?:it )?with)\b/.test(t) || /\b(add|throw in)\b/.test(t);
+      if ((toP || addish) && live.length) return { type: 'addLegs', legs: buildLegs(t, hits, true), stake, fuzzy };
+      if (toP) return { type: 'toParlay', stake };
+      if (last.kind === 'parlay' && live.length && /\b(remove|drop|take out|delete|lose|without)\b/.test(t)) return { type: 'dropLegs', hits: live };
+      if (!live.length && !mk && (/\b(make it|change (?:the )?stake|stake to|up it to|bump it to)\b/.test(t0) || (stake && words <= 3))) return { type: 'stake', stake };
+      if (!live.length && last.kind === 'single' && last.game && /\b(instead|for (?:this|that) game|switch(?: it)? to|change(?: it)? to)\b/.test(t)) {
+        const m = /\bspread/.test(t) ? 'spread' : /\b(total|over|under|o\/u)/.test(t) ? 'total' : /\b(moneyline|money line|ml|to win|straight)/.test(t) ? 'ml' : null;
+        if (m) return { type: 'switch', market: m };
+      }
+    }
+
+    if (/\b(other games?|another (?:bet|game)|show (?:me )?(?:the )?games|whats on|schedule|slate|all (?:the )?games|games tonight)\b/.test(t)) return { type: 'games' };
+
+    if (mk === 'future') {
+      const kind = /\bmvp\b/.test(t) ? 'mvp' : 'champ';
+      const ph = live.find((h) => h.kind === 'player'), th = live.find((h) => h.kind === 'team');
+      let pick = kind === 'mvp' ? (ph ? ph.key : null) : th ? th.key : ph ? P(ph.key).team : null;
+      if (pick && !FUTURES[kind].opts.some((o) => o[0] === pick)) pick = null;
+      return { type: 'future', kind, pick, stake, offName: !pick && off ? off.key : null, fuzzy };
+    }
+
+    if (live.length) {
+      const parlayish = mk === 'parlay' || mk === 'sgp';
+      const legs = buildLegs(t, hits, parlayish);
+      if (parlayish || legs.length > 1) return { type: 'parlay', legs, stake, sgp: mk === 'sgp', implicit: !parlayish, fuzzy };
+      const leg = legs[0];
+      if (leg.market === 'ml' && /\b(props?|player (?:bets?|props?))\b/.test(t)) return { type: 'board', market: 'prop', game: leg.game };
+      return { type: 'bet', card: { ...leg, stake }, stake, both: leg.both, fuzzy };
+    }
+    if (off) return { type: 'related', name: off.key, market: mk };
+    if (mk === 'sgp') return { type: 'parlay', legs: [], stake, sgp: true };
+    if (mk === 'parlay') {
+      const n = /\b(\d+)\s*-?\s*(?:legs?|teams?|teamers?)\b/.exec(t);
+      return { type: 'parlay', legs: [], stake, size: n ? Math.min(6, Math.max(2, +n[1])) : 3 };
+    }
+    if (/\b(safe|safest|banker|lock|sure thing)\b/.test(t)) return { type: 'bet', card: { game: 'g2', market: 'ml', side: 'h', stake }, stake, safest: true };
+    if (/\b(underdogs?|dogs?|upsets?|long ?shots?|big (?:payout|odds|win)|risky)\b/.test(t)) return { type: 'bet', card: { game: 'g1', market: 'ml', side: 'a', stake }, stake, dog: true };
+    if (mk) return { type: 'board', market: mk };
+    if (/\b(tonight|picks?|good|suggest|recommend|best|value|ideas?|tips?|should i|fancy|hot)\b/.test(t)) return { type: 'picks' };
+    if (/\b(nba|basketball|hoops|games?|odds|lines?)\b/.test(t)) return { type: 'games' };
+    return { type: 'unknown' };
+  }
+
+  /* ---------------- Conversation ---------------- */
+  const STEPS = {
+    bet: ['Reading your bet…', 'Finding the game…', 'Checking tonight’s odds…'],
+    parlay: ['Reading your legs…', 'Matching each game…', 'Multiplying the odds…'],
+    addLegs: ['Adding to your parlay…', 'Re-pricing…'],
+    toParlay: ['Building a parlay…', 'Multiplying the odds…'],
+    picks: ['Scanning tonight’s slate…', 'Comparing the lines…'],
+    board: ['Pulling tonight’s lines…'],
+    future: ['Checking season odds…'],
+    related: ['Checking the schedule…', 'Finding something close…'],
+    unknown: ['Thinking…', 'Looking for something close…']
+  };
+
+  async function think(steps) {
+    const el = append(`<div class="msg bot"><span class="avatar" aria-hidden="true">${ICON.spark}</span><div class="body"><p class="say think"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="tt">${steps[0]}</span></p></div></div>`);
+    for (const s of steps) { el.querySelector('.tt').textContent = s; await wait(420); }
+    el.remove();
+  }
+
+  async function handle(text) {
+    text = text.trim();
+    if (!text || S.busy) return;
+    S.busy = true;
+    me(text);
+    setChips([]);
+    const intent = parse(text);
+    await think(STEPS[intent.type] || ['On it…']);
+    respond(intent);
+    S.busy = false;
+  }
+  async function quick(echo, steps, intent) {
+    S.busy = true; me(echo); setChips([]);
+    await think(steps);
+    S.busy = false;
+    respond(intent);
+  }
+
+  const heard = (it) => (it.fuzzy && it.fuzzy.length ? `I read ${it.fuzzy.map((f) => `“${esc(f.typed)}” as <strong>${f.name}</strong>`).join(' and ')}. ` : '');
+  const showCard = (lead, c) => { bot(say(lead) + cardHTML(c)); setChips(cardChips(c)); };
+
+  function parlayLead(c, added, implicit) {
+    const n = c.legs.length, kind = `${n}-leg ${c.sgp ? 'same game ' : ''}parlay`;
+    const why = implicit ? (c.sgp ? 'Those are all from one game, so I’ve made it a same game parlay. ' : 'Those are different games, so I’ve joined them into a parlay. ') : '';
+    const extra = added ? `I added ${added} popular leg${added > 1 ? 's' : ''} to round it out. Tap × to drop any.` : 'Every leg has to win.';
+    return `${why}Here’s your <strong>${kind}</strong> at <strong>${fmt(parlayOdds(c))}</strong>. ${extra}`;
+  }
+
+  const EXPLAIN = {
+    ml: ['A <strong>moneyline</strong> is the simplest bet: pick who wins. Minus odds mark the favourite (−180 means stake $180 to win $100). Plus odds mark the underdog (+150 means $100 wins $150).', () => makeCard({ game: 'g2', market: 'ml' })],
+    spread: ['A <strong>spread</strong> evens out a mismatch. The favourite has to win by more than the line; the underdog can lose by less than it and still pay.', () => makeCard({ game: 'g2', market: 'spread' })],
+    total: ['A <strong>total</strong> (over/under) doesn’t care who wins. You bet on whether both teams’ points added together go over or under the line.', () => makeCard({ game: 'g5', market: 'total' })],
+    prop: ['A <strong>player bet</strong> (or prop) is about one player’s numbers: points, rebounds, assists or threes, over or under a line.', () => makeCard({ game: 'g5', market: 'prop', prop: propLine(P('curry'), 'threes') })],
+    parlay: ['A <strong>parlay</strong> joins two or more bets into one. The odds multiply, so the payout jumps, but every leg has to win.', () => makeParlay(fillLegs([], 3))],
+    sgp: ['A <strong>same game parlay</strong> joins several bets from one game, like a team to win, a player over and the total. Every leg has to win.', () => makeParlay(sgpLegs('g5'), null, true)],
+    future: ['<strong>Futures</strong> are season-long bets, like who wins the title or MVP. Big prices, but your stake is tied up until the season ends.', () => makeFuture('champ')]
+  };
+
+  function respond(it) {
+    const last = S.lastCard ? S.cards[S.lastCard] : null;
+
+    if (it.type === 'bet') {
+      const c = makeCard(it.card);
+      const o = c.sel == null ? null : c.opts[c.sel];
+      let lead;
+      if (!o) {
+        if (c.market === 'ml' || c.market === 'spread') {
+          const g = GAMES[c.game], f = favOf(g), d = f === 'a' ? 'h' : 'a';
+          lead = it.both
+            ? `The <strong>${TEAMS[teamOf(g, f)].name}</strong> are favourites at ${fmt(g.ml[f])}; the ${TEAMS[teamOf(g, d)].name} pay ${fmt(g.ml[d])}. Who are you backing?`
+            : 'Which side are you backing?';
+        } else lead = 'Over or under?';
+      } else if (it.safest) lead = `The safest-looking bet tonight: <strong>${o.said}</strong>. Short odds, so a smaller return.`;
+      else if (it.dog) lead = `Biggest underdog tonight: <strong>${o.said}</strong> at ${fmt(o.odds)}. Long shot, big return.`;
+      else if (it.stake) lead = `Here’s your bet: <strong>${cash(c.stake)} on ${o.said}</strong>.`;
+      else lead = `Here’s <strong>${o.said}</strong>. I’ve set a $10 stake; you can change it on the slip.`;
+      if ((c.prop && c.prop.alt) || (c.total && c.total.alt)) lead += ' That’s an alt line, so the price differs from the main line.';
+      showCard(heard(it) + lead, c);
+      return;
+    }
+
+    if (it.type === 'parlay') {
+      let legs = it.legs, added = 0;
+      if (it.sgp) {
+        const game = legs.length ? legs[0].game : 'g5';
+        const mine = legs.filter((l) => l.game === game);
+        const c = makeParlay([...sgpLegs(game), ...mine], it.stake, true);
+        added = Math.max(0, c.legs.length - mine.length);
+        showCard(heard(it) + parlayLead(c, added, false), c);
+        return;
+      }
+      if (legs.length < 2) { const before = legs.length; legs = fillLegs(legs, Math.max(it.size || 3, 2)); added = legs.length - before; }
+      const c = makeParlay(legs, it.stake);
+      showCard(heard(it) + parlayLead(c, added, it.implicit), c);
+      return;
+    }
+
+    if (it.type === 'addLegs' || it.type === 'toParlay') {
+      let legs = [...legsOf(last), ...(it.legs || [])], added = 0;
+      if (legs.length < 3 && it.type === 'toParlay') { const b = legs.length; legs = fillLegs(legs, 3); added = legs.length - b; }
+      if (legs.length < 2) { const b = legs.length; legs = fillLegs(legs, 2); added = legs.length - b; }
+      const c = makeParlay(legs, it.stake || last.stake);
+      const lead = it.type === 'addLegs'
+        ? `${heard(it)}Added. It’s now a <strong>${c.legs.length}-leg ${c.sgp ? 'same game ' : ''}parlay</strong> at <strong>${fmt(parlayOdds(c))}</strong>.${added ? ' I added a popular leg so it’s a proper parlay.' : ''}`
+        : parlayLead(c, added, false);
+      showCard(lead, c);
+      return;
+    }
+
+    if (it.type === 'dropLegs') {
+      const match = (h, l) => (h.kind === 'player' ? l.prop && l.prop.key === h.key : l.game === gameOf(h.key) && (l.opt.team === h.key || l.market === 'total'));
+      const keep = last.legs.filter((l) => !it.hits.some((h) => match(h, l)));
+      if (keep.length === last.legs.length) { bot(say('I couldn’t find that leg in your parlay. Tap × next to a leg to remove it.')); setChips(cardChips(last)); return; }
+      if (keep.length > 1) { const c = makeParlay(keep, last.stake, last.sgp); showCard(`Removed. Now a <strong>${c.legs.length}-leg parlay</strong> at <strong>${fmt(parlayOdds(c))}</strong>.`, c); return; }
+      if (keep.length === 1) { const c = makeCard({ ...keep[0], stake: last.stake }); showCard(`Only one leg left, so here it is as a single bet: <strong>${c.opts[c.sel].said}</strong>.`, c); return; }
+      bot(say('That was every leg. Tell me a new bet whenever you’re ready.')); setChips(CHIPS.start);
+      return;
+    }
+
+    if (it.type === 'stake') {
+      const c = last;
+      if (!it.stake) { bot(say('How much would you like to stake? Try “make it $25”.')); setChips(cardChips(c)); return; }
+      c.stake = it.stake;
+      rerender(c);
+      const over = c.stake > S.balance ? ` That’s more than your ${money(S.balance)} balance, so you’ll need to lower it on the slip.` : '';
+      bot(say(cardReady(c) ? `Done. <strong>${cash(c.stake)} on ${cardSaid(c)}</strong> returns ${money(c.stake * dec(cardOdds(c)))}.${over}` : `Stake set to ${cash(c.stake)}. Now pick a side above.`));
+      setChips(cardChips(c));
+      return;
+    }
+
+    if (it.type === 'switch') {
+      const po = last.sel == null ? null : last.opts[last.sel];
+      const side = it.market !== 'total' && po && (po.side === 'a' || po.side === 'h') ? po.side : null;
+      const c = makeCard({ game: last.game, market: it.market, side, stake: last.stake });
+      const o = c.sel == null ? null : c.opts[c.sel];
+      let lead;
+      if (it.market === 'spread') lead = o ? `Spread version: <strong>${o.said}</strong>. ${o.fav ? 'Better odds than the straight win, but they must win by more.' : 'Shorter odds, but they can lose and still pay.'}` : 'Here’s the spread. Which side?';
+      else if (it.market === 'ml') lead = o ? `Straight win: <strong>${o.said}</strong> at ${fmt(o.odds)}.` : 'Here’s the moneyline. Who wins?';
+      else lead = `Here’s the total for ${matchName(GAMES[c.game])}. Over or under?`;
+      showCard(lead, c);
+      return;
+    }
+
+    if (it.type === 'future') {
+      const c = makeFuture(it.kind, it.pick, it.stake);
+      const o = c.sel == null ? null : c.opts[c.sel];
+      const F = FUTURES[it.kind];
+      const lead = it.offName ? `I don’t have the ${it.offName} priced yet. Here are the ${F.title} favourites:`
+        : o ? `<strong>${o.label}</strong> pays ${fmt(o.odds)}. It’s season-long, so it settles at the end of the season.`
+        : `${F.title} favourites right now. Tap one to price it.`;
+      showCard(heard(it) + lead, c);
+      return;
+    }
+
+    if (it.type === 'explain') {
+      const [txt, make] = EXPLAIN[it.market];
+      const c = make();
+      bot(say(txt) + say('Here’s one to try:') + cardHTML(c));
+      setChips(cardChips(c));
+      return;
+    }
+
+    if (it.type === 'board') {
+      const m = BOARD[it.market] ? it.market : 'ml';
+      const [head, sub] = BOARD[m];
+      bot(say(`${sub} Tap a price to build the bet.`) + title(it.game ? `Player bets · ${matchName(GAMES[it.game])}` : head) + boardBlock(m, it.game));
+      setChips(CHIPS.types.filter((x) => x !== head && !(m === 'prop' && x === 'Player props')));
+      return;
+    }
+
+    if (it.type === 'related') {
+      const m = BOARD[it.market] ? it.market : 'ml';
+      bot(say(`The <strong>${it.name}</strong> aren’t playing tonight. Here’s the closest thing, tonight’s ${BOARD[m][0].replace(' tonight', '').toLowerCase()}:`) + boardBlock(m));
+      setChips(CHIPS.start.slice(0, 5));
+      return;
+    }
+
+    if (it.type === 'picks') {
+      bot(say('A few that stand out tonight:') + picksBlock());
+      setChips(['Other games', 'Build a parlay', 'Player props', 'My bets']);
+      return;
+    }
+    if (it.type === 'games') {
+      bot(say('Here’s tonight’s NBA slate. Tap a price to bet on that team.') + gamesBlock('Tonight’s NBA'));
+      setChips(CHIPS.start.slice(1));
+      return;
+    }
+    if (it.type === 'mybets') {
+      const open = S.bets.filter((b) => b.status === 'open').length;
+      bot(say(open ? `You have <strong>${open} open bet${open > 1 ? 's' : ''}</strong>. I’ve opened My bets.` : 'No open bets right now.'));
+      setChips(CHIPS.placed);
+      if (open) openSheet('bets');
+      return;
+    }
+    if (it.type === 'balance') {
+      const open = S.bets.filter((b) => b.status === 'open').length;
+      bot(say(`You’ve got <strong>${money(S.balance)}</strong> to play with${open ? `, plus ${open} open bet${open > 1 ? 's' : ''} running` : ''}.`));
+      setChips(CHIPS.placed);
+      return;
+    }
+    if (it.type === 'greet') {
+      bot(say('Hey! Tell me a bet however you’d say it. I can do moneylines, spreads, totals, player bets, parlays and futures.'));
+      setChips(CHIPS.start);
+      return;
+    }
+    if (it.type === 'thanks') {
+      bot(say('Anytime. Good luck tonight!'));
+      setChips(CHIPS.placed);
+      return;
+    }
+    if (it.type === 'help') {
+      bot(say('Just type it the way you’d say it. Here’s everything I can build; tap one to try it:') + typesBlock());
+      setChips(CHIPS.types);
+      return;
+    }
+    bot(say('I’m not sure I caught that, so here’s what’s popular tonight. You can also name a team, a player or a bet type like “parlay”.') + picksBlock());
+    setChips(CHIPS.types);
+  }
+
+  /* ---------------- Slip ---------------- */
+  function openSlip(cardId) {
+    const c = S.cards[cardId];
+    S.slip = { cardId, stake: c.stake };
+    if (c.kind === 'parlay') {
+      $('#slipSel').innerHTML = `<div class="row">${league}
+        <div class="row-txt"><b>${c.legs.length}-leg ${c.sgp ? 'same game ' : ''}parlay</b><span>All legs must win</span></div>
+        <span class="odds">${fmt(parlayOdds(c))}</span></div>
+        <ul class="slip-legs">${c.legs.map((l) => `<li><span>${l.opt.label}</span><b>${fmt(l.opt.odds)}</b></li>`).join('')}</ul>`;
+    } else {
+      const o = c.opts[c.sel];
+      const sub = c.market === 'future' ? `Futures · ${FUTURES[c.fut].title}` : `${MARKET[c.market]} · ${matchName(GAMES[c.game])}`;
+      $('#slipSel').innerHTML = `<div class="row">${o.team ? disc(o.team, 'sm') : league}
+        <div class="row-txt"><b>${o.label}</b><span>${sub}</span></div>
+        <span class="odds">${fmt(o.odds)}</span></div>`;
+    }
+    $('#stake').value = c.stake;
+    updateSlip();
+    openSheet('slip');
+  }
+
+  function updateSlip() {
+    const sl = S.slip, c = S.cards[sl.cardId], odds = cardOdds(c);
+    const v = sl.stake;
+    $('#presets').innerHTML = [10, 20, 50, 100].map((n) => `<button class="preset" type="button" data-stake="${n}" aria-pressed="${v === n}">$${n}</button>`).join('');
+    const ok = v >= 1 && v <= S.balance;
+    $('#slipRet').textContent = money(v > 0 ? v * dec(odds) : 0);
+    $('#slipAfter').textContent = v > S.balance ? 'Not enough' : money(S.balance - (v > 0 ? v : 0));
+    $('#slipErr').textContent = !(v > 0) ? '' : v < 1 ? 'The minimum stake is $1.' : v > S.balance ? `That’s more than your ${money(S.balance)} balance.` : '';
+    const btn = $('#place');
+    btn.disabled = !ok;
+    btn.innerHTML = ok ? `<span>Place bet · ${cash(v)}</span><small>Returns ${money(v * dec(odds))}</small>` : (v > 0 ? 'Lower your stake' : 'Enter a stake');
+  }
+
+  async function place() {
+    const sl = S.slip, c = S.cards[sl.cardId], odds = cardOdds(c);
+    const btn = $('#place');
+    btn.disabled = true;
+    btn.innerHTML = 'Placing…';
+    await wait(700);
+    S.balance -= sl.stake;
+    let bet;
+    if (c.kind === 'parlay') {
+      const lv = c.legs.find((l) => GAMES[l.game].live) || c.legs[0];
+      bet = { id: 'b' + uid(), team: null, label: `${c.legs.length}-leg ${c.sgp ? 'same game ' : ''}parlay`, market: c.sgp ? 'Same game parlay' : 'Parlay', odds, stake: sl.stake, game: lv.game, legs: c.legs.map((l) => ({ label: l.opt.label, odds: l.opt.odds })), status: 'open' };
+    } else {
+      const o = c.opts[c.sel];
+      bet = { id: 'b' + uid(), team: o.team, label: o.label, market: MARKET[c.market], odds, stake: sl.stake, game: c.game, future: c.fut ? FUTURES[c.fut].title : null, status: 'open' };
+    }
+    S.bets.unshift(bet);
+    c.stake = sl.stake;
+    rerender(c);
+    closeSheet('slip');
+    refreshHeader();
+    const badge = $('#badge'); badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump');
+    const ret = sl.stake * dec(odds);
+    toast({ icon: ICON.checkLg, title: 'Bet placed', sub: `${bet.label} · returns ${money(ret)}`, amt: '−' + money(sl.stake), neg: true });
+    bot(`<article class="card placed">
+        <div class="placed-h"><span class="ok">${ICON.checkLg}</span>Bet placed</div>
+        <div class="row">${bet.team ? disc(bet.team, 'sm') : league}
+          <div class="row-txt"><b>${bet.label}</b><span>${cash(sl.stake)} stake · returns ${money(ret)}</span></div>
+          <span class="odds">${fmt(odds)}</span></div>
+        ${bet.legs ? `<ul class="slip-legs">${bet.legs.map((l) => `<li><span>${l.label}</span><b>${fmt(l.odds)}</b></li>`).join('')}</ul>` : ''}
+        <button class="ghost" type="button" data-act="mybets" style="align-self: flex-start">Follow it in My bets</button>
+      </article>`);
+    setChips(CHIPS.placed);
+    S.slip = null;
+  }
+
+  /* ---------------- Popup ---------------- */
+  const TOAST_MS = 3500;
+  let toastTimer = null;
+  function toast({ icon, title, sub, amt, neg }) {
+    const el = $('#toast');
+    $('#toastIc').innerHTML = icon;
+    $('#toastTitle').textContent = title;
+    $('#toastSub').textContent = sub;
+    const a = $('#toastAmt');
+    a.textContent = amt || '';
+    a.classList.toggle('neg', !!neg);
+    el.style.setProperty('--toast-ms', TOAST_MS + 'ms');
+    el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
+    $('#toastLive').textContent = `${title}. ${sub}`;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(hideToast, TOAST_MS);
+  }
+  function hideToast() { clearTimeout(toastTimer); $('#toast').classList.remove('show'); }
+  $('#toast').addEventListener('click', hideToast);
+
+  /* ---------------- My bets ---------------- */
+  const cashValue = (b) => {
+    if (b.cashout) return b.cashout;
+    const g = b.game ? GAMES[b.game] : null;
+    return Math.round(b.stake * (g && g.live ? 0.97 : g ? 0.95 : 0.9) * 100) / 100;
+  };
+
+  function renderBets() {
+    const open = S.bets.filter((b) => b.status === 'open').length;
+    $('#openCount').textContent = `${open} open`;
+    $('#betList').innerHTML = S.bets.length ? S.bets.map((b) => {
+      const g = b.game ? GAMES[b.game] : null, cv = cashValue(b);
+      const conf = S.confirm === b.id;
+      const status = !g ? `Settles end of season · ${b.future}`
+        : g.live ? liveTag(g, true)
+        : b.legs ? `${b.legs.length} legs · first starts ${g.time}`
+        : `Starts ${g.time} · ${matchName(g)}`;
+      let acts;
+      if (b.status === 'cashed') acts = `<p class="ok-txt">Cashed out · ${money(b.amount)} added</p>`;
+      else if (conf) acts = `<p>Cash out for ${money(cv)}?</p>
+          <button class="solid" type="button" data-act="cash-yes" data-bet="${b.id}">Confirm</button>
+          <button class="ghost" type="button" data-act="cash-no" data-bet="${b.id}" style="border-color: var(--line)">Keep</button>`;
+      else acts = `<p>Returns ${money(b.stake * dec(b.odds))}</p>
+          <button class="ghost" type="button" data-act="cash" data-bet="${b.id}">Cash out ${money(cv)}</button>`;
+      return `<li class="mb${b.status === 'open' ? '' : ' done'}">
+          <div class="row">${b.team ? disc(b.team, 'sm') : league}
+            <div class="row-txt"><b>${b.label}</b><span>${b.market} · ${cash(b.stake)} stake</span></div>
+            <span class="odds">${fmt(b.odds)}</span></div>
+          ${b.legs ? `<ul class="slip-legs">${b.legs.map((l) => `<li><span>${l.label}</span><b>${fmt(l.odds)}</b></li>`).join('')}</ul>` : ''}
+          <p class="mb-status">${status}</p>
+          <div class="mb-acts">${acts}</div>
+        </li>`;
+    }).join('') : '<li class="empty">No bets yet. Ask the assistant for one.</li>';
+  }
+
+  /* ---------------- Sheets ---------------- */
+  let opener = null;
+  const background = () => [$('#top'), $('#floor'), $('#dock'), ];
+  function openSheet(name) {
+    const w = document.getElementById(name);
+    if (name === 'bets') { S.confirm = null; renderBets(); }
+    opener = document.activeElement;
+    w.hidden = false;
+    background().forEach((el) => el.setAttribute('inert', ''));
+    requestAnimationFrame(() => requestAnimationFrame(() => w.classList.add('open')));
+    setTimeout(() => w.querySelector('.icon-btn').focus(), 60);
+  }
+  function closeSheet(name) {
+    const w = document.getElementById(name);
+    if (w.hidden) return;
+    w.classList.remove('open');
+    background().forEach((el) => el.removeAttribute('inert'));
+    setTimeout(() => { w.hidden = true; }, 320);
+    if (opener && document.contains(opener)) opener.focus();
+  }
+
+  /* ---------------- Events ---------------- */
+  $('#composer').addEventListener('submit', (e) => { e.preventDefault(); const v = input.value; input.value = ''; handle(v); });
+  chipsEl.addEventListener('click', (e) => { const b = e.target.closest('[data-say]'); if (b) handle(b.dataset.say); });
+
+  thread.addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-act]');
+    if (!b || S.busy) return;
+    const act = b.dataset.act;
+    if (act === 'sel') {
+      const c = S.cards[b.dataset.card];
+      c.sel = +b.dataset.i;
+      S.lastCard = c.id;
+      rerender(c);
+      setChips(cardChips(c));
+      const again = document.querySelector(`#${c.id} .tile[data-i="${c.sel}"]`);
+      if (again) again.focus();
+    } else if (act === 'drop') {
+      const c = S.cards[b.dataset.card];
+      c.legs.splice(+b.dataset.i, 1);
+      const el = document.getElementById(c.id);
+      if (c.legs.length > 1) {
+        S.lastCard = c.id;
+        rerender(c);
+        setChips(cardChips(c));
+        const next = document.querySelector(`#${c.id} .leg-x`);
+        if (next) next.focus();
+      } else {
+        const s = makeCard({ ...c.legs[0], stake: c.stake });
+        el.outerHTML = cardHTML(s);
+        setChips(cardChips(s));
+        const cta = document.querySelector(`#${s.id} .cta`);
+        if (cta) cta.focus();
+      }
+    } else if (act === 'slip') {
+      openSlip(b.dataset.card);
+    } else if (act === 'price') {
+      const g = GAMES[b.dataset.game];
+      quick(`${TEAMS[teamOf(g, b.dataset.side)].name} to win`, ['Finding the game…', 'Checking tonight’s odds…'],
+        { type: 'bet', card: { game: b.dataset.game, market: 'ml', side: b.dataset.side, stake: null }, stake: null });
+    } else if (act === 'board') {
+      const d = b.dataset;
+      const leg = { game: d.game, market: d.market, side: d.side, prop: d.player ? propLine(P(d.player), d.stat) : null };
+      const o = optionsFor(leg.game, leg.market, leg).find((x) => x.side === leg.side);
+      quick(o.label, ['Building your bet…'], { type: 'bet', card: { ...leg, stake: null }, stake: null });
+    } else if (act === 'pick') {
+      const p = PICKS[+b.dataset.i];
+      if (p.parlay) quick(p.echo, STEPS.parlay, { type: 'parlay', legs: fillLegs([], 3), stake: null });
+      else quick(p.echo, ['Building your bet…'], { type: 'bet', card: { ...suggestLeg(p), stake: null }, stake: null });
+    } else if (act === 'say') {
+      handle(b.dataset.say);
+    } else if (act === 'mybets') {
+      openSheet('bets');
+    }
+  });
+
+  $('#stake').addEventListener('input', (e) => {
+    const v = parseFloat(e.target.value.replace(/[^0-9.]/g, ''));
+    S.slip.stake = isNaN(v) ? 0 : Math.round(v * 100) / 100;
+    updateSlip();
+  });
+  $('#presets').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-stake]'); if (!b) return;
+    S.slip.stake = +b.dataset.stake; $('#stake').value = b.dataset.stake; updateSlip();
+  });
+  $('#place').addEventListener('click', place);
+
+  $('#betList').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-act]'); if (!b) return;
+    const bet = S.bets.find((x) => x.id === b.dataset.bet);
+    if (b.dataset.act === 'cash') S.confirm = bet.id;
+    if (b.dataset.act === 'cash-no') S.confirm = null;
+    if (b.dataset.act === 'cash-yes') {
+      bet.status = 'cashed'; bet.amount = cashValue(bet); S.balance += bet.amount; S.confirm = null; refreshHeader();
+      toast({ icon: ICON.cashOut, title: 'Cashed out', sub: `${bet.label} · added to balance`, amt: '+' + money(bet.amount) });
+    }
+    renderBets();
+    const next = document.querySelector(`#betList [data-bet="${bet.id}"]`);
+    if (next) next.focus();
+  });
+
+  $('#betsBtn').addEventListener('click', () => openSheet('bets'));
+  document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => closeSheet(b.closest('.sheet-wrap').id)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    ['slip', 'bets'].forEach((n) => { if (!document.getElementById(n).hidden) closeSheet(n); });
+  });
+
+  // Pin the app to the visible area between Safari's bars and above the keyboard.
+  const device = document.querySelector('.device');
+  function fitViewport() {
+    const vv = window.visualViewport;
+    if (!vv) { device.style.removeProperty('height'); device.style.removeProperty('transform'); return; }
+    device.style.height = vv.height + 'px';
+    device.style.transform = vv.offsetTop ? `translateY(${vv.offsetTop}px)` : '';
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', fitViewport);
+    window.visualViewport.addEventListener('scroll', fitViewport);
+  }
+  input.addEventListener('focus', () => setTimeout(() => { fitViewport(); scrollEnd(); }, 300));
+  fitViewport();
+
+  /* ---------------- Start ---------------- */
+  function start() {
+    S = fresh();
+    ['slip', 'bets'].forEach((n) => { const w = document.getElementById(n); w.classList.remove('open'); w.hidden = true; });
+    background().forEach((el) => el.removeAttribute('inert'));
+    thread.innerHTML = '';
+    refreshHeader();
+    bot(say('Hi! Tell me the bet in your own words: a team, a player, a parlay, anything. I’ll find the closest match and build the slip.') + gamesBlock('Tonight’s NBA'));
+    setChips(CHIPS.start);
+    thread.scrollTop = 0;
+  }
+  start();
+
+  // Test hook for the prototype harness; harmless in the page.
+  window.__betAssistant = { parse, handle, get state() { return S; } };
+})();
+</script>
+<script>
+// Loading splash: shows on every visit or reload, for at least 1.2s and at most 3s.
+(() => {
+  const el = document.getElementById('splash');
+  let gone = false;
+  const hide = () => {
+    if (gone) return; gone = true;
+    el.classList.add('done');
+    setTimeout(() => el.remove(), 400);
+  };
+  const ready = () => setTimeout(hide, Math.max(0, 1200 - performance.now()));
+  if (document.readyState === 'complete') ready(); else window.addEventListener('load', ready, { once: true });
+  setTimeout(hide, 3000);
+})();
+</script>
+
+</body></html>
