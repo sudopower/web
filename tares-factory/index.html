@@ -207,6 +207,32 @@ button { cursor: pointer; }
 .lk-val { font-size: 34px; font-weight: 560; letter-spacing: -0.03em; display: flex; align-items: center; gap: 16px; line-height: 1.1; }
 .lk-val .slash { font-family: var(--pixel); font-weight: 400; color: var(--ink-soft); }
 .gf { width: 196px; height: 28px; display: block; color: var(--ink); }
+/* Claude Code's pixel mascot holds a magnifier up to the GlassFlow logo. Events stream through the lens;
+   when the orange one has passed, Claude nods, glances at you, blinks and goes back to watching. Decorative. */
+.gf-wrap { position: relative; display: block; flex: none; }
+.cc {
+  --cc-u: 6px;
+  position: absolute; left: calc(100% + 18px); top: calc(50% - 6 * var(--cc-u));
+  width: calc(30 * var(--cc-u)); height: calc(13 * var(--cc-u));
+  overflow: visible; shape-rendering: crispEdges; pointer-events: none;
+}
+.cc-body, .cc-legs, .cc-lane .cc-hot { fill: #d97757; }
+.cc-eyes rect { fill: #1e0f00; transform-box: fill-box; transform-origin: 50% 100%; animation: cc-blink 6s steps(1, end) infinite; }
+.cc-eyes { animation: cc-look 6s steps(1, end) infinite; }
+.cc-up { animation: cc-nod 6s steps(1, end) infinite; }
+.cc-glass { fill: var(--accent-soft); }
+.cc-rim { fill: var(--ink-soft); }
+.cc-grip { fill: var(--ink); }
+.cc-glint { fill: #fff; opacity: 0.6; }
+.cc-lane rect { fill: var(--accent-text); }
+.cc-a { animation: cc-flow12 3.6s steps(12, end) infinite; }
+.cc-b { animation: cc-flow24 6s steps(24, end) infinite; }
+.cc-c { animation: cc-flow12 2.4s steps(12, end) infinite; }
+@keyframes cc-flow12 { to { transform: translateX(12px); } }
+@keyframes cc-flow24 { to { transform: translateX(24px); } }
+@keyframes cc-nod { 0% { transform: translateY(0); } 26% { transform: translateY(1px); } 30% { transform: translateY(0); } 34% { transform: translateY(1px); } 38%, 100% { transform: translateY(0); } }
+@keyframes cc-look { 0% { transform: translateX(0); } 50% { transform: translateX(1px); } 73%, 100% { transform: translateX(0); } }
+@keyframes cc-blink { 0% { transform: scaleY(1); } 60% { transform: scaleY(0.5); } 62.5%, 100% { transform: scaleY(1); } }
 
 /* 2. What Tares is: title left, rows right */
 .split { display: grid; grid-template-columns: 5fr 7fr; }
@@ -447,6 +473,7 @@ button { cursor: pointer; }
   .lk:nth-child(2) { border-left: 0; }
   .lk-val { font-size: 17px; gap: 10px; }
   .gf { width: 126px; height: 18px; }
+  .cc { --cc-u: 3.2px; left: calc(100% + 10px); top: calc(50% - 7.5 * var(--cc-u)); }
 
   /* 2 */
   .split { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
@@ -591,6 +618,7 @@ button { cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
+  .cc, .cc * { animation: none !important; }
 }
 </style>
 </head>
@@ -628,7 +656,23 @@ button { cursor: pointer; }
     <img class="title-mark" src="assets/tares-mark.svg" alt="" data-a>
   </div>
   <div class="lockup" data-a>
-    <div class="lk"><span class="lbl">Tares / GlassFlow</span><span class="lk-val">Tares <span class="slash">/</span> <svg class="gf" role="img" aria-label="GlassFlow"><use href="#gf-logo"/></svg></span></div>
+    <div class="lk"><span class="lbl">Tares / GlassFlow</span><span class="lk-val">Tares <span class="slash">/</span> <span class="gf-wrap"><svg class="gf" role="img" aria-label="GlassFlow"><use href="#gf-logo"/></svg><svg class="cc" viewBox="0 0 30 13" aria-hidden="true" focusable="false">
+      <defs><clipPath id="cc-lens"><path d="M4 1h4v1h2v2h1v4h-1v2h-2v1h-4v-1h-2v-2h-1v-4h1v-2h2z"/></clipPath></defs>
+      <path class="cc-legs" d="M17 11h1v2h-1zM19 11h1v2h-1zM24 11h1v2h-1zM26 11h1v2h-1z"/>
+      <g class="cc-up">
+        <path class="cc-glass" d="M4 1h4v1h2v2h1v4h-1v2h-2v1h-4v-1h-2v-2h-1v-4h1v-2h2z"/>
+        <g clip-path="url(#cc-lens)">
+          <g class="cc-lane cc-a"><rect x="2" y="3" width="2" height="1"/><rect x="7" y="3" width="1" height="1"/><rect x="11" y="3" width="1" height="1"/><rect x="-10" y="3" width="2" height="1"/><rect x="-5" y="3" width="1" height="1"/><rect x="-1" y="3" width="1" height="1"/></g>
+          <g class="cc-lane cc-b"><rect class="cc-hot" x="5" y="5" width="3" height="2"/><rect x="13" y="5" width="1" height="2"/><rect x="18" y="5" width="2" height="2"/><rect class="cc-hot" x="-19" y="5" width="3" height="2"/><rect x="-11" y="5" width="1" height="2"/><rect x="-6" y="5" width="2" height="2"/></g>
+          <g class="cc-lane cc-c"><rect x="0" y="8" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="8" y="8" width="2" height="1"/><rect x="-12" y="8" width="1" height="1"/><rect x="-8" y="8" width="1" height="1"/><rect x="-4" y="8" width="2" height="1"/></g>
+        </g>
+        <path class="cc-glint" d="M3 2h2v1h-2zM2 3h1v2h-1z"/>
+        <path class="cc-rim" fill-rule="evenodd" d="M4 0h4v1h2v1h1v2h1v4h-1v2h-1v1h-2v1h-4v-1h-2v-1h-1v-2h-1v-4h1v-2h1v-1h2zM4 1h4v1h2v2h1v4h-1v2h-2v1h-4v-1h-2v-2h-1v-4h1v-2h2zM12 7h1v1h-1z"/>
+        <rect class="cc-grip" x="13" y="7" width="2" height="2"/>
+        <path class="cc-body" d="M16 5h12v3h2v1h-2v2h-12v-2h-2v-1h2z"/>
+        <g class="cc-eyes"><rect x="18" y="6" width="1" height="2"/><rect x="23" y="6" width="1" height="2"/></g>
+      </g>
+    </svg></span></span></div>
     <div class="lk"><span class="lbl">+ Factory</span><span class="lk-val">A fixed crew</span></div>
     <div class="lk"><span class="lbl">+ Claude</span><span class="lk-val">Claude Code</span></div>
   </div>
