@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tares software factory</title>
 <meta name="description" content="Tares software factory: a crew of Claude Code sessions that ships your projects. Open source, by GlassFlow.">
+<meta name="robots" content="noindex, nofollow">
 <meta property="og:title" content="Tares software factory">
 <meta property="og:description" content="A crew of Claude Code sessions that ships your projects. Open source, by GlassFlow.">
 <meta name="theme-color" content="#f0efe2" media="(prefers-color-scheme: light)">
@@ -196,43 +197,93 @@ button { cursor: pointer; }
 .soft { color: var(--ink-soft); }
 
 /* 1. Title */
-.title-main { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 40px; padding: 0 64px; }
+.title-main { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 48px; padding: 0 64px; }
 .title-copy h1 { font-size: 104px; line-height: 1; }
 .title-accent { margin-top: 36px !important; font-size: 40px; line-height: 1.15; font-weight: 500; letter-spacing: -0.03em; color: var(--accent-text); max-width: 1120px; }
 .title-sub { margin-top: 18px !important; font-size: 26px; color: var(--ink-soft); max-width: 900px; }
-.title-mark { width: 250px; height: auto; margin-right: 40px; }
 .lockup { flex: none; height: 168px; display: grid; grid-template-columns: 1.25fr 1fr 1fr; border-top: 1px solid var(--line); margin: 0; }
 .lk { padding: 34px 64px 0; display: flex; flex-direction: column; gap: 16px; }
 .lk + .lk { border-left: 1px solid var(--line); padding-left: 48px; }
 .lk-val { font-size: 34px; font-weight: 560; letter-spacing: -0.03em; display: flex; align-items: center; gap: 16px; line-height: 1.1; }
 .lk-val .slash { font-family: var(--pixel); font-weight: 400; color: var(--ink-soft); }
 .gf { width: 196px; height: 28px; display: block; color: var(--ink); }
-/* Claude Code's pixel mascot holds a magnifier up to the GlassFlow logo. Events stream through the lens;
-   when the orange one has passed, Claude nods, glances at you, blinks and goes back to watching. Decorative. */
-.gf-wrap { position: relative; display: block; flex: none; }
-.cc {
-  --cc-u: 6px;
-  position: absolute; left: calc(100% + 18px); top: calc(50% - 6 * var(--cc-u));
-  width: calc(30 * var(--cc-u)); height: calc(13 * var(--cc-u));
-  overflow: visible; shape-rendering: crispEdges; pointer-events: none;
-}
-.cc-body, .cc-legs, .cc-lane .cc-hot { fill: #d97757; }
-.cc-eyes rect { fill: #1e0f00; transform-box: fill-box; transform-origin: 50% 100%; animation: cc-blink 6s steps(1, end) infinite; }
-.cc-eyes { animation: cc-look 6s steps(1, end) infinite; }
-.cc-up { animation: cc-nod 6s steps(1, end) infinite; }
-.cc-glass { fill: var(--accent-soft); }
-.cc-rim { fill: var(--ink-soft); }
-.cc-grip { fill: var(--ink); }
-.cc-glint { fill: #fff; opacity: 0.6; }
-.cc-lane rect { fill: var(--accent-text); }
-.cc-a { animation: cc-flow12 3.6s steps(12, end) infinite; }
-.cc-b { animation: cc-flow24 6s steps(24, end) infinite; }
-.cc-c { animation: cc-flow12 2.4s steps(12, end) infinite; }
-@keyframes cc-flow12 { to { transform: translateX(12px); } }
-@keyframes cc-flow24 { to { transform: translateX(24px); } }
-@keyframes cc-nod { 0% { transform: translateY(0); } 26% { transform: translateY(1px); } 30% { transform: translateY(0); } 34% { transform: translateY(1px); } 38%, 100% { transform: translateY(0); } }
-@keyframes cc-look { 0% { transform: translateX(0); } 50% { transform: translateX(1px); } 73%, 100% { transform: translateX(0); } }
-@keyframes cc-blink { 0% { transform: scaleY(1); } 60% { transform: scaleY(0.5); } 62.5%, 100% { transform: scaleY(1); } }
+/* 1. Title: Claude Code's pixel mascot is the hero. It inspects the GlassFlow logo through a magnifier,
+   thinks, sees the GlassFlow mark form in the lens, then codes on a laptop that stands on a Tares crate. Decorative. */
+.hero { width: 820px; height: auto; display: block; overflow: visible; shape-rendering: crispEdges; }
+.h-mascot { fill: #d97757; }
+.h-eyes rect, .h-eye { fill: #1e0f00; }
+.h-spark { fill: #fff; }
+.h-floor { fill: var(--line); }
+.h-frame, .h-post, .h-crate-line { fill: var(--line-strong); }
+.h-card, .h-crate { fill: var(--panel); }
+.h-logo { color: var(--ink); }
+.h-lap { fill: var(--ink-soft); }
+.h-screen { fill: #1e0f00; }
+.h-c1 { fill: #ffac00; } .h-c2 { fill: #c2b197; } .h-c3 { fill: #d97757; }
+.h-glass { fill: var(--accent-soft); }
+.h-rim { fill: var(--ink-soft); }
+.h-grip { fill: var(--ink); }
+.h-glint { fill: #fff; opacity: 0.6; }
+.h-lane rect { fill: var(--accent-text); }
+.h-lane .h-hot { fill: #d97757; }
+.h-m1 { fill: #d7613a; } .h-m2 { fill: #dc8946; } .h-m3 { fill: #f9c078; }
+.h-cloud-fill { fill: var(--canvas); }
+.h-cloud-line, .h-tb, .h-dot { fill: var(--ink-soft); }
+.h-bang { fill: var(--accent-text); }
+.h-t1, .h-t2, .h-t3, .h-d1, .h-d2, .h-d3, .h-bang, .h-wide, .h-down { opacity: 0; }
+.h-gaze { transform: translate(-2px, 0); }
+.h-mark { transform: scaleX(0); }
+.h-code-on { opacity: 0.45; }
+.h-eyes rect { transform-box: fill-box; transform-origin: 50% 100%; }
+.h-bang { transform-box: fill-box; transform-origin: 50% 100%; }
+.h-mark { transform-box: fill-box; transform-origin: 0 50%; }
+.h-gaze { animation: h-gaze 15s ease-in-out infinite; }
+.h-eyes rect { animation: h-blink 15s steps(1, end) infinite; }
+.h-eyes { animation: h-eyes 15s steps(1, end) infinite; }
+.h-wide { animation: h-wide 15s steps(1, end) infinite; }
+.h-t1 { animation: h-t1 15s steps(1, end) infinite; }
+.h-t2 { animation: h-t2 15s steps(1, end) infinite; }
+.h-t3 { animation: h-t3 15s steps(1, end) infinite; }
+.h-d1 { animation: h-d1 15s steps(1, end) infinite; }
+.h-d2 { animation: h-d2 15s steps(1, end) infinite; }
+.h-d3 { animation: h-d3 15s steps(1, end) infinite; }
+.h-bang { animation: h-bang 15s linear infinite; }
+.h-hop { animation: h-hop 15s linear infinite; }
+.h-bob { animation: h-bob 15s steps(1, end) infinite; }
+.h-arm { animation: h-arm 15s steps(1, end) infinite; }
+.h-held-on { animation: h-held-on 15s steps(1, end) infinite; }
+.h-down { animation: h-down 15s steps(1, end) infinite; }
+.h-held { animation: h-held 15s linear infinite; }
+.h-lanes { animation: h-lanes 15s linear infinite; }
+.h-mark { animation: h-mark 15s linear infinite; }
+.h-code-on { animation: h-code-on 15s ease-in-out infinite; }
+.h-code { animation: h-code 15s linear infinite; }
+.h-la { animation: h-flow14 4.2s steps(14, end) infinite; }
+.h-lb { animation: h-flow28 7s steps(28, end) infinite; }
+.h-lc { animation: h-flow14 2.8s steps(14, end) infinite; }
+@keyframes h-gaze { 0% { transform: translate(-2px, 0); } 26.667% { transform: translate(-2px, 0); } 28.667% { transform: translate(2px, -2px); } 42.667% { transform: translate(2px, -2px); } 44.667% { transform: translate(-2px, 0); } 60.667% { transform: translate(-2px, 0); } 62.667% { transform: translate(3px, 1px); } 88.667% { transform: translate(3px, 1px); } 90.667% { transform: translate(0, -1px); } 94.667% { transform: translate(0, -1px); } 96.667% { transform: translate(-2px, 0); } 100% { transform: translate(-2px, 0); } }
+@keyframes h-blink { 0% { transform: scaleY(1); } 10.667% { transform: scaleY(0.25); } 11.667% { transform: scaleY(1); } 76% { transform: scaleY(0.25); } 77% { transform: scaleY(1); } 100% { transform: scaleY(1); } }
+@keyframes h-eyes { 0% { opacity: 1; } 48% { opacity: 0; } 56% { opacity: 1; } 100% { opacity: 1; } }
+@keyframes h-wide { 0% { opacity: 0; } 48% { opacity: 1; } 56% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-t1 { 0% { opacity: 0; } 28.667% { opacity: 1; } 42.667% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-t2 { 0% { opacity: 0; } 29.667% { opacity: 1; } 42.667% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-t3 { 0% { opacity: 0; } 30.667% { opacity: 1; } 42.667% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-d1 { 0% { opacity: 0; } 33.333% { opacity: 1; } 42.667% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-d2 { 0% { opacity: 0; } 35.333% { opacity: 1; } 42.667% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-d3 { 0% { opacity: 0; } 37.333% { opacity: 1; } 42.667% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-bang { 0% { opacity: 0; transform: scale(0.4); } 48% { opacity: 0; transform: scale(0.4); animation-timing-function: ease-out; } 48.133% { opacity: 1; transform: scale(0.4); animation-timing-function: ease-out; } 49.467% { opacity: 1; transform: scale(1.2); animation-timing-function: ease-in-out; } 50.667% { opacity: 1; transform: scale(1); } 56% { opacity: 1; transform: scale(1); } 56.133% { opacity: 0; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+@keyframes h-hop { 0% { transform: translateY(0); } 50% { transform: translateY(0); animation-timing-function: cubic-bezier(.2,.7,.3,1); } 51.333% { transform: translateY(-3px); animation-timing-function: cubic-bezier(.6,0,.8,.4); } 53% { transform: translateY(0); } 100% { transform: translateY(0); } }
+@keyframes h-bob { 0% { transform: translateY(0); } 19.333% { transform: translateY(1px); } 21% { transform: translateY(0); } 22.333% { transform: translateY(1px); } 24% { transform: translateY(0); } 64.667% { transform: translateY(1px); } 66.667% { transform: translateY(0); } 68.667% { transform: translateY(1px); } 70.667% { transform: translateY(0); } 72.667% { transform: translateY(1px); } 74.667% { transform: translateY(0); } 76.667% { transform: translateY(1px); } 78.667% { transform: translateY(0); } 80.667% { transform: translateY(1px); } 82.667% { transform: translateY(0); } 84.667% { transform: translateY(1px); } 86.667% { transform: translateY(0); } 100% { transform: translateY(0); } }
+@keyframes h-arm { 0% { transform: translateY(0); } 65.333% { transform: translateY(1px); } 66.333% { transform: translateY(0); } 67.333% { transform: translateY(1px); } 68.333% { transform: translateY(0); } 69.333% { transform: translateY(1px); } 70.333% { transform: translateY(0); } 71.333% { transform: translateY(1px); } 72.333% { transform: translateY(0); } 73.333% { transform: translateY(1px); } 74.333% { transform: translateY(0); } 75.333% { transform: translateY(1px); } 76.333% { transform: translateY(0); } 77.333% { transform: translateY(1px); } 78.333% { transform: translateY(0); } 79.333% { transform: translateY(1px); } 80.333% { transform: translateY(0); } 81.333% { transform: translateY(1px); } 82.333% { transform: translateY(0); } 83.333% { transform: translateY(1px); } 84.333% { transform: translateY(0); } 85.333% { transform: translateY(1px); } 86.333% { transform: translateY(0); } 87.333% { transform: translateY(1px); } 88.333% { transform: translateY(0); } 100% { transform: translateY(0); } }
+@keyframes h-held-on { 0% { opacity: 1; } 63% { opacity: 0; } 93.333% { opacity: 1; } 100% { opacity: 1; } }
+@keyframes h-down { 0% { opacity: 0; } 63% { opacity: 1; } 93.333% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes h-held { 0% { transform: translateY(0); } 60.667% { transform: translateY(0); animation-timing-function: ease-in; } 63% { transform: translateY(4px); } 93.333% { transform: translateY(4px); animation-timing-function: ease-out; } 96.333% { transform: translateY(0); } 100% { transform: translateY(0); } }
+@keyframes h-lanes { 0% { opacity: 1; } 44.667% { opacity: 1; animation-timing-function: steps(3, end); } 46.667% { opacity: 0; } 58.667% { opacity: 0; animation-timing-function: steps(3, end); } 60.667% { opacity: 1; } 100% { opacity: 1; } }
+@keyframes h-mark { 0% { transform: translateX(0) scaleX(0); } 44.667% { transform: translateX(0) scaleX(0); animation-timing-function: steps(5, end); } 47.333% { transform: translateX(0) scaleX(1); } 56.667% { transform: translateX(0) scaleX(1); animation-timing-function: steps(7, end); } 61.333% { transform: translateX(14px) scaleX(1); } 100% { transform: translateX(14px) scaleX(1); } }
+@keyframes h-code-on { 0% { opacity: 0.45; } 63% { opacity: 0.45; } 64.667% { opacity: 1; } 90% { opacity: 1; } 92% { opacity: 0.45; } 100% { opacity: 0.45; } }
+@keyframes h-code { 0% { transform: translateY(0); } 64% { transform: translateY(0); animation-timing-function: steps(9, end); } 88% { transform: translateY(-18px); } 100% { transform: translateY(-18px); } }
+@keyframes h-flow14 { to { transform: translateX(14px); } }
+@keyframes h-flow28 { to { transform: translateX(28px); } }
 
 /* 2. What Tares is: title left, rows right */
 .split { display: grid; grid-template-columns: 5fr 7fr; }
@@ -462,7 +513,7 @@ button { cursor: pointer; }
 
   /* 1 */
   .title-main { grid-template-columns: 1fr; padding: 18px 16px; align-content: center; gap: 22px; }
-  .title-mark { order: -1; width: 72px; margin: 0; }
+  .hero { order: -1; width: 100%; max-width: 360px; }
   .title-copy h1 { font-size: 40px; }
   .title-accent { font-size: 21px; margin-top: 18px !important; }
   .title-sub { font-size: 15px; margin-top: 10px !important; }
@@ -473,7 +524,6 @@ button { cursor: pointer; }
   .lk:nth-child(2) { border-left: 0; }
   .lk-val { font-size: 17px; gap: 10px; }
   .gf { width: 126px; height: 18px; }
-  .cc { --cc-u: 3.2px; left: calc(100% + 10px); top: calc(50% - 7.5 * var(--cc-u)); }
 
   /* 2 */
   .split { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
@@ -618,7 +668,12 @@ button { cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
-  .cc, .cc * { animation: none !important; }
+  .hero, .hero * { animation: none !important; }
+}
+/* Short phones: a smaller hero keeps the title slide from scrolling. */
+@media (max-width: 719px) and (max-height: 700px) {
+  .title-main { gap: 14px; }
+  .hero { max-width: 210px; }
 }
 </style>
 </head>
@@ -653,26 +708,56 @@ button { cursor: pointer; }
       <p class="title-accent" data-a>A crew of Claude Code sessions that ships your projects.</p>
       <p class="title-sub" data-a>It plans with you, builds, reviews and merges. Tares keeps the plan and your answers.</p>
     </div>
-    <img class="title-mark" src="assets/tares-mark.svg" alt="" data-a>
+    <svg class="hero" viewBox="0 0 89 35" aria-hidden="true" focusable="false" data-a>
+      <defs>
+        <clipPath id="h-lens"><path d="M26 14H30V15H32V16H33V18H34V22H33V24H32V25H30V26H26V25H24V24H23V22H22V18H23V16H24V15H26Z"/></clipPath>
+        <clipPath id="h-scr"><rect x="72" y="15" width="14" height="9"/></clipPath>
+      </defs>
+      <rect class="h-floor" x="0" y="34" width="89" height="1"/>
+      <rect class="h-post" x="9" y="24" width="2" height="10"/><rect class="h-post" x="6" y="33" width="8" height="1"/>
+      <rect class="h-card" x="1" y="17" width="18" height="6"/>
+      <path class="h-frame" fill-rule="evenodd" d="M0 16h20v8h-20zM1 17h18v6h-18z"/>
+      <use class="h-logo" href="#gf-logo" x="1.6" y="18.83" width="16.8" height="2.34"/>
+      <rect class="h-crate" x="71" y="26" width="16" height="8"/>
+      <path class="h-crate-line" fill-rule="evenodd" d="M71 26h16v8h-16zM72 27h14v6h-14z"/>
+      <image href="assets/tares-mark.svg" x="76" y="27.6" width="6" height="4.8"/>
+      <rect class="h-lap" x="71" y="14" width="16" height="11"/><rect class="h-lap" x="70" y="25" width="18" height="1"/>
+      <rect class="h-screen" x="72" y="15" width="14" height="9"/>
+      <g clip-path="url(#h-scr)"><g class="h-code-on"><g class="h-code"><rect class="h-c1" x="73" y="16" width="4" height="1"/><rect class="h-c2" x="78" y="16" width="5" height="1"/><rect class="h-c2" x="75" y="18" width="7" height="1"/><rect class="h-c3" x="75" y="20" width="3" height="1"/><rect class="h-c2" x="79" y="20" width="5" height="1"/><rect class="h-c1" x="77" y="22" width="6" height="1"/><rect class="h-c2" x="75" y="24" width="9" height="1"/><rect class="h-c1" x="73" y="26" width="2" height="1"/><rect class="h-c3" x="76" y="26" width="6" height="1"/><rect class="h-c2" x="75" y="28" width="5" height="1"/><rect class="h-c1" x="81" y="28" width="3" height="1"/><rect class="h-c2" x="77" y="30" width="4" height="1"/><rect class="h-c2" x="73" y="32" width="3" height="1"/><rect class="h-c1" x="73" y="34" width="4" height="1"/><rect class="h-c2" x="78" y="34" width="5" height="1"/><rect class="h-c2" x="75" y="36" width="7" height="1"/><rect class="h-c3" x="75" y="38" width="3" height="1"/><rect class="h-c2" x="79" y="38" width="5" height="1"/><rect class="h-c1" x="77" y="40" width="6" height="1"/></g></g></g>
+      <g class="h-down">
+        <rect class="h-glass" x="20" y="31" width="8" height="2"/><rect class="h-glint" x="21" y="31" width="2" height="1"/>
+        <path class="h-rim" fill-rule="evenodd" d="M20 30h8v1h2v2h-2v1h-8v-1h-2v-2h2zM20 31h8v2h-8z"/>
+        <rect class="h-rim" x="30" y="32" width="1" height="2"/><rect class="h-grip" x="31" y="32" width="4" height="2"/>
+      </g>
+      <rect class="h-tb h-t1" x="56" y="12" width="1" height="1"/><rect class="h-tb h-t2" x="58" y="10" width="2" height="2"/>
+      <g class="h-t3"><rect class="h-cloud-fill" x="63" y="2" width="4" height="1"/><rect class="h-cloud-fill" x="71" y="2" width="4" height="1"/><rect class="h-cloud-fill" x="61" y="3" width="16" height="4"/><rect class="h-cloud-fill" x="63" y="7" width="4" height="1"/><rect class="h-cloud-fill" x="71" y="7" width="4" height="1"/><rect class="h-cloud-line" x="63" y="1" width="4" height="1"/><rect class="h-cloud-line" x="71" y="1" width="4" height="1"/><rect class="h-cloud-line" x="61" y="2" width="2" height="1"/><rect class="h-cloud-line" x="67" y="2" width="4" height="1"/><rect class="h-cloud-line" x="75" y="2" width="2" height="1"/><rect class="h-cloud-line" x="60" y="3" width="1" height="4"/><rect class="h-cloud-line" x="77" y="3" width="1" height="4"/><rect class="h-cloud-line" x="61" y="7" width="2" height="1"/><rect class="h-cloud-line" x="67" y="7" width="4" height="1"/><rect class="h-cloud-line" x="75" y="7" width="2" height="1"/><rect class="h-cloud-line" x="63" y="8" width="4" height="1"/><rect class="h-cloud-line" x="71" y="8" width="4" height="1"/></g>
+      <rect class="h-dot h-d1" x="64" y="4" width="2" height="2"/><rect class="h-dot h-d2" x="68" y="4" width="2" height="2"/><rect class="h-dot h-d3" x="72" y="4" width="2" height="2"/>
+      <g class="h-bang"><rect x="53" y="2" width="2" height="5"/><rect x="53" y="8" width="2" height="2"/></g>
+      <g class="h-hop">
+        <path class="h-mascot" d="M44 30h2v4h-2zM48 30h2v4h-2zM58 30h2v4h-2zM62 30h2v4h-2z"/>
+        <g class="h-bob">
+          <g class="h-held-on"><g class="h-held">
+            <path class="h-glass" d="M26 14H30V15H32V16H33V18H34V22H33V24H32V25H30V26H26V25H24V24H23V22H22V18H23V16H24V15H26Z"/>
+            <g clip-path="url(#h-lens)">
+              <g class="h-lanes"><g class="h-lane h-la"><rect x="23" y="16" width="2" height="1"/><rect x="28" y="16" width="1" height="1"/><rect x="32" y="16" width="1" height="1"/><rect x="9" y="16" width="2" height="1"/><rect x="14" y="16" width="1" height="1"/><rect x="18" y="16" width="1" height="1"/></g><g class="h-lane h-lb"><rect class="h-hot" x="26" y="19" width="3" height="2"/><rect class="h-hot" x="-2" y="19" width="3" height="2"/><rect x="34" y="19" width="1" height="2"/><rect x="39" y="19" width="2" height="2"/><rect x="45" y="19" width="1" height="2"/><rect x="6" y="19" width="1" height="2"/><rect x="11" y="19" width="2" height="2"/><rect x="17" y="19" width="1" height="2"/></g><g class="h-lane h-lc"><rect x="21" y="23" width="1" height="1"/><rect x="25" y="23" width="1" height="1"/><rect x="29" y="23" width="2" height="1"/><rect x="7" y="23" width="1" height="1"/><rect x="11" y="23" width="1" height="1"/><rect x="15" y="23" width="2" height="1"/></g></g>
+              <g class="h-mark"><rect class="h-m1" x="28" y="16" width="1" height="2"/><rect class="h-m1" x="23" y="22" width="5" height="2"/><rect class="h-m1" x="26" y="19" width="2" height="2"/><rect class="h-m1" x="29" y="22" width="1" height="2"/><rect class="h-m2" x="29" y="16" width="2" height="2"/><rect class="h-m2" x="28" y="19" width="3" height="2"/><rect class="h-m2" x="30" y="22" width="1" height="2"/><rect class="h-m3" x="31" y="16" width="2" height="2"/><rect class="h-m3" x="31" y="19" width="2" height="2"/><rect class="h-m3" x="31" y="22" width="1" height="2"/></g>
+            </g>
+            <path class="h-glint" d="M25 15h2v1h-2zM24 16h1v2h-1z"/>
+            <path class="h-rim" fill-rule="evenodd" d="M26 13H30V14H32V15H33V16H34V18H35V22H34V24H33V25H32V26H30V27H26V26H24V25H23V24H22V22H21V18H22V16H23V15H24V14H26ZM26 14H30V15H32V16H33V18H34V22H33V24H32V25H30V26H26V25H24V24H23V22H22V18H23V16H24V15H26Z"/>
+            <rect class="h-rim" x="34" y="22" width="1" height="2"/><rect class="h-grip" x="35" y="22" width="3" height="2"/>
+          </g></g>
+          <path class="h-mascot" d="M42 14h24v16h-24v-4h-4v-4h4z"/>
+          <g class="h-arm"><rect class="h-mascot" x="66" y="22" width="4" height="4"/></g>
+          <g class="h-gaze">
+            <g class="h-eyes"><rect x="46" y="18" width="2" height="4"/><rect x="60" y="18" width="2" height="4"/></g>
+            <g class="h-wide"><rect class="h-eye" x="45" y="17" width="4" height="5"/><rect class="h-eye" x="59" y="17" width="4" height="5"/><rect class="h-spark" x="46" y="18" width="1" height="1"/><rect class="h-spark" x="60" y="18" width="1" height="1"/></g>
+          </g>
+        </g>
+      </g>
+    </svg>
   </div>
   <div class="lockup" data-a>
-    <div class="lk"><span class="lbl">Tares / GlassFlow</span><span class="lk-val">Tares <span class="slash">/</span> <span class="gf-wrap"><svg class="gf" role="img" aria-label="GlassFlow"><use href="#gf-logo"/></svg><svg class="cc" viewBox="0 0 30 13" aria-hidden="true" focusable="false">
-      <defs><clipPath id="cc-lens"><path d="M4 1h4v1h2v2h1v4h-1v2h-2v1h-4v-1h-2v-2h-1v-4h1v-2h2z"/></clipPath></defs>
-      <path class="cc-legs" d="M17 11h1v2h-1zM19 11h1v2h-1zM24 11h1v2h-1zM26 11h1v2h-1z"/>
-      <g class="cc-up">
-        <path class="cc-glass" d="M4 1h4v1h2v2h1v4h-1v2h-2v1h-4v-1h-2v-2h-1v-4h1v-2h2z"/>
-        <g clip-path="url(#cc-lens)">
-          <g class="cc-lane cc-a"><rect x="2" y="3" width="2" height="1"/><rect x="7" y="3" width="1" height="1"/><rect x="11" y="3" width="1" height="1"/><rect x="-10" y="3" width="2" height="1"/><rect x="-5" y="3" width="1" height="1"/><rect x="-1" y="3" width="1" height="1"/></g>
-          <g class="cc-lane cc-b"><rect class="cc-hot" x="5" y="5" width="3" height="2"/><rect x="13" y="5" width="1" height="2"/><rect x="18" y="5" width="2" height="2"/><rect class="cc-hot" x="-19" y="5" width="3" height="2"/><rect x="-11" y="5" width="1" height="2"/><rect x="-6" y="5" width="2" height="2"/></g>
-          <g class="cc-lane cc-c"><rect x="0" y="8" width="1" height="1"/><rect x="4" y="8" width="1" height="1"/><rect x="8" y="8" width="2" height="1"/><rect x="-12" y="8" width="1" height="1"/><rect x="-8" y="8" width="1" height="1"/><rect x="-4" y="8" width="2" height="1"/></g>
-        </g>
-        <path class="cc-glint" d="M3 2h2v1h-2zM2 3h1v2h-1z"/>
-        <path class="cc-rim" fill-rule="evenodd" d="M4 0h4v1h2v1h1v2h1v4h-1v2h-1v1h-2v1h-4v-1h-2v-1h-1v-2h-1v-4h1v-2h1v-1h2zM4 1h4v1h2v2h1v4h-1v2h-2v1h-4v-1h-2v-2h-1v-4h1v-2h2zM12 7h1v1h-1z"/>
-        <rect class="cc-grip" x="13" y="7" width="2" height="2"/>
-        <path class="cc-body" d="M16 5h12v3h2v1h-2v2h-12v-2h-2v-1h2z"/>
-        <g class="cc-eyes"><rect x="18" y="6" width="1" height="2"/><rect x="23" y="6" width="1" height="2"/></g>
-      </g>
-    </svg></span></span></div>
+    <div class="lk"><span class="lbl">Tares / GlassFlow</span><span class="lk-val">Tares <span class="slash">/</span> <svg class="gf" role="img" aria-label="GlassFlow"><use href="#gf-logo"/></svg></span></div>
     <div class="lk"><span class="lbl">+ Factory</span><span class="lk-val">A fixed crew</span></div>
     <div class="lk"><span class="lbl">+ Claude</span><span class="lk-val">Claude Code</span></div>
   </div>
