@@ -1,0 +1,1130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tares software factory</title>
+<meta name="description" content="Tares software factory: a crew of Claude Code sessions that ships your projects. Open source, by GlassFlow.">
+<meta property="og:title" content="Tares software factory">
+<meta property="og:description" content="A crew of Claude Code sessions that ships your projects. Open source, by GlassFlow.">
+<meta name="theme-color" content="#f0efe2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1e0f00" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/tares-mark.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+  try { var t = localStorage.getItem('tares-deck-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  document.documentElement.classList.add('js');
+</script>
+<style>
+/* Fonts: Departure Mono (display, labels), Inter (body), Geist Mono (code, the Tares console's mono). Licences in assets/fonts. */
+@font-face { font-family: "Departure Mono"; src: url("assets/fonts/DepartureMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-latin-wght.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("assets/fonts/GeistMono-latin-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+/* Tokens: the Tares console's GlassFlow kit (cream ground, eclipse ink, one Space Sand accent). */
+:root {
+  color-scheme: light;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --pixel: "Departure Mono", ui-monospace, Menlo, monospace;
+  --code: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --page: #f0efe2;
+  --canvas: #faf9ec;
+  --panel: #f1efdf;
+  --ink: #1e0f00;
+  --ink-soft: #6e5b3f;
+  --ink-faint: oklch(0.51 0.05 64);
+  --line: #d8d5bc;
+  --line-strong: color-mix(in srgb, #1e0f00 28%, #faf9ec);
+  --accent: #ffac00;
+  --accent-hover: #ffd274;
+  --on-accent: #1e0f00;
+  --accent-soft: #ffac0026;
+  --accent-text: oklch(0.52 0.148 62);
+  --invert: #1e0f00;
+  --on-invert: #fcfcfc;
+  --on-invert-soft: #c2b197;
+  --accent-on-invert: #ffac00;
+  --btn-hover: #e6e3cf;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #170b00;
+    --canvas: #1e0f00;
+    --panel: #2f1700;
+    --ink: #fcfcfc;
+    --ink-soft: #c2b197;
+    --ink-faint: oklch(0.69 0.038 78);
+    --line: #4a2a0c;
+    --line-strong: #895523;
+    --accent-soft: #ffac001f;
+    --accent-text: #ffac00;
+    --invert: #faf9ec;
+    --on-invert: #1e0f00;
+    --on-invert-soft: #6e5b3f;
+    --accent-on-invert: oklch(0.52 0.148 62);
+    --btn-hover: #3a1d02;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #170b00;
+  --canvas: #1e0f00;
+  --panel: #2f1700;
+  --ink: #fcfcfc;
+  --ink-soft: #c2b197;
+  --ink-faint: oklch(0.69 0.038 78);
+  --line: #4a2a0c;
+  --line-strong: #895523;
+  --accent-soft: #ffac001f;
+  --accent-text: #ffac00;
+  --invert: #faf9ec;
+  --on-invert: #1e0f00;
+  --on-invert-soft: #6e5b3f;
+  --accent-on-invert: oklch(0.52 0.148 62);
+  --btn-hover: #3a1d02;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+a { color: inherit; }
+button, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Chrome around the slide ---------- */
+.bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.bar.top { height: 64px; padding: 0 28px; padding-top: env(safe-area-inset-top, 0px); border-bottom: 1px solid var(--line); font-size: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
+.brand img { width: 24px; height: auto; display: block; }
+.brand b { font-weight: 600; font-size: 16px; letter-spacing: -0.02em; }
+.brand span { color: var(--ink-soft); margin-left: 6px; white-space: nowrap; }
+.tools { display: flex; align-items: center; gap: 8px; }
+.tools select {
+  height: 38px; max-width: 290px; padding: 0 30px 0 12px; border: 1px solid var(--line-strong); border-radius: 0;
+  background: var(--canvas) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23897a63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center;
+  appearance: none; -webkit-appearance: none; font-size: 13px; text-overflow: ellipsis;
+}
+.btn { height: 38px; min-width: 38px; padding: 0 12px; border: 1px solid transparent; background: transparent; border-radius: 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+.btn:hover { background: var(--btn-hover); }
+.btn svg { width: 18px; height: 18px; display: block; }
+.btn .theme-ico-dark { display: none; }
+:root[data-theme="dark"] .btn .theme-ico-dark { display: block; }
+:root[data-theme="dark"] .btn .theme-ico-light { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .btn .theme-ico-dark { display: block; }
+  :root:not([data-theme="light"]) .btn .theme-ico-light { display: none; }
+}
+
+.bar.bottom { height: 64px; padding: 0 40px; padding-bottom: env(safe-area-inset-bottom, 0px); font-size: 13px; color: var(--ink-soft); }
+.bar.bottom .meta { flex: 1 1 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar.bottom .links { flex: 1 1 0; display: flex; justify-content: flex-end; gap: 18px; }
+.bar.bottom .links a { color: var(--ink); text-underline-offset: 4px; }
+.nav { display: flex; align-items: center; gap: 20px; }
+.nav button { width: 58px; height: 38px; border: 1px solid var(--line-strong); background: transparent; display: grid; place-items: center; border-radius: 0; }
+.nav button:hover:not(:disabled) { background: var(--btn-hover); }
+.nav button:disabled { opacity: 0.3; cursor: default; }
+.nav button svg { width: 20px; height: 20px; }
+.nav output { font-variant-numeric: tabular-nums; color: var(--ink); min-width: 52px; text-align: center; font-size: 14px; }
+
+/* ---------- Stage: a 1600 x 900 canvas, scaled to fit ---------- */
+.stage { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; touch-action: pan-y; }
+.frame {
+  position: absolute; left: 50%; top: 50%;
+  width: 1600px; height: 900px;
+  transform: translate(-50%, -50%) scale(var(--s, 0.5));
+  transform-origin: center center;
+}
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  background: var(--canvas); color: var(--ink);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  font-size: 28px; line-height: 1.3; letter-spacing: -0.01em;
+}
+.js .slide:not(.active) { display: none; }
+.slide h1, .slide h2, .slide h3, .slide p, .slide ol, .slide ul { margin: 0; padding: 0; }
+.slide ol, .slide ul { list-style: none; }
+.slide h1, .slide h2 { font-family: var(--pixel); font-weight: 400; letter-spacing: 0; }
+.slide h2 { font-size: 60px; line-height: 1.04; }
+.slide h3 { font-family: var(--sans); font-weight: 560; letter-spacing: -0.03em; }
+.slide code { font-family: var(--code); letter-spacing: 0; }
+
+/* slide header and footer (built by the script from data attributes) */
+.s-head {
+  flex: none; height: 88px; margin: 0 64px;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px;
+  border-bottom: 1px solid var(--line);
+  font: 17px/1 var(--pixel); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.s-head .h-l { display: flex; align-items: center; gap: 12px; }
+.s-head .h-l img { width: 26px; height: auto; }
+.s-head .h-c { color: var(--accent-text); }
+.s-head .h-r { justify-self: end; color: var(--ink-soft); }
+.s-foot {
+  flex: none; height: 64px; margin: 0 64px;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px;
+  font: 15px/1 var(--pixel); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft);
+}
+.s-foot .f-r { justify-self: end; color: var(--ink); }
+.s-body { flex: 1 1 auto; min-height: 0; position: relative; }
+.pad { padding: 44px 64px 24px; }
+.bleed { background: var(--panel); }
+.col { display: flex; flex-direction: column; }
+.t-band { flex: none; padding: 36px 64px 30px; border-bottom: 1px solid var(--line-strong); }
+.t-sub { margin-top: 12px !important; font-size: 24px; color: var(--ink-soft); letter-spacing: -0.01em; }
+.n { font: 18px/1 var(--pixel); color: var(--ink-soft); letter-spacing: 0.04em; }
+.lbl { font: 16px/1.1 var(--pixel); letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-text); }
+.soft { color: var(--ink-soft); }
+
+/* 1. Title */
+.title-main { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 40px; padding: 0 64px; }
+.title-copy h1 { font-size: 104px; line-height: 1; }
+.title-accent { margin-top: 36px !important; font-size: 40px; line-height: 1.15; font-weight: 500; letter-spacing: -0.03em; color: var(--accent-text); max-width: 1120px; }
+.title-sub { margin-top: 18px !important; font-size: 26px; color: var(--ink-soft); max-width: 900px; }
+.title-mark { width: 250px; height: auto; margin-right: 40px; }
+.lockup { flex: none; height: 168px; display: grid; grid-template-columns: 1.25fr 1fr 1fr; border-top: 1px solid var(--line); margin: 0; }
+.lk { padding: 34px 64px 0; display: flex; flex-direction: column; gap: 16px; }
+.lk + .lk { border-left: 1px solid var(--line); padding-left: 48px; }
+.lk-val { font-size: 34px; font-weight: 560; letter-spacing: -0.03em; display: flex; align-items: center; gap: 16px; line-height: 1.1; }
+.lk-val .slash { font-family: var(--pixel); font-weight: 400; color: var(--ink-soft); }
+.gf { width: 196px; height: 28px; display: block; color: var(--ink); }
+
+/* 2. What Tares is: title left, rows right */
+.split { display: grid; grid-template-columns: 5fr 7fr; }
+.split-l { padding: 48px 64px; border-right: 1px solid var(--line-strong); display: flex; flex-direction: column; justify-content: space-between; }
+.split-l h2 { font-size: 84px; line-height: 1.02; }
+.split-l .t-sub { max-width: 480px; }
+.rows { display: grid; grid-auto-rows: 1fr; }
+.rows > li { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 32px 56px 28px 40px; border-bottom: 1px solid var(--line-strong); align-content: start; }
+.rows > li:last-child { border-bottom: 0; }
+.rows .n { padding-top: 10px; }
+.rows h3 { font-size: 44px; line-height: 1.08; }
+.rows p { margin-top: 12px; font-size: 26px; color: var(--ink-soft); }
+.rows > li.hi { background: var(--accent); color: var(--on-accent); }
+.rows > li.hi .n, .rows > li.hi p { color: var(--on-accent); }
+.rows > li.inv { background: var(--invert); color: var(--on-invert); }
+.rows > li.inv .n, .rows > li.inv p { color: var(--on-invert-soft); }
+
+/* 3. By hand vs Tares */
+.pairs { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: auto 1fr; }
+.pair { display: grid; grid-template-rows: subgrid; grid-row: span 2; border-right: 1px solid var(--line-strong); }
+.pair:last-child { border-right: 0; }
+.pain { padding: 30px 32px 30px; }
+.pain h3 { font-size: 36px; line-height: 1.05; margin-top: 18px; }
+.pain p { margin-top: 12px; font-size: 22px; line-height: 1.3; color: var(--ink-soft); }
+.fix { padding: 26px 32px; background: var(--canvas); border-top: 1px solid var(--line-strong); position: relative; }
+.fix .lbl { display: flex; align-items: center; gap: 10px; }
+.fix .lbl svg { width: 22px; height: 22px; }
+.fix p { margin-top: 14px; font-size: 24px; line-height: 1.3; font-weight: 500; letter-spacing: -0.02em; }
+.pair.hi .fix { background: var(--accent); color: var(--on-accent); }
+.pair.hi .fix .lbl { color: var(--on-accent); }
+
+/* 4. Gaps table */
+.gaps { width: 100%; border-collapse: collapse; flex: 1; font-size: 26px; }
+.gaps th { font: 16px/1 var(--pixel); letter-spacing: 0.06em; text-transform: uppercase; text-align: left; padding: 18px 32px; color: var(--ink-soft); border-bottom: 1px solid var(--line-strong); }
+.gaps th:first-child, .gaps td:first-child { padding-left: 64px; }
+.gaps td { padding: 0 32px; border-bottom: 1px solid var(--line); height: 1px; }
+.gaps tr:last-child td { border-bottom: 0; }
+.gaps td:first-child { font-family: var(--pixel); font-size: 22px; letter-spacing: 0.02em; width: 22%; }
+.gaps td:nth-child(2) { color: var(--ink-soft); width: 36%; }
+.gaps td:nth-child(3), .gaps th:nth-child(3) { background: var(--accent-soft); font-weight: 560; letter-spacing: -0.02em; }
+.gaps th:nth-child(3) { color: var(--accent-text); }
+
+/* 5. Architecture */
+.arch { display: flex; flex-direction: column; gap: 22px; padding-bottom: 20px; }
+.arch .diagram { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.arch .diagram svg { width: 100%; height: 100%; display: block; }
+.dg-tall { display: none !important; }
+.dg text { font-family: var(--sans); font-size: 22px; fill: var(--ink); letter-spacing: -0.01em; }
+.dg .b { font-weight: 600; }
+.dg .s { font-size: 17px; fill: var(--ink-soft); }
+.dg .l { font-family: var(--pixel); font-size: 15px; letter-spacing: 0.06em; fill: var(--ink-soft); }
+.dg .box { fill: var(--canvas); stroke: var(--line-strong); stroke-width: 1.5; }
+.dg .frame-r { fill: var(--panel); stroke: var(--line-strong); stroke-width: 1; }
+.dg .acc { fill: var(--accent); stroke: none; }
+.dg .acc-t { fill: var(--on-accent); }
+.dg .inv { fill: var(--invert); stroke: none; }
+.dg .inv-t { fill: var(--on-invert); }
+.dg .inv-s { fill: var(--on-invert-soft); font-size: 17px; }
+.dg .dash { fill: none; stroke: var(--ink-soft); stroke-width: 1.5; stroke-dasharray: 7 6; }
+.dg .wire { fill: none; stroke: var(--ink-soft); stroke-width: 1.6; }
+.dg .wire.d { stroke-dasharray: 6 5; }
+.dg .ah { fill: var(--ink-soft); }
+.dg .ext { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.caption { font-size: 22px; color: var(--ink-soft); }
+
+/* 6. One real run */
+.run { display: grid; grid-template-columns: 7fr 5fr; flex: 1; min-height: 0; }
+.term { background: var(--invert); color: var(--on-invert); padding: 40px 56px 36px 64px; display: flex; flex-direction: column; gap: 28px; }
+.term .lbl { color: var(--accent-on-invert); }
+.cmds { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 44px; padding-bottom: 28px; }
+.cmd { display: grid; grid-template-columns: 48px 1fr; gap: 8px; align-items: baseline; }
+.cmd .n { color: var(--on-invert-soft); }
+.cmd code { font-size: 27px; line-height: 1.35; }
+.cmd code .p { color: var(--accent-on-invert); user-select: none; }
+.cmd .say { font-size: 27px; line-height: 1.35; }
+.cmd .say q { font-family: var(--code); quotes: none; }
+.cmd small { display: block; margin-top: 6px; font-size: 20px; color: var(--on-invert-soft); }
+.stats { display: flex; flex-direction: column; }
+.big { padding: 36px 48px 26px; border-bottom: 1px solid var(--line-strong); }
+.big .num { font: 92px/1 var(--pixel); }
+.big .num small { font-size: 0.42em; }
+.big p { margin-top: 10px; font-size: 22px; color: var(--ink-soft); }
+.legs { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line-strong); }
+.leg { padding: 22px 0 22px 48px; }
+.leg + .leg { border-left: 1px solid var(--line); padding-left: 24px; }
+.leg b { display: block; font: 40px/1 var(--pixel); font-weight: 400; }
+.leg b small { font-size: 0.5em; }
+.leg span { display: block; margin-top: 10px; font-size: 19px; line-height: 1.25; color: var(--ink-soft); }
+.facts { flex: 1; display: grid; grid-template-rows: 1fr 1fr; }
+.facts p { padding: 0 48px; display: flex; align-items: center; gap: 18px; font-size: 23px; line-height: 1.3; font-weight: 500; letter-spacing: -0.02em; }
+.facts p + p { border-top: 1px solid var(--line); background: var(--accent); color: var(--on-accent); }
+.facts p .lbl { flex: none; width: 74px; color: inherit; }
+
+/* 7. Context rot: the problem */
+.rot { display: flex; flex-direction: column; }
+.rot .lead { margin-top: 18px; font-size: 44px; line-height: 1.15; font-weight: 500; letter-spacing: -0.03em; max-width: 1200px; }
+.meter { margin: auto 0; position: relative; padding: 84px 0 78px; }
+.track { position: relative; height: 56px; border: 1px solid var(--line-strong); background: var(--canvas); }
+.track .fill { position: absolute; top: 0; bottom: 0; left: 0; }
+.z-ok { width: 40%; background: transparent; }
+.z-warn { left: 40% !important; width: 10%; background: var(--accent-soft); border-left: 1px solid var(--line-strong); border-right: 1px solid var(--line-strong); }
+.z-bad { left: 70% !important; right: 0; background: repeating-linear-gradient(135deg, var(--accent) 0 3px, transparent 3px 11px); border-left: 2px solid var(--accent-text); }
+.tick { position: absolute; top: -14px; bottom: -14px; left: 95%; width: 4px; margin-left: -2px; background: var(--ink); }
+.mk { position: absolute; font-size: 22px; line-height: 1.2; color: var(--ink-soft); }
+.mk b { display: block; font: 36px/1 var(--pixel); font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+.mk.warn { left: 40%; top: 0; }
+.mk.bad { left: 70%; top: 0; }
+.mk.fire { right: 5%; bottom: 0; text-align: right; }
+.mk.fire b { color: var(--ink); }
+.scale { position: absolute; left: 0; right: 0; bottom: 18px; display: flex; justify-content: space-between; font: 15px/1 var(--pixel); color: var(--ink-faint); }
+.mk.zero { left: 0; bottom: 0; }
+.refs { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line-strong); margin-left: -64px; margin-right: -64px; margin-bottom: -24px; }
+.refs a { display: block; padding: 26px 64px 28px; text-decoration: none; }
+.refs a + a { border-left: 1px solid var(--line-strong); }
+.refs a:hover h3 { text-decoration: underline; text-underline-offset: 5px; }
+.refs h3 { font-size: 30px; line-height: 1.15; }
+.refs .lbl { display: block; margin-bottom: 12px; color: var(--ink-soft); }
+
+/* 8. Context rot: what Tares does */
+.does { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); }
+.does > li { padding: 28px 30px; border-right: 1px solid var(--line-strong); }
+.does > li:last-child { border-right: 0; }
+.does h3 { margin-top: 18px; font-size: 32px; line-height: 1.08; }
+.does p { margin-top: 14px; font-size: 23px; line-height: 1.35; color: var(--ink-soft); }
+.open { flex: none; display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 24px; padding: 22px 64px 24px; background: var(--canvas); border-top: 2px dashed var(--accent-text); }
+.open .lbl { font-size: 18px; }
+.open p { font-size: 27px; line-height: 1.25; font-weight: 500; letter-spacing: -0.02em; }
+
+/* 9. Lessons */
+.lessons { flex: 1; display: grid; grid-template-rows: auto repeat(5, 1fr); }
+.lessons > div { display: grid; grid-template-columns: 64px 1fr 72px 0.82fr; align-items: center; padding: 0 64px; border-bottom: 1px solid var(--line); }
+.lessons > div:last-child { border-bottom: 0; }
+.lessons .hd { padding-top: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong); }
+.lessons .hd span { font: 16px/1 var(--pixel); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.lessons .hd span:last-child { color: var(--accent-text); }
+.lessons p { font-size: 25px; line-height: 1.3; color: var(--ink-soft); padding-right: 16px; }
+.lessons strong { font-size: 27px; line-height: 1.2; font-weight: 560; letter-spacing: -0.025em; }
+.lessons .arr { width: 34px; height: 34px; color: var(--accent-text); }
+.lessons code { font-size: 0.92em; color: var(--ink); }
+
+/* 10. Unique: rows with tags */
+.uniq > li { grid-template-columns: 56px 1fr; padding: 22px 56px 20px 40px; align-content: center; }
+.uniq h3 { font-size: 34px; }
+.uniq p { margin-top: 8px; font-size: 23px; }
+.uniq .n { padding-top: 8px; }
+.tag { display: inline-block; vertical-align: middle; margin-left: 14px; padding: 6px 10px 5px; border: 1.5px dashed currentColor; font: 14px/1 var(--pixel); letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-text); position: relative; top: -4px; }
+.uniq > li.unv h3, .uniq > li.unv p { opacity: 0.86; }
+
+/* 11. Limits */
+.limits { flex: 1; display: grid; grid-auto-rows: 1fr; }
+.limits > li { display: grid; grid-template-columns: 300px 1fr; align-items: center; padding: 0 64px; border-bottom: 1px solid var(--line); }
+.limits > li:last-child { border-bottom: 0; }
+.limits .lbl { color: var(--ink-soft); font-size: 18px; }
+.limits p { font-size: 31px; line-height: 1.2; font-weight: 500; letter-spacing: -0.025em; }
+.limits code { font-size: 0.9em; }
+
+/* 12. Roadmap */
+.road { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); }
+.road > div { display: flex; flex-direction: column; border-right: 1px solid var(--line-strong); }
+.road > div:last-child { border-right: 0; }
+.road .rh { padding: 26px 40px 22px; border-bottom: 1px solid var(--line-strong); display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.road .rh h3 { font: 44px/1 var(--pixel); letter-spacing: 0; }
+.road .rh .lbl { color: var(--ink-soft); }
+.road .now .rh { background: var(--accent); color: var(--on-accent); }
+.road .now .rh .lbl { color: var(--on-accent); }
+.road ul { flex: 1; display: grid; grid-auto-rows: 1fr; }
+.road li { padding: 20px 40px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; }
+.road li:last-child { border-bottom: 0; }
+.road li b { font-size: 28px; line-height: 1.2; font-weight: 560; letter-spacing: -0.025em; }
+.road li span { margin-top: 10px; font-size: 21px; line-height: 1.3; color: var(--ink-soft); }
+.road li span i { font-style: normal; font-family: var(--pixel); font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-text); margin-right: 8px; }
+.road .later li { border-left: 0; }
+.road .later .rh h3 { color: var(--ink-soft); }
+.road .later li b { font-weight: 500; }
+
+/* 13. Closing */
+.close-body { background: var(--invert); color: var(--on-invert); display: flex; flex-direction: column; }
+.close-top { flex: 1; padding: 56px 64px 0; display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 32px; }
+.close-top h2 { font-size: 128px; line-height: 1; }
+.close-top p { margin-top: 30px; font-size: 34px; color: var(--on-invert-soft); font-weight: 500; letter-spacing: -0.025em; }
+.close-top img { width: 210px; height: auto; margin-top: 10px; }
+.close-links { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid color-mix(in srgb, var(--on-invert) 22%, transparent); }
+.close-links a { display: block; padding: 30px 64px 36px; text-decoration: none; }
+.close-links a + a { border-left: 1px solid color-mix(in srgb, var(--on-invert) 22%, transparent); }
+.close-links .lbl { color: var(--accent-on-invert); display: block; }
+.close-links b { display: flex; align-items: center; gap: 14px; margin-top: 14px; font-size: 40px; font-weight: 560; letter-spacing: -0.03em; }
+.close-links b svg { width: 32px; height: 32px; flex: none; }
+.close-links a:hover b { text-decoration: underline; text-underline-offset: 6px; }
+
+/* ---------- Presenting (fullscreen) ---------- */
+.presenting .bar { display: none; }
+.presenting body, .presenting .stage { background: var(--canvas); }
+
+/* Short landscape screens: drop the top bar */
+@media (min-width: 720px) and (max-height: 520px) {
+  .bar.top { display: none; }
+  .bar.bottom { height: 48px; }
+}
+
+/* ---------- Phones: the slide reflows instead of scaling ---------- */
+@media (max-width: 719px) {
+  .bar.top { height: 52px; padding: 0 16px; padding-top: env(safe-area-inset-top, 0px); gap: 12px; }
+  .brand span { display: none; }
+  .tools select, #present { display: none; }
+  .bar.bottom { height: 60px; padding: 0 16px; padding-bottom: env(safe-area-inset-bottom, 0px); justify-content: center; }
+  .bar.bottom .meta, .bar.bottom .links { display: none; }
+  .nav { gap: 16px; }
+  .nav button { width: 64px; height: 40px; }
+
+  .stage { padding: 10px 16px; }
+  .frame { position: relative; left: auto; top: auto; width: 100%; height: 100%; transform: none; }
+  .slide { font-size: 15px; }
+  .slide h2 { font-size: 26px; line-height: 1.08; }
+  .s-head { height: 40px; margin: 0 14px; font-size: 10px; grid-template-columns: 1fr auto; }
+  .s-head .h-l img { width: 16px; }
+  .s-head .h-l { gap: 8px; }
+  .s-head .h-r { display: none; }
+  .s-head .h-c { justify-self: end; }
+  .s-foot { height: 30px; margin: 0 14px; font-size: 9.5px; grid-template-columns: 1fr auto; }
+  .s-foot .f-c { display: none; }
+  .s-body { overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+  .pad { padding: 18px 16px 12px; }
+  .t-band { padding: 16px 16px 14px; }
+  .t-sub { font-size: 13.5px; margin-top: 6px !important; }
+  .n { font-size: 11px; }
+  .lbl { font-size: 10px; }
+
+  /* 1 */
+  .title-main { grid-template-columns: 1fr; padding: 18px 16px; align-content: center; gap: 22px; }
+  .title-mark { order: -1; width: 72px; margin: 0; }
+  .title-copy h1 { font-size: 40px; }
+  .title-accent { font-size: 21px; margin-top: 18px !important; }
+  .title-sub { font-size: 15px; margin-top: 10px !important; }
+  .lockup { height: auto; grid-template-columns: 1fr 1fr; }
+  .lk { padding: 14px 16px 16px; gap: 8px; }
+  .lk:first-child { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+  .lk + .lk { padding-left: 16px; }
+  .lk:nth-child(2) { border-left: 0; }
+  .lk-val { font-size: 17px; gap: 10px; }
+  .gf { width: 126px; height: 18px; }
+
+  /* 2 */
+  .split { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .split-l { padding: 18px 16px 16px; border-right: 0; border-bottom: 1px solid var(--line-strong); }
+  .split-l h2 { font-size: 30px; }
+  .split-l .t-sub { display: none; }
+  .rows > li { grid-template-columns: 28px 1fr; gap: 6px; padding: 16px 16px 16px 14px; }
+  .rows .n { padding-top: 5px; }
+  .rows h3 { font-size: 20px; }
+  .rows p { font-size: 14.5px; margin-top: 6px; }
+
+  /* 3 */
+  .pairs { grid-template-columns: 1fr; grid-template-rows: none; }
+  .pair { grid-template-rows: none; grid-row: auto; grid-template-columns: 1fr 1fr; border-right: 0; border-bottom: 1px solid var(--line-strong); }
+  .pair:last-child { border-bottom: 0; }
+  .pain { padding: 10px 10px 10px 14px; }
+  .pain .n { display: none; }
+  .pain h3 { font-size: 15px; margin-top: 0; }
+  .pain p { font-size: 12.5px; margin-top: 3px; line-height: 1.3; }
+  .fix { padding: 10px 14px 10px 10px; border-top: 0; border-left: 1px solid var(--line-strong); }
+  .fix .lbl { display: none; }
+  .fix p { font-size: 13px; margin-top: 0; line-height: 1.3; }
+
+  /* 4 */
+  .gaps { font-size: 12.5px; }
+  .gaps th { font-size: 9.5px; padding: 10px 8px; }
+  .gaps th:first-child, .gaps td:first-child { padding-left: 14px; }
+  .gaps td { padding: 8px 8px; line-height: 1.3; }
+  .gaps td:first-child { font-size: 11px; width: 24%; }
+  .gaps td:nth-child(2) { width: 34%; }
+
+  /* 5 */
+  .dg-wide { display: none !important; }
+  .dg-tall { display: block !important; }
+  .arch { gap: 12px; }
+  .arch .diagram { align-items: flex-start; }
+  .arch .diagram svg { height: auto; max-height: 100%; }
+  .dg text { font-size: 13px; }
+  .dg .s, .dg .inv-s { font-size: 10.5px; }
+  .dg .l { font-size: 9.5px; }
+  .caption { font-size: 12.5px; }
+
+  /* 6 */
+  .run { grid-template-columns: 1fr; }
+  .term { padding: 16px 16px 18px; gap: 14px; }
+  .cmd { grid-template-columns: 24px 1fr; gap: 4px; }
+  .cmds { gap: 14px; padding-bottom: 0; }
+  .cmd code, .cmd .say { font-size: 12.5px; line-height: 1.4; }
+  .cmd small { font-size: 11.5px; margin-top: 2px; }
+  .big { padding: 14px 16px 12px; }
+  .big .num { font-size: 34px; }
+  .big p { font-size: 13px; margin-top: 6px; }
+  .leg { padding: 12px 0 12px 16px; }
+  .leg + .leg { padding-left: 12px; }
+  .leg b { font-size: 22px; }
+  .leg span { font-size: 12px; margin-top: 6px; }
+  .facts { grid-template-rows: auto auto; }
+  .facts p { padding: 12px 16px; font-size: 13.5px; gap: 10px; }
+  .facts p .lbl { width: 40px; }
+
+  /* 7 */
+  .rot .lead { font-size: 20px; margin-top: 8px; }
+  .meter { margin: auto 0; padding: 16px 0 20px; }
+  .track { height: 26px; }
+  .tick { top: -10px; bottom: -10px; width: 3px; }
+  .mk { font-size: 11px; }
+  .mk b { font-size: 15px; margin-bottom: 3px; }
+  .meter { display: flex; flex-direction: column; gap: 10px; }
+  .meter .track { order: 0; margin-bottom: 8px; }
+  .meter .mk { position: static; display: grid; grid-template-columns: 26px 92px 1fr; align-items: center; gap: 8px; text-align: left; font-size: 13px; max-width: none; }
+  .meter .mk b { margin: 0; font-size: 15px; }
+  .meter .mk::before { content: ""; height: 14px; border: 1px solid var(--line-strong); }
+  .mk.warn { order: 1; }
+  .mk.warn::before { background: var(--accent-soft); }
+  .mk.bad { order: 2; }
+  .mk.bad::before { background: repeating-linear-gradient(135deg, var(--accent) 0 2px, transparent 2px 6px); border-left: 2px solid var(--accent-text); }
+  .mk.fire { order: 3; }
+  .mk.fire::before { border: 0; width: 3px; height: 18px; background: var(--ink); justify-self: center; }
+  .mk.zero { display: none; }
+  .scale { font-size: 9.5px; bottom: 10px; }
+  .refs { grid-template-columns: 1fr; margin: 0 -16px -12px; }
+  .refs a { padding: 12px 16px; }
+  .refs a + a { border-left: 0; border-top: 1px solid var(--line-strong); }
+  .refs h3 { font-size: 15.5px; }
+  .refs .lbl { margin-bottom: 5px; }
+
+  /* 8 */
+  .does { grid-template-columns: 1fr; }
+  .does > li { border-right: 0; border-bottom: 1px solid var(--line); padding: 10px 16px; display: grid; grid-template-columns: 24px 1fr; column-gap: 4px; }
+  .does > li .n { grid-row: span 2; padding-top: 3px; }
+  .does h3 { margin-top: 0; font-size: 15px; }
+  .does p { margin-top: 3px; font-size: 12.5px; line-height: 1.32; }
+  .open { grid-template-columns: 1fr; gap: 6px; padding: 12px 16px 14px; }
+  .open .lbl { font-size: 10px; }
+  .open p { font-size: 14px; }
+
+  /* 9 */
+  .lessons { grid-template-rows: auto; }
+  .lessons > div { grid-template-columns: 1fr 18px 0.85fr; padding: 11px 14px; gap: 8px; }
+  .lessons > div > .n { display: none; }
+  .lessons .hd { padding-top: 10px; padding-bottom: 10px; }
+  .lessons .hd span { font-size: 9.5px; }
+  .lessons .hd span:first-child { display: none; }
+  .lessons p { font-size: 12.5px; padding-right: 0; }
+  .lessons strong { font-size: 13.5px; }
+  .lessons .arr { width: 16px; height: 16px; }
+
+  /* 10 */
+  .uniq > li { grid-template-columns: 28px 1fr; padding: 12px 16px 12px 14px; }
+  .uniq h3 { font-size: 16px; }
+  .uniq p { font-size: 13px; margin-top: 4px; }
+  .uniq .n { padding-top: 4px; }
+  .tag { font-size: 9px; padding: 4px 6px 3px; margin-left: 6px; top: -1px; border-width: 1px; }
+
+  /* 11 */
+  .limits > li { grid-template-columns: 1fr; padding: 12px 16px; gap: 6px; align-content: center; }
+  .limits .lbl { font-size: 10px; }
+  .limits p { font-size: 16px; }
+
+  /* 12 */
+  .road { grid-template-columns: 1fr; }
+  .road > div { border-right: 0; border-bottom: 1px solid var(--line-strong); }
+  .road > div:last-child { border-bottom: 0; }
+  .road .rh { padding: 7px 16px 6px; }
+  .road .rh h3 { font-size: 18px; }
+  .road li { padding: 6px 16px; }
+  .road li b { font-size: 13.5px; }
+  .road li span { font-size: 11.5px; margin-top: 2px; }
+  .road li span i { font-size: 9px; margin-right: 6px; }
+
+  /* 13 */
+  .close-top { grid-template-columns: 1fr; padding: 22px 16px 0; gap: 16px; }
+  .close-top img { order: -1; width: 64px; margin: 0; }
+  .close-top h2 { font-size: 38px; }
+  .close-top p { font-size: 16px; margin-top: 14px; }
+  .close-links { grid-template-columns: 1fr; }
+  .close-links a { padding: 14px 16px; }
+  .close-links a + a { border-left: 0; border-top: 1px solid color-mix(in srgb, var(--on-invert) 22%, transparent); }
+  .close-links b { font-size: 17px; margin-top: 6px; gap: 8px; }
+  .close-links b svg { width: 18px; height: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false"><defs><mask id="mask0_gf" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="1" width="23" height="14"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.4318 1C12.4652 1 11.6816 1.78356 11.6816 2.75012C11.6816 3.71669 12.4652 4.50024 13.4318 4.50024H19.2655C21.1986 4.50024 22.7657 2.93313 22.7657 1H13.4318ZM9.12748 6.38525C7.34305 6.38525 5.89648 7.83182 5.89648 9.61625H18.3715C20.1559 9.61625 21.6025 8.16968 21.6025 6.38525H9.12748ZM0.601562 15C0.601562 13.0669 2.16867 11.4998 4.10181 11.4998H9.9355C10.9021 11.4998 11.6856 12.2833 11.6856 13.2499C11.6856 14.2164 10.9021 15 9.9355 15H0.601562ZM15.1857 11.4998C14.2191 11.4998 13.4355 12.2833 13.4355 13.2499C13.4355 14.2164 14.2191 15 15.1857 15H16.3524C17.9633 15 19.2693 13.6941 19.2693 12.0831V11.4998H15.1857Z" fill="white"/></mask><linearGradient id="paint0_linear_gf" x1="11.6855" y1="2.75012" x2="22.7696" y2="2.75012" gradientUnits="userSpaceOnUse"><stop stop-color="#D7613A"/><stop offset="0.59" stop-color="#DC8946"/><stop offset="1" stop-color="#F9C078"/></linearGradient><linearGradient id="paint1_linear_gf" x1="5.89453" y1="7.9966" x2="21.6006" y2="7.9966" gradientUnits="userSpaceOnUse"><stop stop-color="#D7613A"/><stop offset="0.59" stop-color="#DC8946"/><stop offset="1" stop-color="#F9C078"/></linearGradient><linearGradient id="paint2_linear_gf" x1="13.4355" y1="13.2457" x2="19.2693" y2="13.2457" gradientUnits="userSpaceOnUse"><stop stop-color="#D7613A"/><stop offset="0.59" stop-color="#DC8946"/><stop offset="1" stop-color="#F9C078"/></linearGradient></defs><symbol id="gf-logo" viewBox="0 0 115 16"><g mask="url(#mask0_gf)"><path d="M11.6855 2.75012C11.6855 1.78356 12.4691 1 13.4357 1H22.7696V1C22.7696 2.93313 21.2025 4.50024 19.2694 4.50024H13.4357C12.4691 4.50024 11.6855 3.71669 11.6855 2.75012V2.75012Z" fill="white"/><path d="M11.6855 2.75012C11.6855 1.78356 12.4691 1 13.4357 1H22.7696V1C22.7696 2.93313 21.2025 4.50024 19.2694 4.50024H13.4357C12.4691 4.50024 11.6855 3.71669 11.6855 2.75012V2.75012Z" fill="url(#paint0_linear_gf)"/><path d="M5.89453 9.6121C5.89453 7.82767 7.3411 6.3811 9.12552 6.3811H21.6006V6.3811C21.6006 8.16553 20.154 9.6121 18.3696 9.6121H5.89453V9.6121Z" fill="url(#paint1_linear_gf)"/><path d="M0.601562 14.9958C0.601562 13.0627 2.16867 11.4956 4.10181 11.4956H9.9355C10.9021 11.4956 11.6856 12.2792 11.6856 13.2457V13.2457C11.6856 14.2123 10.9021 14.9958 9.9355 14.9958H0.601562V14.9958Z" fill="#D7613A"/><path d="M13.4355 13.2457C13.4355 12.2792 14.2191 11.4956 15.1857 11.4956H19.2693V12.079C19.2693 13.6899 17.9633 14.9958 16.3524 14.9958H15.1857C14.2191 14.9958 13.4355 14.2123 13.4355 13.2457V13.2457Z" fill="url(#paint2_linear_gf)"/></g><path fill-rule="evenodd" clip-rule="evenodd" d="M37.7683 7.56772H31.597C31.5189 7.56772 31.4212 7.62631 31.4017 7.72395L31.0892 9.22772C31.0697 9.30583 31.1283 9.38395 31.2064 9.38395H34.9756C34.3507 12.1571 32.9641 13.1922 30.8354 13.1922C28.57 13.1922 27.3591 11.6689 27.3591 9.36442C27.3591 5.84913 29.4683 2.78302 32.4954 2.78302C34.1944 2.78302 35.4248 3.73996 35.6396 5.39996C35.6591 5.49761 35.7372 5.55619 35.8154 5.55619H37.9636C38.0417 5.55619 38.1198 5.47808 38.1198 5.39996C37.905 2.58773 35.6396 0.888672 32.6321 0.888672C28.2184 0.888672 24.8789 4.81408 24.8789 9.36442C24.8789 12.8602 27.1053 15.1061 30.6596 15.1061C34.3311 15.1061 36.9481 12.9969 37.905 7.72395C37.905 7.64584 37.8464 7.56772 37.7683 7.56772ZM39.8122 14.8327H37.7811C37.703 14.8327 37.6444 14.7546 37.6639 14.6764L39.2849 7.95833L40.7496 1.31834C40.7691 1.2207 40.8668 1.16211 40.9449 1.16211H42.9759C43.0541 1.16211 43.1126 1.24023 43.0931 1.31834L41.4917 7.95833L40.0075 14.6764C39.9879 14.7741 39.8903 14.8327 39.8122 14.8327ZM75.1129 14.8327H72.9842C72.9061 14.8327 72.8475 14.7546 72.8671 14.6764L74.488 7.99739L75.9527 1.31834C75.9722 1.2207 76.0699 1.16211 76.148 1.16211H84.6433C84.7214 1.16211 84.78 1.24023 84.7605 1.31834L84.4285 2.88069C84.4089 2.97834 84.3113 3.03693 84.2332 3.03693H78.0033L76.9292 7.25528H82.9247C83.0028 7.25528 83.0614 7.33339 83.0419 7.41151L82.7099 8.97386C82.6903 9.07151 82.5927 9.1301 82.5146 9.1301H76.5191L75.3082 14.6764C75.2887 14.7741 75.1911 14.8327 75.1129 14.8327ZM83.0233 14.8327H85.0544C85.1325 14.8327 85.2301 14.7741 85.2497 14.6764L86.7339 7.95833L88.3353 1.31834C88.3548 1.24023 88.2962 1.16211 88.2181 1.16211H86.1871C86.1089 1.16211 86.0113 1.2207 85.9918 1.31834L84.5271 7.95833L82.9061 14.6764C82.8866 14.7546 82.9452 14.8327 83.0233 14.8327ZM87.6211 10.8295C87.6211 7.17748 90.0037 4.54102 93.3627 4.54102C95.9797 4.54102 97.7568 6.16195 97.7568 8.75936C97.7568 12.3137 95.4133 15.0674 92.0543 15.0674C89.4569 15.0674 87.6211 13.4464 87.6211 10.8295ZM90.0037 10.9857C90.0037 12.5676 90.7653 13.4074 92.1324 13.4074C94.0853 13.4074 95.3743 11.5911 95.3743 8.66171C95.3743 7.0603 94.5735 6.20101 93.2456 6.20101C91.2926 6.20101 90.0037 8.07583 90.0037 10.9857ZM108.058 14.833H105.617C105.538 14.833 105.46 14.7549 105.46 14.6768V6.65021L101.945 14.6963C101.906 14.7744 101.828 14.833 101.73 14.833H99.289C99.2109 14.833 99.1328 14.7549 99.1328 14.6768L98.9961 4.93163C98.9961 4.85351 99.0742 4.77539 99.1523 4.77539H100.988C101.066 4.77539 101.144 4.85351 101.144 4.93163L100.812 12.9973L104.347 4.9121C104.386 4.83398 104.464 4.77539 104.562 4.77539H107.081C107.159 4.77539 107.237 4.85351 107.237 4.93163L107.081 12.802L110.46 4.9121C110.499 4.83398 110.577 4.77539 110.675 4.77539H112.764C112.842 4.77539 112.881 4.85351 112.862 4.9121L108.273 14.6963C108.233 14.7744 108.155 14.833 108.058 14.833ZM68.7439 8.86244C67.5579 8.54309 66.5215 8.26406 66.5215 7.47042C66.5215 6.70878 67.2246 6.06431 68.4549 6.06431C69.7634 6.06431 70.5641 6.70878 70.5836 7.68524C70.5836 7.78289 70.6617 7.84148 70.7399 7.84148H72.6147C72.6928 7.84148 72.7709 7.76336 72.7904 7.68524C72.9076 5.57607 70.7984 4.54102 68.5916 4.54102C65.7208 4.54102 64.1585 6.08384 64.1585 7.70477C64.1585 9.70467 66.0394 10.2308 67.6371 10.6777C68.8165 11.0076 69.8415 11.2944 69.8415 12.0989C69.8415 12.8801 69.1775 13.505 67.8886 13.505C66.2872 13.505 65.3302 12.7824 65.3693 11.5521C65.3693 11.4739 65.2912 11.3958 65.213 11.3958H63.2406C63.1625 11.3958 63.0648 11.4739 63.0648 11.5521C62.8305 13.6808 64.9201 15.0674 67.7323 15.0674C70.4079 15.0674 72.185 13.6222 72.185 11.6888C72.185 9.78896 70.3305 9.28963 68.7439 8.86244ZM56.459 7.47042C56.459 8.26406 57.4954 8.54309 58.6814 8.86244C60.268 9.28963 62.1225 9.78896 62.1225 11.6888C62.1225 13.6222 60.3454 15.0674 57.6698 15.0674C54.8576 15.0674 52.768 13.6808 53.0023 11.5521C53.0023 11.4739 53.1 11.3958 53.1781 11.3958H55.1505C55.2287 11.3958 55.3068 11.4739 55.3068 11.5521C55.2677 12.7824 56.2247 13.505 57.8261 13.505C59.115 13.505 59.779 12.8801 59.779 12.0989C59.779 11.2944 58.754 11.0076 57.5746 10.6777C55.9769 10.2308 54.096 9.70467 54.096 7.70477C54.096 6.08384 55.6583 4.54102 58.5291 4.54102C60.7359 4.54102 62.8451 5.57607 62.7279 7.68524C62.7084 7.76336 62.6303 7.84148 62.5522 7.84148H60.6774C60.5992 7.84148 60.5211 7.78289 60.5211 7.68524C60.5016 6.70878 59.7009 6.06431 58.3924 6.06431C57.1621 6.06431 56.459 6.70878 56.459 7.47042ZM46.8288 13.3488C45.0907 13.3683 44.3681 11.845 44.954 9.36478C45.3837 7.47043 46.3211 6.31819 47.7467 6.25961H48.0592C49.6411 6.33772 50.3832 7.72431 49.7973 10.2631C49.2896 12.3137 48.2545 13.3683 46.8288 13.3488ZM48.7818 14.833H50.8324C50.9105 14.833 51.0081 14.7744 51.0277 14.6768L52.1018 9.77489L53.2735 4.93161C53.2931 4.85349 53.2345 4.77537 53.1564 4.77537H51.0863C51.0081 4.77537 50.9105 4.83396 50.891 4.93161L50.5785 6.4549C50.0512 5.24408 48.938 4.59961 47.4343 4.59961C44.7197 4.59961 43.1378 6.74784 42.591 9.1109C41.7707 12.5676 43.2745 15.0088 45.9696 15.0088C47.1608 15.0088 48.1373 14.5401 48.9185 13.7394L48.6646 14.6768C48.6451 14.7549 48.7037 14.833 48.7818 14.833Z" fill="currentColor"/></symbol></svg>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M21 12H4M10 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></symbol>
+</svg>
+
+<header class="bar top">
+  <a class="brand" href="?slide=0" id="home"><img src="assets/tares-mark.svg" alt="" width="24" height="19"><b>Tares</b><span>Software factory</span></a>
+  <div class="tools">
+    <select id="jump" aria-label="Go to slide"></select>
+    <button class="btn" id="theme" type="button" aria-label="Switch light or dark theme" title="Light or dark">
+      <svg class="theme-ico-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg>
+      <svg class="theme-ico-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+    </button>
+    <button class="btn" id="present" type="button">Present</button>
+  </div>
+</header>
+
+<main class="stage" id="stage">
+<div class="frame" id="frame">
+
+<!-- 1 -->
+<section class="slide" data-title="Tares software factory" data-label="Overview" data-nofoot>
+  <div class="s-body title-main">
+    <div class="title-copy">
+      <h1>Tares<br>software factory</h1>
+      <p class="title-accent" data-a>A crew of Claude Code sessions that ships your projects.</p>
+      <p class="title-sub" data-a>It plans with you, builds, reviews and merges. Tares keeps the plan and your answers.</p>
+    </div>
+    <img class="title-mark" src="assets/tares-mark.svg" alt="" data-a>
+  </div>
+  <div class="lockup" data-a>
+    <div class="lk"><span class="lbl">Tares / GlassFlow</span><span class="lk-val">Tares <span class="slash">/</span> <svg class="gf" role="img" aria-label="GlassFlow"><use href="#gf-logo"/></svg></span></div>
+    <div class="lk"><span class="lbl">+ Factory</span><span class="lk-val">A fixed crew</span></div>
+    <div class="lk"><span class="lbl">+ Claude</span><span class="lk-val">Claude Code</span></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-title="What Tares is" data-label="What it is">
+  <div class="s-body bleed split">
+    <div class="split-l"><h2>What<br>Tares is</h2><p class="t-sub">Open source, MIT. One DuckDB file.</p></div>
+    <ol class="rows">
+      <li data-a><span class="n">01</span><div><h3>A lasting, shared record for AI agents</h3><p>An open-source daemon that keeps it.</p></div></li>
+      <li data-a><span class="n">02</span><div><h3>A software factory runs on it</h3><p>A fixed crew of Claude Code sessions takes a planned project to merged pull requests.</p></div></li>
+      <li data-a class="hi"><span class="n">03</span><div><h3>You talk to one session</h3><p>The orchestrator. You watch the rest in the console.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-title="Claude Code by hand" data-label="Why">
+  <div class="s-body bleed col">
+    <div class="t-band"><h2>Claude Code by hand</h2><p class="t-sub">What goes wrong, and what Tares does instead.</p></div>
+    <div class="pairs">
+      <div class="pair" data-a>
+        <div class="pain"><span class="n">01</span><h3>Forgets</h3><p>A restart or compaction wipes what it knew.</p></div>
+        <div class="fix"><span class="lbl"><svg><use href="#i-arrow"/></svg>Tares</span><p>Plan, tickets and reviews live on Tares. A station picks up where it stopped.</p></div>
+      </div>
+      <div class="pair" data-a>
+        <div class="pain"><span class="n">02</span><h3>Goes quiet</h3><p>Idle sessions get stopped. Messages to them are lost.</p></div>
+        <div class="fix"><span class="lbl"><svg><use href="#i-arrow"/></svg>Tares</span><p>The watch revives each station under the same name.</p></div>
+      </div>
+      <div class="pair" data-a>
+        <div class="pain"><span class="n">03</span><h3>Collides</h3><p>Two sessions act on the same thing.</p></div>
+        <div class="fix"><span class="lbl"><svg><use href="#i-arrow"/></svg>Tares</span><p>A hook lets only one role do each action.</p></div>
+      </div>
+      <div class="pair hi" data-a>
+        <div class="pain"><span class="n">04</span><h3>Merges blind</h3><p>Merges skip review, or wait on you.</p></div>
+        <div class="fix"><span class="lbl"><svg><use href="#i-arrow"/></svg>Tares</span><p>The reviewer's verdict plus green CI is the merge gate.</p></div>
+      </div>
+      <div class="pair" data-a>
+        <div class="pain"><span class="n">05</span><h3>Stalls</h3><p>A permission prompt blocks a session for hours.</p></div>
+        <div class="fix"><span class="lbl"><svg><use href="#i-arrow"/></svg>Tares</span><p>The refusal lands on your desk. One click makes it a grant.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-title="Gaps Tares closes" data-label="Gaps">
+  <div class="s-body bleed col">
+    <div class="t-band"><h2>Gaps Tares closes</h2></div>
+    <table class="gaps" data-a>
+      <thead><tr><th scope="col">Gap</th><th scope="col">By hand</th><th scope="col">With Tares</th></tr></thead>
+      <tbody>
+        <tr><td>Memory</td><td>Lost on restart</td><td>On Tares for the next session</td></tr>
+        <tr><td>Liveness</td><td>Dead for hours, unnoticed</td><td>The watch revives it</td></tr>
+        <tr><td>Ownership</td><td>Any session can merge</td><td>One owner per action</td></tr>
+        <tr><td>Review</td><td>Whatever the session decides</td><td>A fixed bar: tests proven to fail on broken code</td></tr>
+        <tr><td>Permissions</td><td>Prompts in every session</td><td>Grants for every station</td></tr>
+        <tr><td>Decisions</td><td>Scattered in chat</td><td>Desk and decision log</td></tr>
+        <tr><td>Overview</td><td>Many terminals</td><td>One console</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-title="How it fits together" data-label="Architecture">
+  <div class="s-body pad arch">
+    <h2>How it fits together</h2>
+    <div class="diagram" data-a>
+      <svg class="dg dg-wide" viewBox="0 0 1472 548" role="img" aria-label="You talk to the orchestrator. It hands work to builders, one per milestone and repo, which open GitHub pull requests, to the reviewer, which gives a verdict and a status check, and to an optional releaser. All stations reach the Tares daemon on port 8787 only through MCP on port 8788. The daemon stores everything in DuckDB and serves the console. The crew watch revives stations, applies grants and reads usage.">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
+        <!-- crew frame -->
+        <rect class="frame-r" x="150" y="0.5" width="880" height="318"/>
+        <text class="l" x="174" y="34">THE CREW: CLAUDE CODE SESSIONS</text>
+        <!-- you -->
+        <rect class="box" x="0.75" y="130" width="108" height="64"/>
+        <text x="55" y="169" text-anchor="middle" class="b">you</text>
+        <path class="wire" d="M110 162H194" marker-end="url(#ah)"/>
+        <!-- orchestrator -->
+        <rect class="acc" x="198" y="116" width="252" height="92"/>
+        <text class="b acc-t" x="324" y="157" text-anchor="middle">orchestrator</text>
+        <text class="s acc-t" x="324" y="184" text-anchor="middle">the one you talk to</text>
+        <!-- fan out -->
+        <path class="wire" d="M450 162H505V74H554" marker-end="url(#ah)"/>
+        <path class="wire" d="M505 162H554" marker-end="url(#ah)"/>
+        <path class="wire" d="M505 162V250H554" marker-end="url(#ah)"/>
+        <!-- stations -->
+        <rect class="box" x="558" y="40" width="304" height="68"/>
+        <text x="580" y="69" class="b">builders</text>
+        <text x="580" y="94" class="s">one per milestone and repo</text>
+        <rect class="box" x="558" y="128" width="304" height="68"/>
+        <text x="580" y="169" class="b">reviewer</text>
+        <rect class="dash" x="558" y="216" width="304" height="68"/>
+        <text x="580" y="245" class="b">releaser</text>
+        <text x="580" y="270" class="s">optional</text>
+        <!-- outputs -->
+        <path class="wire" d="M862 74H1086" marker-end="url(#ah)"/>
+        <path class="wire" d="M862 162H1086" marker-end="url(#ah)"/>
+        <rect class="ext" x="1090" y="40" width="382" height="68" style="stroke-width:1.5"/>
+        <text x="1112" y="81" class="b">GitHub PRs</text>
+        <rect class="ext" x="1090" y="128" width="382" height="68"/>
+        <text x="1112" y="169" class="b">verdict + status check</text>
+        <!-- all stations to MCP -->
+        <path class="wire" d="M690 319V384" marker-end="url(#ah)"/>
+        <text x="706" y="358" class="s">all stations, only through MCP</text>
+        <!-- store row -->
+        <rect class="box" x="558" y="388" width="262" height="80"/>
+        <text x="580" y="422" class="b">MCP</text>
+        <text x="580" y="450" class="s">:8788</text>
+        <path class="wire" d="M820 428H884" marker-end="url(#ah)"/>
+        <rect class="inv" x="888" y="388" width="356" height="80"/>
+        <text x="910" y="422" class="b inv-t">Tares daemon :8787</text>
+        <text x="910" y="450" class="inv-s">projects, tickets, reviews, desk, grants</text>
+        <path class="wire" d="M1244 428H1308" marker-end="url(#ah)"/>
+        <rect class="box" x="1312" y="388" width="159.25" height="80"/>
+        <text x="1334" y="422" class="b">DuckDB</text>
+        <text x="1334" y="450" class="s">one file</text>
+        <path class="wire" d="M1066 468V494" marker-end="url(#ah)"/>
+        <rect class="box" x="888" y="498" width="356" height="48"/>
+        <text x="910" y="529" class="b">console</text>
+        <text x="1010" y="529" class="s">Crew, Projects, desk</text>
+        <!-- crew watch -->
+        <path class="wire d" d="M300 388V323" marker-end="url(#ah)"/>
+        <rect class="dash" x="0.75" y="388" width="470" height="80"/>
+        <text x="22" y="422" class="b">crew watch</text>
+        <text x="22" y="450" class="s">revives stations, applies grants, reads usage</text>
+      </svg>
+      <svg class="dg dg-tall" viewBox="0 0 358 548" role="img" aria-label="You talk to the orchestrator. It hands work to builders, which open GitHub pull requests, to the reviewer, which gives a verdict and a status check, and to an optional releaser. All stations reach the Tares daemon only through MCP. The daemon stores everything in DuckDB and serves the console. The crew watch revives stations, applies grants and reads usage.">
+        <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
+        <rect class="box" x="129" y="0.75" width="100" height="34"/>
+        <text x="179" y="22.5" text-anchor="middle" class="b">you</text>
+        <path class="wire" d="M179 35.5V64" marker-end="url(#ah2)"/>
+        <rect class="frame-r" x="0.5" y="48" width="357" height="196"/>
+        <text class="l" x="10" y="64">THE CREW</text>
+        <rect class="acc" x="99" y="67" width="160" height="38"/>
+        <text x="179" y="91" text-anchor="middle" class="b acc-t">orchestrator</text>
+        <path class="wire" d="M179 105V120M59 120H299M59 120V134M179 120V134M299 120V134" />
+        <path class="wire" d="M59 128V136" marker-end="url(#ah2)"/>
+        <path class="wire" d="M179 128V136" marker-end="url(#ah2)"/>
+        <path class="wire" d="M299 128V136" marker-end="url(#ah2)"/>
+        <rect class="box" x="8" y="138" width="102" height="96"/>
+        <text x="59" y="160" text-anchor="middle" class="b">builders</text>
+        <text x="59" y="177" text-anchor="middle" class="s">one per milestone</text>
+        <text x="59" y="191" text-anchor="middle" class="s">and repo</text>
+        <text x="59" y="222" text-anchor="middle" class="s" style="fill:var(--ink)">to GitHub PRs</text>
+        <rect class="box" x="128" y="138" width="102" height="96"/>
+        <text x="179" y="160" text-anchor="middle" class="b">reviewer</text>
+        <text x="179" y="208" text-anchor="middle" class="s" style="fill:var(--ink)">verdict +</text>
+        <text x="179" y="222" text-anchor="middle" class="s" style="fill:var(--ink)">status check</text>
+        <rect class="dash" x="248" y="138" width="102" height="96"/>
+        <text x="299" y="160" text-anchor="middle" class="b">releaser</text>
+        <text x="299" y="177" text-anchor="middle" class="s">optional</text>
+        <path class="wire" d="M179 244.5V276" marker-end="url(#ah2)"/>
+        <text x="189" y="264" class="s">all stations, only through MCP</text>
+        <rect class="box" x="99" y="280" width="160" height="38"/>
+        <text x="179" y="304" text-anchor="middle" class="b">MCP :8788</text>
+        <path class="wire" d="M179 318V338" marker-end="url(#ah2)"/>
+        <rect class="inv" x="19" y="342" width="320" height="56"/>
+        <text x="179" y="365" text-anchor="middle" class="b inv-t">Tares daemon :8787</text>
+        <text x="179" y="385" text-anchor="middle" class="inv-s">projects, tickets, reviews, desk, grants</text>
+        <path class="wire" d="M99 398V418" marker-end="url(#ah2)"/>
+        <path class="wire" d="M259 398V418" marker-end="url(#ah2)"/>
+        <rect class="box" x="19" y="422" width="150" height="48"/>
+        <text x="94" y="442" text-anchor="middle" class="b">DuckDB</text>
+        <text x="94" y="460" text-anchor="middle" class="s">one file</text>
+        <rect class="box" x="189" y="422" width="150" height="48"/>
+        <text x="264" y="442" text-anchor="middle" class="b">console</text>
+        <text x="264" y="460" text-anchor="middle" class="s">Crew, Projects, desk</text>
+        <rect class="dash" x="0.75" y="490" width="356.5" height="56"/>
+        <text x="179" y="513" text-anchor="middle" class="b">crew watch</text>
+        <text x="179" y="533" text-anchor="middle" class="s">revives stations, applies grants, reads usage</text>
+      </svg>
+    </div>
+    <p class="caption" data-a>Stations are Claude Code background sessions with fixed names. Tares Cloud can run the daemon and MCP for you.</p>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-title="One real run" data-label="A real run">
+  <div class="s-body bleed col">
+    <div class="t-band"><h2>One real run</h2><p class="t-sub">A click counter, from the <a href="https://workshop-berlin.glassflow.ai/software-factory">GlassFlow workshop guide</a>.</p></div>
+    <div class="run">
+      <div class="term" data-a>
+        <span class="lbl">Three commands</span>
+        <div class="cmds">
+        <div class="cmd"><span class="n">01</span><code><span class="p">$ </span>tares factory crew up</code></div>
+        <div class="cmd"><span class="n">02</span><code><span class="p">$ </span>tares factory spec "add a click counter ..."</code></div>
+        <div class="cmd"><span class="n">03</span><div class="say">Answer <q>"Is it done?"</q><small>in the orchestrator</small></div></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="big" data-a><div class="num">30 <small>min</small></div><p>About 30 minutes, end to end</p></div>
+        <div class="legs" data-a>
+          <div class="leg"><b>2 <small>min</small></b><span>to start the crew</span></div>
+          <div class="leg"><b>7 <small>min</small></b><span>to plan</span></div>
+          <div class="leg"><b>12 <small>min</small></b><span>hand-over to last merge</span></div>
+        </div>
+        <div class="facts" data-a>
+          <p><span class="lbl">Plan</span>About 5% of the 5-hour limit, on a Max plan.</p>
+          <p><span class="lbl">Key</span>No Anthropic API key. The crew runs on Claude Code.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-title="Context rot" data-label="Context rot">
+  <div class="s-body pad rot">
+    <h2>Context rot</h2>
+    <p class="lead" data-a>Long sessions fill their context window. Compaction then drops what matters.</p>
+    <div class="meter" data-a role="img" aria-label="Context fill from 0 to 100 percent. Practitioners warn at about 40 to 50 percent and call over 70 percent bad. Auto-compact fires near 95 percent.">
+      <div class="mk warn"><b>40 to 50%</b>practitioners warn</div>
+      <div class="mk bad"><b>70%+</b>called bad</div>
+      <div class="track"><span class="fill z-warn"></span><span class="fill z-bad"></span><span class="tick"></span></div>
+      <div class="mk zero"><b>0%</b>context fill</div>
+      <div class="mk fire"><b>~95%</b>auto-compact fires</div>
+    </div>
+    <div class="refs" data-a>
+      <a href="https://github.com/anthropics/claude-code/issues/24460"><span class="lbl">anthropics/claude-code #24460</span><h3>CLAUDE.md rules lost after compaction</h3></a>
+      <a href="https://github.com/anthropics/claude-code/issues/66144"><span class="lbl">anthropics/claude-code #66144</span><h3>Auto-compact fails to trigger</h3></a>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-title="What Tares does about it" data-label="Context rot">
+  <div class="s-body bleed col">
+    <div class="t-band"><h2>What Tares does about it</h2></div>
+    <ol class="does">
+      <li data-a><span class="n">01</span><h3>Re-briefed after compaction</h3><p>After any compaction or resume, a SessionStart hook tells the station who it is. It reloads its skills, re-reads its report and its work on Tares, and re-arms its schedule.</p></li>
+      <li data-a><span class="n">02</span><h3>State outside the context</h3><p>A report file and Tares hold the state. Compaction loses nothing that matters.</p></li>
+      <li data-a><span class="n">03</span><h3>Room to work</h3><p>200k tokens by default, at least 150k. At 100k a station refilled right after every compaction.</p></li>
+      <li data-a><span class="n">04</span><h3>Thrash guard</h3><p>The watch spots Claude Code's “autocompact is thrashing” stop and starts the station fresh under the same name.</p></li>
+      <li data-a><span class="n">05</span><h3>In plain sight</h3><p>The Crew page shows how near each station is to compacting, and its context by category on request.</p></li>
+    </ol>
+    <div class="open" data-a><span class="lbl">Still open</span><p>No early warning at 50% or 70% yet. Nothing hands work over before compaction happens.</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="slide" data-title="Incidents become rules" data-label="What we learned">
+  <div class="s-body bleed col">
+    <div class="t-band"><h2>Incidents become rules</h2><p class="t-sub">What we learned running it.</p></div>
+    <div class="lessons">
+      <div class="hd"><span></span><span>What happened</span><span></span><span>The rule now</span></div>
+      <div data-a><span class="n">01</span><p>Two sessions approved the same three PRs in the person's name.</p><svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg><strong>One owner per action</strong></div>
+      <div data-a><span class="n">02</span><p>Four PRs merged in 23 minutes with no review.</p><svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg><strong>The reviewer's verdict is the gate</strong></div>
+      <div data-a><span class="n">03</span><p>The reviewer was dead for two days. A review request sat 3 hours.</p><svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg><strong>The watch</strong></div>
+      <div data-a><span class="n">04</span><p>24 parallel scans froze the Mac for 1h45m and lost every session.</p><svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg><strong>Heavy commands one at a time, about 6 stations max</strong></div>
+      <div data-a><span class="n">05</span><p>161 auto-mode denials. The person ran <code>git push</code> by hand.</p><svg class="arr" aria-hidden="true"><use href="#i-arrow"/></svg><strong>Grants in each station's settings</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-title="What's unique" data-label="Unique">
+  <div class="s-body bleed split">
+    <div class="split-l"><h2>What's<br>unique</h2><p class="t-sub">Compared with Claude Code and coding agents in general.</p></div>
+    <ol class="rows uniq">
+      <li data-a><span class="n">01</span><div><h3>One owner per action</h3><p>A guard hook enforces it, and runs heavy commands one at a time.</p></div></li>
+      <li data-a><span class="n">02</span><div><h3>A second model reviews</h3><p>Optional: Codex reviews every commit and blocks on serious findings until fixed.</p></div></li>
+      <li data-a class="hi"><span class="n">03</span><div><h3>Tests must fail on broken code</h3><p>The reviewer proves each new test fails against broken code.</p></div></li>
+      <li data-a><span class="n">04</span><div><h3>Not only for code</h3><p>The same store serves timelines and triggers for other agents, such as an AI SRE.</p></div></li>
+      <li data-a class="unv"><span class="n">05</span><div><h3>Any MCP agent <span class="tag">Unverified</span></h3><p>Works with any MCP agent, not only Claude Code. A README claim, not checked here.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-title="Honest limits" data-label="Limits">
+  <div class="s-body bleed col">
+    <div class="t-band"><h2>Honest limits</h2><p class="t-sub">What it needs today, and where it stops.</p></div>
+    <ol class="limits">
+      <li data-a><span class="lbl">Needs</span><p>Claude Code on a plan with background sessions, plus <code>gh</code> with write access.</p></li>
+      <li data-a><span class="lbl">One machine</span><p>Verified on macOS only. Linux is not verified.</p></li>
+      <li data-a><span class="lbl">About 6 stations</span><p>More at once and the machine struggles.</p></li>
+      <li data-a><span class="lbl">One GitHub account</span><p>All stations share it: no real GitHub approvals, only a comment and a status.</p></li>
+      <li data-a><span class="lbl">Internals</span><p>Depends on Claude Code internals. Each upgrade needs a re-check.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-title="Roadmap" data-label="Roadmap">
+  <div class="s-body bleed col">
+    <div class="t-band"><h2>Roadmap</h2></div>
+    <div class="road">
+      <div class="now" data-a>
+        <div class="rh"><h3>Now</h3><span class="lbl">Unreleased</span></div>
+        <ul>
+          <li><b>One-click grants for refusals</b><span><i>Closes</i>stalled stations</span></li>
+          <li><b>Usage and context on the Crew page</b><span><i>Closes</i>cost blindness</span></li>
+          <li><b>Progress ring per project</b><span><i>Closes</i>"which project is stuck?"</span></li>
+        </ul>
+      </div>
+      <div class="next" data-a>
+        <div class="rh"><h3>Next</h3><span class="lbl">Designed</span></div>
+        <ul>
+          <li><b>Monitor station: alerts become tickets</b><span><i>Closes</i>production back to work</span></li>
+          <li><b>Security station: scans one at a time</b><span><i>Closes</i>unreviewed security</span></li>
+          <li><b>Comms station for Slack</b><span><i>Closes</i>having to sit in the orchestrator</span></li>
+        </ul>
+      </div>
+      <div class="later" data-a>
+        <div class="rh"><h3>Later</h3><span class="lbl">Proposals</span></div>
+        <ul>
+          <li><b>Cloud sessions for stateless jobs, like a nightly review sweep</b><span><i>Closes</i>the one-machine limit</span></li>
+          <li><b>A separate GitHub identity for the reviewer</b><span><i>Closes</i>no real approvals</span></li>
+          <li><b>Linux support, verified</b><span><i>Closes</i>macOS only</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-title="Run your own crew" data-label="Links">
+  <div class="s-body close-body">
+    <div class="close-top">
+      <div>
+        <h2>Run your<br>own crew</h2>
+        <p data-a>Open source, MIT. Runs on Claude Code.</p>
+      </div>
+      <img src="assets/tares-mark.svg" alt="" data-a>
+    </div>
+    <div class="close-links" data-a>
+      <a href="https://github.com/glassflow/tares"><span class="lbl">Code</span><b>github.com/glassflow/tares<svg aria-hidden="true"><use href="#i-out"/></svg></b></a>
+      <a href="https://docs.glassflow.ai/tares"><span class="lbl">Docs</span><b>docs.glassflow.ai/tares<svg aria-hidden="true"><use href="#i-out"/></svg></b></a>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer class="bar bottom">
+  <span class="meta">Tares by GlassFlow &middot; open source, MIT</span>
+  <nav class="nav" aria-label="Slides">
+    <button id="prev" type="button" aria-label="Previous slide"><svg aria-hidden="true"><use href="#i-arrow-l"/></svg></button>
+    <output id="pos" aria-live="polite">01 / 13</output>
+    <button id="next" type="button" aria-label="Next slide"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  </nav>
+  <span class="links"><a href="https://github.com/glassflow/tares">GitHub</a><a href="https://docs.glassflow.ai/tares">Docs</a></span>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var stage = document.getElementById('stage');
+  var frame = document.getElementById('frame');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var pos = document.getElementById('pos');
+  var jump = document.getElementById('jump');
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var phone = window.matchMedia('(max-width: 719px)');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  var current = -1;
+
+  // Each slide gets the same header and footer, like a printed deck.
+  slides.forEach(function (s, k) {
+    var head = document.createElement('header');
+    head.className = 's-head';
+    head.innerHTML = '<span class="h-l"><img src="assets/tares-mark.svg" alt="" width="26" height="21">Tares / GlassFlow</span>' +
+      '<span class="h-c"></span><span class="h-r">Software factory</span>';
+    head.querySelector('.h-c').textContent = s.dataset.label || '';
+    s.insertBefore(head, s.firstChild);
+    if (!s.hasAttribute('data-nofoot')) {
+      var foot = document.createElement('footer');
+      foot.className = 's-foot';
+      foot.innerHTML = '<span class="f-l">Tares software factory</span><span class="f-c">github.com/glassflow/tares</span><span class="f-r">' + pad(k + 1) + ' / ' + pad(total) + '</span>';
+      s.appendChild(foot);
+    }
+    s.setAttribute('aria-roledescription', 'slide');
+    s.setAttribute('aria-label', pad(k + 1) + ' of ' + pad(total) + ': ' + s.dataset.title);
+    var opt = document.createElement('option');
+    opt.value = String(k);
+    opt.textContent = pad(k + 1) + ' · ' + s.dataset.title;
+    jump.appendChild(opt);
+  });
+
+  function fit() {
+    if (phone.matches) { frame.style.removeProperty('--s'); return; }
+    var w = stage.clientWidth - 80, h = stage.clientHeight - 40;
+    if (root.classList.contains('presenting')) { w = stage.clientWidth; h = stage.clientHeight; }
+    var s = Math.max(0.05, Math.min(w / 1600, h / 900));
+    frame.style.setProperty('--s', s.toFixed(4));
+  }
+
+  function play(slide) {
+    if (reduce.matches || !slide.animate) return;
+    var ease = 'cubic-bezier(.22,1,.36,1)';
+    slide.querySelectorAll('h1, h2').forEach(function (n) {
+      if (n.closest('[data-a]')) return;
+      n.animate([{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }], { duration: 460, easing: ease, fill: 'backwards' });
+    });
+    slide.querySelectorAll('[data-a]').forEach(function (n, k) {
+      n.animate([{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 430, delay: 100 + Math.min(k, 6) * 60, easing: ease, fill: 'backwards' });
+    });
+  }
+
+  function go(n, animate) {
+    n = Math.max(0, Math.min(total - 1, n));
+    if (n === current) return;
+    if (current >= 0) { slides[current].classList.remove('active'); slides[current].setAttribute('aria-hidden', 'true'); slides[current].inert = true; }
+    current = n;
+    var s = slides[n];
+    s.classList.add('active'); s.removeAttribute('aria-hidden'); s.inert = false;
+    var body = s.querySelector('.s-body'); if (body) body.scrollTop = 0;
+    pos.textContent = pad(n + 1) + ' / ' + pad(total);
+    jump.value = String(n);
+    prev.disabled = n === 0;
+    next.disabled = n === total - 1;
+    try {
+      var q = new URLSearchParams(location.search);
+      q.set('slide', String(n));
+      history.replaceState(null, '', location.pathname + '?' + q.toString() + location.hash);
+    } catch (e) {}
+    if (animate !== false) play(s);
+  }
+
+  slides.forEach(function (s) { s.setAttribute('aria-hidden', 'true'); s.inert = true; });
+  var start = parseInt(new URLSearchParams(location.search).get('slide'), 10);
+  go(isNaN(start) ? 0 : start, true);
+  fit();
+  window.addEventListener('resize', fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
+  if (phone.addEventListener) phone.addEventListener('change', fit);
+
+  prev.addEventListener('click', function () { go(current - 1); });
+  next.addEventListener('click', function () { go(current + 1); });
+  jump.addEventListener('change', function () { go(parseInt(jump.value, 10)); jump.blur(); });
+  document.getElementById('home').addEventListener('click', function (e) { e.preventDefault(); go(0); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = document.activeElement;
+    if (t && (t.tagName === 'SELECT' || t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if (t && (t.tagName === 'BUTTON' || t.tagName === 'A') && (e.key === ' ' || e.key === 'Enter')) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || (k === 'ArrowDown' && !phone.matches)) { e.preventDefault(); go(current + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || (k === 'ArrowUp' && !phone.matches)) { e.preventDefault(); go(current - 1); }
+    else if (k === 'Home') { e.preventDefault(); go(0); }
+    else if (k === 'End') { e.preventDefault(); go(total - 1); }
+  });
+
+  // Click or tap the slide to advance; links and buttons keep their own behaviour.
+  var swiped = false;
+  stage.addEventListener('click', function (e) {
+    if (swiped) { swiped = false; return; }
+    if (e.target.closest('a, button, select, input, textarea')) return;
+    var sel = window.getSelection && window.getSelection();
+    if (sel && String(sel).length) return;
+    go(current + 1);
+  });
+
+  // Swipe left or right.
+  var sx = 0, sy = 0, st = 0, tracking = false;
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    tracking = true; sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now();
+  }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.4 && Date.now() - st < 800) {
+      swiped = true;
+      setTimeout(function () { swiped = false; }, 400);
+      go(current + (dx < 0 ? 1 : -1));
+    }
+  }, { passive: true });
+
+  // Theme: follows the system until you pick one; the pick is remembered in this browser.
+  document.getElementById('theme').addEventListener('click', function () {
+    var dark = root.dataset.theme ? root.dataset.theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('tares-deck-theme', root.dataset.theme); } catch (e) {}
+  });
+
+  // Present: full screen without the toolbars.
+  var present = document.getElementById('present');
+  if (!document.fullscreenEnabled) present.hidden = true;
+  present.addEventListener('click', function () {
+    if (document.fullscreenElement) document.exitFullscreen(); else root.requestFullscreen().catch(function () {});
+  });
+  document.addEventListener('fullscreenchange', function () {
+    root.classList.toggle('presenting', !!document.fullscreenElement);
+    present.textContent = document.fullscreenElement ? 'Exit' : 'Present';
+    fit();
+  });
+})();
+</script>
+</body>
+</html>
