@@ -347,6 +347,8 @@ button { cursor: pointer; }
 .dg .wire.d { stroke-dasharray: 6 5; }
 .dg .ah { fill: var(--ink-soft); }
 .dg .ext { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.dg .ghost { fill: var(--canvas); stroke: var(--line); stroke-width: 1.5; }
+.dg .hl { font-family: var(--code); font-size: 15px; fill: var(--ink-faint); letter-spacing: 0; }
 .caption { font-size: 22px; color: var(--ink-soft); }
 
 /* 6. One real run */
@@ -564,6 +566,7 @@ button { cursor: pointer; }
   .dg text { font-size: 13px; }
   .dg .s, .dg .inv-s { font-size: 10.5px; }
   .dg .l { font-size: 9.5px; }
+  .dg .hl { font-size: 9.5px; }
   .caption { font-size: 12.5px; }
 
   /* 6 */
@@ -828,7 +831,7 @@ button { cursor: pointer; }
   <div class="s-body pad arch">
     <h2>How it fits together</h2>
     <div class="diagram" data-a>
-      <svg class="dg dg-wide" viewBox="0 0 1472 548" role="img" aria-label="You talk to the orchestrator. It hands work to builders, one per milestone and repo, which open GitHub pull requests, to the reviewer, which gives a verdict and a status check, and to an optional releaser. All stations reach the Tares daemon on port 8787 only through MCP on port 8788. The daemon stores everything in DuckDB and serves the console. The crew watch revives stations, applies grants and reads usage.">
+      <svg class="dg dg-wide" viewBox="0 0 1472 548" role="img" aria-label="You talk to the orchestrator. It hands work to builders, one per milestone and repo, which open GitHub pull requests, to the reviewer, which gives a verdict and a status check, and to an optional releaser. The reviewer can start helpers to review in parallel when its queue grows. All stations reach the Tares daemon on port 8787 only through MCP on port 8788. The daemon stores everything in DuckDB and serves the console. The crew watch revives stations, applies grants and reads usage.">
         <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
         <!-- crew frame -->
         <rect class="frame-r" x="150" y="0.5" width="880" height="318"/>
@@ -849,8 +852,11 @@ button { cursor: pointer; }
         <rect class="box" x="558" y="40" width="304" height="68"/>
         <text x="580" y="69" class="b">builders</text>
         <text x="580" y="94" class="s">one per milestone and repo</text>
+        <rect class="ghost" x="570" y="140" width="304" height="68"/>
+        <rect class="ghost" x="564" y="134" width="304" height="68"/>
         <rect class="box" x="558" y="128" width="304" height="68"/>
-        <text x="580" y="169" class="b">reviewer</text>
+        <text x="580" y="157" class="b">reviewer</text>
+        <text x="580" y="182" class="hl">+ helpers when the queue grows</text>
         <rect class="dash" x="558" y="216" width="304" height="68"/>
         <text x="580" y="245" class="b">releaser</text>
         <text x="580" y="270" class="s">optional</text>
@@ -886,7 +892,7 @@ button { cursor: pointer; }
         <text x="22" y="422" class="b">crew watch</text>
         <text x="22" y="450" class="s">revives stations, applies grants, reads usage</text>
       </svg>
-      <svg class="dg dg-tall" viewBox="0 0 358 548" role="img" aria-label="You talk to the orchestrator. It hands work to builders, which open GitHub pull requests, to the reviewer, which gives a verdict and a status check, and to an optional releaser. All stations reach the Tares daemon only through MCP. The daemon stores everything in DuckDB and serves the console. The crew watch revives stations, applies grants and reads usage.">
+      <svg class="dg dg-tall" viewBox="0 0 358 548" role="img" aria-label="You talk to the orchestrator. It hands work to builders, which open GitHub pull requests, to the reviewer, which gives a verdict and a status check, and to an optional releaser. The reviewer can start helpers to review in parallel when its queue grows. All stations reach the Tares daemon only through MCP. The daemon stores everything in DuckDB and serves the console. The crew watch revives stations, applies grants and reads usage.">
         <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker></defs>
         <rect class="box" x="129" y="0.75" width="100" height="34"/>
         <text x="179" y="22.5" text-anchor="middle" class="b">you</text>
@@ -904,8 +910,12 @@ button { cursor: pointer; }
         <text x="59" y="177" text-anchor="middle" class="s">one per milestone</text>
         <text x="59" y="191" text-anchor="middle" class="s">and repo</text>
         <text x="59" y="222" text-anchor="middle" class="s" style="fill:var(--ink)">to GitHub PRs</text>
+        <rect class="ghost" x="134" y="144" width="102" height="96"/>
+        <rect class="ghost" x="131" y="141" width="102" height="96"/>
         <rect class="box" x="128" y="138" width="102" height="96"/>
         <text x="179" y="160" text-anchor="middle" class="b">reviewer</text>
+        <text x="179" y="180" text-anchor="middle" class="hl">+ helpers when</text>
+        <text x="179" y="191" text-anchor="middle" class="hl">the queue grows</text>
         <text x="179" y="208" text-anchor="middle" class="s" style="fill:var(--ink)">verdict +</text>
         <text x="179" y="222" text-anchor="middle" class="s" style="fill:var(--ink)">status check</text>
         <rect class="dash" x="248" y="138" width="102" height="96"/>
