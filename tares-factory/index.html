@@ -503,6 +503,21 @@ button { cursor: pointer; }
 .tag { display: inline-block; vertical-align: middle; margin-left: 14px; padding: 6px 10px 5px; border: 1.5px dashed currentColor; font: 14px/1 var(--pixel); letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-text); position: relative; top: -4px; }
 .uniq > li.unv h3, .uniq > li.unv p { opacity: 0.86; }
 
+/* Standup: points left, the console's standup sheet right */
+.stand-pts { display: grid; gap: 28px; }
+.stand-pts > div { display: grid; grid-template-columns: 124px 1fr; gap: 16px; align-items: baseline; }
+.stand-pts .lbl { color: var(--ink-soft); }
+.stand-pts dd { margin: 0; font-size: 23px; line-height: 1.3; }
+.shot { position: relative; overflow: hidden; padding: 48px 64px 0; display: flex; justify-content: center; align-items: flex-start; }
+.shot img { display: block; width: 680px; max-width: 100%; height: auto; border: 1px solid var(--line-strong); border-bottom: 0; box-shadow: 0 18px 48px rgba(30, 15, 0, 0.16); }
+.shot .shot-d { display: none; }
+:root[data-theme="dark"] .shot .shot-l { display: none; }
+:root[data-theme="dark"] .shot .shot-d { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .shot .shot-l { display: none; }
+  :root:not([data-theme="light"]) .shot .shot-d { display: block; }
+}
+
 /* 11. Limits */
 .limits { flex: 1; display: grid; grid-auto-rows: 1fr; }
 .limits > li { display: grid; grid-template-columns: 300px 1fr; align-items: center; padding: 0 64px; border-bottom: 1px solid var(--line); }
@@ -529,6 +544,10 @@ button { cursor: pointer; }
 .road .later li { border-left: 0; }
 .road .later .rh h3 { color: var(--ink-soft); }
 .road .later li b { font-weight: 500; }
+.road.r4 .rh { padding: 22px 40px 18px; }
+.road.r4 li { padding: 14px 36px; }
+.road.r4 li b { font-size: 25px; }
+.road.r4 li span { margin-top: 6px; font-size: 19px; }
 
 /* 13. Closing */
 .close-body { background: var(--invert); color: var(--on-invert); display: flex; flex-direction: column; }
@@ -799,6 +818,13 @@ button { cursor: pointer; }
 
   /* 12 */
   .road { grid-template-columns: 1fr; }
+  .road.r4 li { padding: 6px 16px; }
+  .road.r4 li b { font-size: 13.5px; }
+  .road.r4 li span { font-size: 11.5px; margin-top: 2px; }
+  .stand-pts { gap: 10px; }
+  .stand-pts > div { grid-template-columns: 1fr; gap: 4px; }
+  .stand-pts dd { font-size: 14px; }
+  .shot { padding: 16px 16px 0; }
   .road > div { border-right: 0; border-bottom: 1px solid var(--line-strong); }
   .road > div:last-child { border-bottom: 0; }
   .road .rh { padding: 7px 16px 6px; }
@@ -1136,6 +1162,27 @@ button { cursor: pointer; }
   </div>
 </section>
 
+<!-- standup -->
+<section class="slide" data-title="Crew standup" data-label="Standup">
+  <div class="s-body bleed split stand">
+    <div class="split-l">
+      <div>
+        <h2>Crew<br>standup</h2>
+        <p class="t-sub">What moved in every project since yesterday, or over any dates. One button on the Crew page.</p>
+      </div>
+      <dl class="stand-pts">
+        <div data-a><dt class="lbl">Facts</dt><dd>Done, started, in review, blocked and waiting on you, with PR links. Read from Tares, never made up.</dd></div>
+        <div data-a><dt class="lbl">Summary</dt><dd>The cell's model adds one line overall and one per project.</dd></div>
+        <div data-a><dt class="lbl">Share</dt><dd>Copy the markdown, or send it to a Slack channel.</dd></div>
+      </dl>
+    </div>
+    <div class="shot" data-a>
+      <img class="shot-l" src="assets/console/standup-light.webp" alt="The standup sheet: an overall line, then each project's done, started and in-review tickets with PR links" width="720" height="765">
+      <img class="shot-d" src="assets/console/standup-dark.webp" alt="The standup sheet: an overall line, then each project's done, started and in-review tickets with PR links" width="720" height="765">
+    </div>
+  </div>
+</section>
+
 <!-- 7 -->
 <section class="slide" data-title="Context rot" data-label="Context rot">
   <div class="s-body pad rot">
@@ -1199,6 +1246,20 @@ button { cursor: pointer; }
   </div>
 </section>
 
+<!-- teams -->
+<section class="slide" data-title="Software factory for teams" data-label="Teams">
+  <div class="s-body bleed split">
+    <div class="split-l"><h2>Factory<br>for teams</h2><p class="t-sub">Building now: one cell for the whole team, with a crew for each person.</p></div>
+    <ol class="rows uniq">
+      <li data-a><span class="n">01</span><div><h3>A crew for each person</h3><p>Many people on one cell, each with their own crew.</p></div></li>
+      <li data-a><span class="n">02</span><div><h3>Projects with a lead</h3><p>Shared with the team, or private to its members.</p></div></li>
+      <li data-a class="hi"><span class="n">03</span><div><h3>Questions reach the right person</h3><p>The ticket's assignee, or whoever owns that repo.</p></div></li>
+      <li data-a><span class="n">04</span><div><h3>Sign-off before the build</h3><p>Each repo's owner signs off on the plan first.</p></div></li>
+      <li data-a><span class="n">05</span><div><h3>Every change says who</h3><p>Tickets, reviews, grants and memory record the person.</p></div></li>
+    </ol>
+  </div>
+</section>
+
 <!-- 11 -->
 <section class="slide" data-title="In progress" data-label="In progress">
   <div class="s-body bleed col">
@@ -1216,29 +1277,32 @@ button { cursor: pointer; }
 <section class="slide" data-title="Roadmap" data-label="Roadmap">
   <div class="s-body bleed col">
     <div class="t-band"><h2>Roadmap</h2></div>
-    <div class="road">
+    <div class="road r4">
       <div class="now" data-a>
         <div class="rh"><h3>Now</h3><span class="lbl">Shipped</span></div>
         <ul>
-          <li><b>A daily standup of every project, sent to Slack</b><span><i>Closes</i>"what did the crew do overnight?"</span></li>
+          <li><b>A daily standup, sent to Slack</b><span><i>Closes</i>"what did the crew do overnight?"</span></li>
           <li><b>One-click grants for refusals</b><span><i>Closes</i>stalled stations</span></li>
-          <li><b>Usage, context and progress rings on the Crew page</b><span><i>Closes</i>cost blindness</span></li>
+          <li><b>Usage, context and progress rings</b><span><i>Closes</i>cost blindness</span></li>
+          <li><b>Tickets from GitHub Issues too</b><span><i>Closes</i>needing Linear</span></li>
         </ul>
       </div>
       <div class="next" data-a>
-        <div class="rh"><h3>Next</h3><span class="lbl">Designed</span></div>
+        <div class="rh"><h3>Next</h3><span class="lbl">Planned</span></div>
         <ul>
-          <li><b>Monitor station: alerts become tickets</b><span><i>Closes</i>production back to work</span></li>
-          <li><b>Security station: scans one at a time</b><span><i>Closes</i>unreviewed security</span></li>
-          <li><b>Comms station for Slack</b><span><i>Closes</i>having to sit in the orchestrator</span></li>
+          <li><b>Software factory for teams</b><span><i>Closes</i>one person, one crew</span></li>
+          <li><b>Reviews in parallel, sized by PR</b><span><i>Closes</i>a review queue that waits</span></li>
+          <li><b>Bring your CLAUDE.md and memory</b><span><i>Closes</i>rules the crew never sees</span></li>
+          <li><b>A cap on your plan's usage</b><span><i>Closes</i>a crew that eats your week</span></li>
         </ul>
       </div>
       <div class="later" data-a>
         <div class="rh"><h3>Later</h3><span class="lbl">Proposals</span></div>
         <ul>
           <li><b>Builders and workers in the cloud</b><span><i>Closes</i>the crew sleeping when your laptop does</span></li>
-          <li><b>The crew on the Tares GitHub App</b><span><i>Closes</i>no real approvals</span></li>
-          <li><b>Linux and Windows support</b><span><i>Closes</i>macOS only</span></li>
+          <li><b>Remote Control from the Claude app</b><span><i>Closes</i>steering only from the terminal</span></li>
+          <li><b>Monitor, security and comms stations</b><span><i>Closes</i>alerts, scans and Slack outside the crew</span></li>
+          <li><b>One command back after a reboot</b><span><i>Closes</i>restarting the crew by hand</span></li>
         </ul>
       </div>
     </div>
