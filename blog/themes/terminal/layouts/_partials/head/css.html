@@ -1,2 +1,4 @@
 <!-- Clean Blog CSS - Terminal Theme Colors Only -->
-<link rel="stylesheet" href="{{ "css/blog-clean.css" | relURL }}">
+{{- /* Version the URL by content so a CSS change never meets a cached old copy */ -}}
+{{- $v := os.ReadFile "themes/terminal/static/css/blog-clean.css" | md5 | truncate 10 "" -}}
+<link rel="stylesheet" href="{{ "css/blog-clean.css" | relURL }}?v={{ $v }}">
