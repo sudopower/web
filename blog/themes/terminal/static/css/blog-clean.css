@@ -224,6 +224,9 @@ a { color: inherit; }
 .tag-perf             { color: var(--amber); background: rgba(245,166,35,.10);  border: 1px solid rgba(245,166,35,.25); }
 .tag-sys,
 .tag-default          { color: var(--muted); background: rgba(106,136,168,.10); border: 1px solid rgba(106,136,168,.20); }
+.tag-factory          { color: #B794FF;      background: rgba(183,148,255,.12); border: 1px solid rgba(183,148,255,.30); }
+.tag-berlin           { color: #FF6B6B;      background: rgba(255,107,107,.12); border: 1px solid rgba(255,107,107,.30); }
+.tag-munich           { color: #5B9BFF;      background: rgba(91,155,255,.12);  border: 1px solid rgba(91,155,255,.30); }
 
 /* ── card body ── */
 .card-body {

@@ -4,7 +4,7 @@ draft = false
 title = 'Claude Community Berlin: An AI SRE and a Software Factory in One Evening'
 description = 'The first Claude workshop in Berlin: a packed room at P.19 Studio, a service broken on purpose, and a crew of Claude Code sessions shipping a feature.'
 excerpt = "65 seats, a waitlist, pizza, and two builds: an AI SRE that finds out why a service broke, and a software factory that takes a feature from plan to main."
-tags = ['claude-code', 'software-factory', 'tares', 'community', 'workshop', 'ai-sre']
+tags = ['berlin', 'software-factory', 'claude-code', 'tares', 'community', 'workshop', 'ai-sre']
 image = 'images/berlin-workshop-group.jpg'
 +++
 

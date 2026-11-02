@@ -4,7 +4,7 @@ draft = false
 title = 'My Software Factory: One Session to Talk To, a Crew That Ships'
 description = 'What a software factory is, how ours works on top of Tares, and the kind of work I hand it now.'
 excerpt = "I used to keep a dozen Claude Code sessions open and spend my day being the router between them. Now I talk to one, and a crew does the rest."
-tags = ['claude-code', 'ai', 'software-factory', 'tares', 'automation']
+tags = ['software-factory', 'claude-code', 'ai', 'tares', 'automation']
 image = 'images/software-factory-crew.png'
 +++
 

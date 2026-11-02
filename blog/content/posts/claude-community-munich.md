@@ -4,7 +4,7 @@ draft = false
 title = 'Building a Software Factory with the Claude Community in Munich'
 description = '32 people, one evening at JetBrains München, and a crew of Claude Code sessions on every laptop.'
 excerpt = "No slide marathon. Laptops open, a crew of Claude Code sessions on every machine, and a click counter taken from plan to main."
-tags = ['claude-code', 'software-factory', 'tares', 'community', 'workshop']
+tags = ['munich', 'software-factory', 'claude-code', 'tares', 'community', 'workshop']
 image = 'images/munich-workshop-opening.jpg'
 +++
 

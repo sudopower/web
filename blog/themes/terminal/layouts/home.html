@@ -4,6 +4,9 @@
 {{- $infraTags  := slice "kubernetes" "k8s" "homelab" "docker" "devops" "infra" "infrastructure" "red" "migration" -}}
 {{- $perfTags   := slice "performance" "observability" "tracing" "profiling" "monitoring" "metrics" -}}
 {{- $sysTags    := slice "go" "golang" "serialization" "algorithms" "systems" "ai" "opencode" "ollama" "blog" -}}
+{{- $factoryTags := slice "software-factory" -}}
+{{- $berlinTags  := slice "berlin" -}}
+{{- $munichTags  := slice "munich" -}}
 
 <div class="blog-descriptor">
   <span class="descriptor-label">sudopower · posts</span>
@@ -23,6 +26,9 @@
       {{- if in $infraTags $tag }}{{- $cls = "tag-infra" -}}{{ end -}}
       {{- if in $perfTags  $tag }}{{- $cls = "tag-perf"  -}}{{ end -}}
       {{- if in $sysTags   $tag }}{{- $cls = "tag-sys"   -}}{{ end -}}
+      {{- if in $factoryTags $tag }}{{- $cls = "tag-factory" -}}{{ end -}}
+      {{- if in $berlinTags  $tag }}{{- $cls = "tag-berlin"  -}}{{ end -}}
+      {{- if in $munichTags  $tag }}{{- $cls = "tag-munich"  -}}{{ end -}}
       <span class="tag {{ $cls }}">{{ $tag }}</span>
       {{ end }}
     </div>
